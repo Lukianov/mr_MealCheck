@@ -2,6 +2,8 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
 
     /* Linting */
     "strict": true,
@@ -12,8 +14,8 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "foodler-frontend/src/**/*.ts",
-    "foodler-frontend/src/**/*.tsx",
-    "foodler-frontend/src/**/*.vue"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
   ]
 }

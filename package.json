@@ -1,5 +1,5 @@
 {
-  "name": "foodler",
+  "name": "mr-meal-check",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,13 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ky": "^1.12.0",
     "vue": "^3.5.18"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.7.0",
     "typescript": "~5.8.3",
-    "vite": "^7.1.2",
+    "vite": "^7.1.11",
     "vue-tsc": "^3.0.5"
   }
 }
