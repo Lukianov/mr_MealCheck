@@ -1,7 +1,7 @@
-import ky, { type Hooks, type KyInstance, type Options as KyOptions } from 'ky'
+import ky, { type KyInstance, type Options as KyOptions } from 'ky'
 import { readonly, ref, shallowRef } from 'vue'
 
-import type { ApiRequestInput, ApiRequestOptions, AuthState } from './types'
+import type {AfterResponseHooks, ApiRequestInput, ApiRequestOptions, AuthState, BeforeRequestHooks} from './types'
 
 const STORAGE_KEY = 'MR_MEAL_CHECK_AUTH_TOKEN'
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api'
@@ -64,9 +64,6 @@ function persistAuthState(nextState: AuthState | null) {
 
 const authState = ref<AuthState | null>(loadAuthState())
 const clientRef = shallowRef<KyInstance | null>(null)
-
-type BeforeRequestHooks = NonNullable<Hooks['beforeRequest']>
-type AfterResponseHooks = NonNullable<Hooks['afterResponse']>
 
 const beforeRequest: BeforeRequestHooks = [
   (request) => {

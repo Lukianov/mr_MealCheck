@@ -1,4 +1,4 @@
-import type { Input, Options as KyOptions } from 'ky'
+import type {Hooks, Input, Options as KyOptions} from 'ky'
 
 export type AuthState = {
   token: string
@@ -12,3 +12,7 @@ export type ApiRequestOptions = KyOptions & {
 }
 
 export type ApiRequestInput = Input
+
+export type BeforeRequestHooks = NonNullable<Hooks['beforeRequest']>
+
+export type AfterResponseHooks = NonNullable<Hooks['afterResponse']>
