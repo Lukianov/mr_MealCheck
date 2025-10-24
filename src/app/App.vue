@@ -1,5 +1,5 @@
 <template>
-  <main class="flex min-h-screen flex-col items-center justify-center px-6 py-16">
+  <main class="min-h-screen px-6 py-16 flex">
     <router-view></router-view>
   </main>
 </template>

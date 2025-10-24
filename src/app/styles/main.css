@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/*@theme {*/
+/*  --color-background: 'rgba(29, 29, 29, 1)';*/
+/*  --color-white64: 'rgba(255, 255, 255, 0.64)';*/
+/*  --color-neutral-350: 'rgba(184, 184, 184, 1)';*/
+/*  --color-primary-700: 'rgba(37, 108, 138, 1)';*/
+/*  --color-primary-500: 'rgba(0, 167, 237, 1)';*/
+/*  --color-separator-12: 'rgba(118, 118, 128, 0.12)';*/
+/*}*/
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -9,8 +18,18 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  @font-face {
+    font-family: "Suisse";
+    src: url('@/shared/assets/fonts/SuisseIntl.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
   body {
-    @apply m-0 min-h-screen min-w-80 bg-slate-950 text-slate-100 antialiased;
+    font-family: "Suisse", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
+    background-color: rgba(29, 29, 29, 1);
+    @apply m-0 min-h-screen min-w-80 text-slate-100 antialiased;
   }
 
   a {

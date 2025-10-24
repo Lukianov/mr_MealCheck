@@ -4,7 +4,9 @@ import { readonly, ref, shallowRef } from 'vue'
 import type {AfterResponseHooks, ApiRequestInput, ApiRequestOptions, AuthState, BeforeRequestHooks} from './types'
 
 const STORAGE_KEY = 'MR_MEAL_CHECK_AUTH_TOKEN'
+
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api'
+
 const SKIP_AUTH_HEADER = 'x-mrmealcheck-skip-auth'
 
 export class TokenExpiredError extends Error {
@@ -23,6 +25,7 @@ function loadAuthState(): AuthState | null {
 
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY)
+
     if (!raw) {
       return null
     }
@@ -31,20 +34,24 @@ function loadAuthState(): AuthState | null {
 
     if (!parsed.token || !parsed.expiresAt) {
       window.localStorage.removeItem(STORAGE_KEY)
+
       return null
     }
 
     if (isExpired(parsed.expiresAt)) {
       window.localStorage.removeItem(STORAGE_KEY)
+
       return null
     }
 
     return { token: parsed.token, expiresAt: parsed.expiresAt }
   } catch (error) {
     console.warn('[api] Failed to restore auth token', error)
+
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEY)
     }
+
     return null
   }
 }
@@ -63,13 +70,16 @@ function persistAuthState(nextState: AuthState | null) {
 }
 
 const authState = ref<AuthState | null>(loadAuthState())
+
 const clientRef = shallowRef<KyInstance | null>(null)
 
 const beforeRequest: BeforeRequestHooks = [
   (request) => {
     const shouldSkip = request.headers.get(SKIP_AUTH_HEADER)
+
     if (shouldSkip === 'true') {
       request.headers.delete(SKIP_AUTH_HEADER)
+
       return
     }
 
@@ -105,6 +115,7 @@ const createClient = (): KyInstance =>
 
 export const clearAuthToken = () => {
   authState.value = null
+
   persistAuthState(null)
 }
 
@@ -126,12 +137,14 @@ export const setAuthToken = (token: string, expiresAt: number | Date) => {
 
 export const getAuthToken = (): string | null => {
   const state = authState.value
+
   if (!state) {
     return null
   }
 
   if (isExpired(state.expiresAt)) {
     clearAuthToken()
+
     return null
   }
 
