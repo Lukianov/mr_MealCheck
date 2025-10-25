@@ -1,11 +1,29 @@
 <template>
   <div class="inline-flex rounded-3xl items-center py-3 px-5 ui-personal-input">
-    <input value="69" class="ui-personal-input__input">
+    <input
+      class="ui-personal-input__input"
+      :placeholder="props.placeholder"
+      :name="props.placeholder"
+      :size="props.size"
+      :inputmode="props.inputmode"
+      :pattern="props.pattern"
+      :maxlength="props.maxlength"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+interface Props {
+  placeholder: string
+  size?: string
+  inputmode?: 'numeric' | 'text'
+  pattern?: string
+  maxlength?: string
+}
 
+const props = defineProps<Props>()
+
+defineModel()
 </script>
 
 <style scoped>
@@ -28,6 +46,5 @@
   box-shadow: none;
   appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: textfield;
 }
 </style>
