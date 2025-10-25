@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import PersonalParamSelector from "@/features/onboarding/ui/components/PersonalParamSelector.vue";
 </script>
 
 <template>
@@ -17,6 +18,8 @@
         let's calculate the calorie norm
       </p>
     </div>
+
+    <PersonalParamSelector />
   </div>
 </template>
 

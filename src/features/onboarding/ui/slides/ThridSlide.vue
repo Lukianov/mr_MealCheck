@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="flex flex-col justify-between w-full items-center">
     <div class="rounded-full overflow-hidden w-[180px] h-[180px] mb-8">
@@ -17,8 +13,13 @@
         let's calculate the calorie norm
       </p>
     </div>
+    <PersonalParamSelector />
   </div>
 </template>
+
+<script setup lang="ts">
+import PersonalParamSelector from "@/features/onboarding/ui/components/PersonalParamSelector.vue";
+</script>
 
 <style scoped>
 

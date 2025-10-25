@@ -9,6 +9,7 @@ import ThridSlide from "@/features/onboarding/ui/slides/ThridSlide.vue";
 import ForthSlide from "@/features/onboarding/ui/slides/ForthSlide.vue";
 
 import {computed} from "vue";
+import FifthSlide from "@/features/onboarding/ui/slides/FifthSlide.vue";
 
 interface Props {
   currentSlideIndex: number;
@@ -19,6 +20,7 @@ const SLIDES_MAP = {
   1: SecondSlide,
   2: ThridSlide,
   3: ForthSlide,
+  4: FifthSlide
 }
 
 const props = defineProps<Props>()
