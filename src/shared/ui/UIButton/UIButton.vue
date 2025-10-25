@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <button class="ui-button"
-            :type="buttonType"
-            v-bind="$attrs">
+  <button class="ui-button"
+          :type="buttonType"
+          v-bind="$attrs">
     <span class="ui-button__content">
       <slot />
     </span>
-    </button>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">

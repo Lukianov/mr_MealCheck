@@ -10,7 +10,7 @@
     <div class="mb-8 text-center">
       <p class="mb-3 text-4xl leading-10">
         <span class="font-bold">
-         what is your height?
+         what is your weight?
         </span>
       </p>
       <p class="text-xl leading-6">
