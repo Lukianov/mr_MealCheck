@@ -13,9 +13,10 @@
         approach this responsibly
       </p>
     </div>
-    <div class="w-full space-y-3">
+    <div class="w-full rounded-2xl overflow-hidden">
       <GoalOptionRow
         v-for="goal in goalOptions"
+        class="goal-option-row__border"
         :key="goal.id"
         :option="goal"
         :is-selected="selectedGoal === goal.id"
@@ -29,9 +30,11 @@
 import GoalOptionRow from "@/features/onboarding/ui/components/GoalOptionRow.vue";
 import {useGoalSelection} from "@/features/onboarding/model/useGoalSelection";
 
-const {goalOptions, selectGoal, selectedGoal} = useGoalSelection();
+const { goalOptions, selectGoal, selectedGoal } = useGoalSelection();
 </script>
 
 <style scoped>
-
+.goal-option-row__border:not(:last-child) {
+  border: 1px solid #1d1d1d;
+}
 </style>

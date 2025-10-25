@@ -13,12 +13,14 @@
         let's calculate the calorie norm
       </p>
     </div>
+    <UIPersonalInput class="mb-6" />
     <PersonalParamSelector />
   </div>
 </template>
 
 <script setup lang="ts">
 import PersonalParamSelector from "@/features/onboarding/ui/components/PersonalParamSelector.vue";
+import UIPersonalInput from "@/shared/ui/UIPersonalInput/UIPersonalInput.vue";
 </script>
 
 <style scoped>

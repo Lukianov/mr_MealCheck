@@ -10,13 +10,17 @@
       :value="option.id"
       @change="handleSelect"
     >
-    <OnboardingGoalTemplate class="w-7 h-7" />
+    <div class="w-7 h-7">
+      <img
+          class="h-auto w-auto"
+        :src="option.imageUrl"
+        :alt="option.id"
+        loading="lazy"
+      />
+    </div>
     <div class="flex flex-1 flex-col text-left">
       <span class="text-base font-semibold text-white">
         {{ option.title }}
-      </span>
-      <span class="text-sm text-white/70">
-        {{ option.description }}
       </span>
     </div>
     <div class="goal-option-checkbox ml-auto flex h-6 w-6 items-center justify-center rounded-full border-1 transition"
@@ -31,8 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import type {GoalOption} from "@/features/onboarding/model/useGoalSelection";
-import OnboardingGoalTemplate from '@/shared/assets/icons/onboarding-goal-template.svg'
+import { GoalOption } from '@/features/onboarding/model/useGoalSelection'
 
 interface Props {
   option: GoalOption;
@@ -64,4 +67,3 @@ const handleSelect = () => {
   border-width: 4px;
 }
 </style>
-
