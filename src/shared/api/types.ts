@@ -1,4 +1,4 @@
-import type {Hooks, Input, Options as KyOptions} from 'ky'
+import type { Hooks, Input, Options as KyOptions } from 'ky'
 
 export type AuthState = {
   token: string
@@ -7,7 +7,7 @@ export type AuthState = {
 }
 
 export type ApiRequestOptions = KyOptions & {
-  /** Skip attaching the Authorization header even if a token exists. */
+  /** Skip attaching the Authorization calendar-header even if a token exists. */
   skipAuth?: boolean
 }
 
