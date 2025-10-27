@@ -38,7 +38,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "release.tgz"
-          target: "/home/gitlab-deploy/frontend/${{ github.sha }}/"
+          target: "/home/gitlab-deploy/frontend/releases/${{ github.sha }}/"
 
       - name: Activate release (symlink switch + cleanup)
         uses: appleboy/ssh-action@v1.2.0
@@ -50,11 +50,10 @@ jobs:
           envs: GITHUB_SHA
           script: |
             set -e
-            BASE="/var/www/app"
+            BASE="/home/gitlab-deploy/frontend"
             REL="$BASE/releases/$GITHUB_SHA"
             mkdir -p "$REL"
             tar -xzf "$REL/release.tgz" -C "$REL"
             ln -sfn "$REL" "$BASE/current"
             sudo systemctl reload nginx
-            # удалить старые релизы, оставить 5 последних
             ls -1dt "$BASE/releases"/* | tail -n +6 | xargs -r rm -rf
