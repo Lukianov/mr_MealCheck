@@ -1,8 +1,9 @@
 <template>
   <div class="w-full" :style="{ background: 'rgba(18, 18, 18, 1)' }">
     <CalenderHeader class="mb-3" />
-    <DailySummary v-bind="MOCK_DAILY" />
+    <DailySummary class="mb-2" v-bind="MOCK_DAILY" />
     <MealList class="mx-4" :meals="DAILY_MEALS" />
+    <LogMeal class="fixed bottom-12 right-4" />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
 import DailySummary from '@/widgets/daily-summary/ui/DailySummary.vue'
 import { MealItem } from '@/features/meal-row/types'
 import MealList from '@/entities/meal-list/MealList.vue'
+import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 
 const MOCK_DAILY = {
   carbs: '30',
@@ -44,7 +46,7 @@ const DAILY_MEALS: MealItem[] = [
   {
     id: 4,
     title: 'Snack #1',
-    description: 'Oatmeal with fruits and nuts',
+    description: 'Spaghetti Bolognese, Cappuchino, Cheese Sandwich',
     image: 'src/shared/assets/images/mock-images/meal-template.jpg',
     status: 'pending',
   },

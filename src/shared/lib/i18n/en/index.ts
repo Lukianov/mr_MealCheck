@@ -13,4 +13,20 @@ export const ru = {
       },
     },
   },
+  logMealWidget: {
+    buttonTitle: 'Log Meal',
+  },
+  mealDetail: {
+    mealSummaryCard: {
+      title: 'About',
+      summary: 'Summary',
+      recommendation: 'Recommendation',
+      recognizedDishes: 'Recognized dishes',
+      view: 'View',
+      macronutrients: 'Macronutrients'
+    },
+    dishesSection: {
+      macronutrients: 'Macronutrients'
+    }
+  },
 }

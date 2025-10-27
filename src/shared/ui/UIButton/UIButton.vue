@@ -1,7 +1,5 @@
 <template>
-  <button class="ui-button"
-          :type="buttonType"
-          v-bind="$attrs">
+  <button class="ui-button px-4 py-4" :type="buttonType" v-bind="$attrs">
     <span class="ui-button__content">
       <slot />
     </span>
@@ -28,7 +26,6 @@ defineOptions({ name: 'UIButton' })
   justify-content: center;
   gap: 0.5rem;
   min-height: 53px;
-  padding: 0 1.5rem;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
