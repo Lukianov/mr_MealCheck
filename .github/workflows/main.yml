@@ -1,0 +1,62 @@
+name: Deploy SPA to VPS (atomic)
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      - name: Pack release
+        run: tar -C dist -czf release.tgz .
+
+      - name: Copy tar to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "release.tgz"
+          target: "/var/www/app/releases/${{ github.sha }}/"
+
+      - name: Activate release (symlink switch + cleanup)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            set -e
+            BASE="/var/www/app"
+            REL="$BASE/releases/$GITHUB_SHA"
+            mkdir -p "$REL"
+            tar -xzf "$REL/release.tgz" -C "$REL"
+            ln -sfn "$REL" "$BASE/current"
+            sudo systemctl reload nginx
+            # удалить старые релизы, оставить 5 последних
+            ls -1dt "$BASE/releases"/* | tail -n +6 | xargs -r rm -rf
