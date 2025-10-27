@@ -8,10 +8,12 @@
       />
     </div>
     <div class="mb-8 text-center">
-      <p class="mb-3 text-4xl leading-10">
+      <p class="mb-3 text-3xl font-bold text-white">
         <span class="font-bold"> what is your height? </span>
       </p>
-      <p class="text-xl leading-6">let's calculate the calorie norm</p>
+      <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
+        let's calculate the calorie norm
+      </p>
     </div>
     <UIPersonalInput
       class="mb-6"

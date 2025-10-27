@@ -1,6 +1,10 @@
-import WebApp from "@twa-dev/sdk";
+import WebApp from '@twa-dev/sdk'
 
 export const setupTelegramWebApp = () => {
-    WebApp.ready()
-    WebApp.expand()
+  WebApp.headerColor = '#121212'
+  WebApp.ready()
+  WebApp.expand()
+
+  WebApp.BackButton.show()
+  WebApp.BackButton.onClick(() => window.history.back())
 }

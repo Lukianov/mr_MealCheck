@@ -7,11 +7,13 @@
     }"
   >
     <div class="flex items-center gap-1">
-      <img
-        class="w-7 h-7 rounded-lg"
-        src="@/shared/assets/images/logo-mascot.png"
-        alt="mealcheck logo"
-      />
+      <RouterLink :to="{ path: '/onboarding-page' }">
+        <img
+          class="w-7 h-7 rounded-lg"
+          src="@/shared/assets/images/logo-mascot.png"
+          alt="mealcheck logo"
+        />
+      </RouterLink>
       <p><span>Meal</span>check</p>
     </div>
     <button>today</button>

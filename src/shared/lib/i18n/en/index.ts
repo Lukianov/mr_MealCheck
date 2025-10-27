@@ -1,4 +1,7 @@
 export const ru = {
+  onboarding: {
+    buttonTitle: 'Next',
+  },
   summaryWidget: {
     caloriesShort: 'KCAL',
     protein: 'protein',
@@ -23,10 +26,10 @@ export const ru = {
       recommendation: 'Recommendation',
       recognizedDishes: 'Recognized dishes',
       view: 'View',
-      macronutrients: 'Macronutrients'
+      macronutrients: 'Macronutrients',
     },
     dishesSection: {
-      macronutrients: 'Macronutrients'
-    }
+      macronutrients: 'Macronutrients',
+    },
   },
 }
