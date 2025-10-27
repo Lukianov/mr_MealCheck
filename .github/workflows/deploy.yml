@@ -26,8 +26,6 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Pack release
         run: tar -C dist -czf release.tgz .
@@ -40,7 +38,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "release.tgz"
-          target: "/var/www/app/releases/${{ github.sha }}/"
+          target: "/home/gitlab-deploy/frontend/${{ github.sha }}/"
 
       - name: Activate release (symlink switch + cleanup)
         uses: appleboy/ssh-action@v1.2.0
