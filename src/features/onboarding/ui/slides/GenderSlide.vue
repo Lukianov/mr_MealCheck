@@ -17,13 +17,19 @@
     </div>
     <div class="w-full rounded-2xl overflow-hidden">
       <GenderOptionRow
-        v-for="goal in genderOptions"
+        v-for="gender in GENDER_OPTIONS"
         class="gender-option-row__border"
-        :key="goal.id"
-        :option="goal"
-        :is-selected="selectedGender === goal.id"
+        :key="gender.id"
+        :option="gender"
+        :is-selected="selectedGender === gender.id"
         @select="selectGender"
-      />
+      >
+        <img
+          class="w-7 h-7"
+          :src="ICON_COMPONENTS_MAP[gender.id]"
+          :alt="gender.title"
+        />
+      </GenderOptionRow>
     </div>
   </div>
 </template>
@@ -31,8 +37,18 @@
 <script setup lang="ts">
 import GenderOptionRow from '@/features/onboarding/ui/components/GenderOptionRow.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
+import { GENDER_OPTIONS, GenderTypes } from '@/features/onboarding/const'
+import genderManIcon from '@/shared/assets/images/onboading/gender-slide-man.png'
+import genderWomanIcon from '@/shared/assets/images/onboading/gender-slide-woman.png'
+import genderUnknowIcon from '@/shared/assets/images/onboading/gender-slide-other.png'
 
-const { genderOptions, selectedGender, selectGender } = useGoalSelection()
+const { selectedGender, selectGender } = useGoalSelection()
+
+const ICON_COMPONENTS_MAP: Record<GenderTypes, string> = {
+  [GenderTypes.Man]: genderManIcon,
+  [GenderTypes.Woman]: genderWomanIcon,
+  [GenderTypes.Unknown]: genderUnknowIcon,
+}
 </script>
 
 <style scoped>

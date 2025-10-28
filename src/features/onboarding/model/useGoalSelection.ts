@@ -1,42 +1,5 @@
 import { ref } from 'vue'
-
-export interface GoalOption {
-  id: string
-  title: string
-  description?: string
-  imageUrl?: string
-}
-
-const GOAL_OPTIONS: GoalOption[] = [
-  {
-    id: 'lose-weight',
-    title: 'Lose weight',
-    description: 'Build a calorie deficit with mindful meals',
-  },
-  {
-    id: 'gain-muscle',
-    title: 'Gain muscle',
-    description: 'Prioritise protein and structured workouts',
-  },
-  {
-    id: 'stay-balanced',
-    title: 'Stay balanced',
-    description: 'Maintain habits and keep energy steady',
-  },
-]
-
-const GENDER_OPTIONS: GoalOption[] = [
-  {
-    id: 'woman',
-    title: 'Woman',
-    imageUrl: 'src/shared/assets/images/onboading/gender-slide-woman.png',
-  },
-  {
-    id: 'man',
-    title: 'Man',
-    imageUrl: 'src/shared/assets/images/onboading/gender-slide-man.png',
-  },
-]
+import { GENDER_OPTIONS, GOAL_OPTIONS } from '@/features/onboarding/const'
 
 const selectedGoal = ref<string>(GOAL_OPTIONS[0]?.id ?? '')
 
@@ -52,8 +15,6 @@ export const useGoalSelection = () => {
   }
 
   return {
-    goalOptions: GOAL_OPTIONS,
-    genderOptions: GENDER_OPTIONS,
     selectedGoal,
     selectedGender,
     selectGoal,

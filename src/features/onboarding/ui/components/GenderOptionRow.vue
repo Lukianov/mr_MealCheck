@@ -9,22 +9,16 @@
       :checked="isSelected"
       :value="option.id"
       @change="handleSelect"
-    >
-    <div class="w-7 h-7">
-      <img
-          class="h-auto w-auto"
-        :src="option.imageUrl"
-        :alt="option.id"
-        loading="lazy"
-      />
-    </div>
+    />
+    <slot></slot>
     <div class="flex flex-1 flex-col text-left">
       <span class="text-base font-semibold text-white">
         {{ option.title }}
       </span>
     </div>
-    <div class="goal-option-checkbox ml-auto flex h-6 w-6 items-center justify-center rounded-full border-1 transition"
-         :class="{'goal-option-checkbox_selectedBorder': isSelected}"
+    <div
+      class="goal-option-checkbox ml-auto flex h-6 w-6 items-center justify-center rounded-full border-1 transition"
+      :class="{ 'goal-option-checkbox_selectedBorder': isSelected }"
     >
       <span
         class="bg-white h-4 w-4 rounded-full transition"
@@ -35,22 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import { GoalOption } from '@/features/onboarding/model/useGoalSelection'
+import { GoalOption } from '@/features/onboarding/const'
 
 interface Props {
-  option: GoalOption;
-  isSelected: boolean;
+  option: GoalOption
+  isSelected: boolean
 }
 
-const props = defineProps<Props>();
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: "select", id: string): void;
-}>();
+  (e: 'select', id: string): void
+}>()
 
 const handleSelect = () => {
-  emit("select", props.option.id);
-};
+  emit('select', props.option.id)
+}
 </script>
 
 <style scoped>

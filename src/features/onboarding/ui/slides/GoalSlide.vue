@@ -17,14 +17,18 @@
     </div>
     <div class="w-full rounded-2xl overflow-hidden">
       <GoalOptionRow
-        v-for="goal in goalOptions"
+        v-for="goal in GOAL_OPTIONS"
         class="goal-option-row__border"
         :key="goal.id"
         :option="goal"
         :is-selected="selectedGoal === goal.id"
         @select="selectGoal"
       >
-        <component class="w-7 h-7" :is="ICON_COMPONENTS_MAP[goal.id]" />
+        <img
+          :src="ICON_COMPONENTS_MAP[goal.id]"
+          :alt="goal.title"
+          class="w-7 h-7"
+        />
       </GoalOptionRow>
     </div>
   </div>
@@ -33,17 +37,18 @@
 <script setup lang="ts">
 import GoalOptionRow from '@/features/onboarding/ui/components/GoalOptionRow.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
-import LoseWeight from '@/shared/assets/icons/onboarding/lose-weight-icon.svg'
-import KeepWeight from '@/shared/assets/icons/onboarding/keep-weight-icon.svg'
-import GainWeight from '@/shared/assets/icons/onboarding/gain-weight-icon.svg'
+import { GOAL_OPTIONS, GoalType } from '@/features/onboarding/const'
+import goalGainIcon from '@/shared/assets/images/onboading/onboarding-goal-gain.png'
+import goalLoseIcon from '@/shared/assets/images/onboading/onboarding-goal-lose.png'
+import goalMaintainIcon from '@/shared/assets/images/onboading/onboarding-goal-maintain.png'
 
-const ICON_COMPONENTS_MAP = {
-  'lose-weight': LoseWeight,
-  'stay-balanced': KeepWeight,
-  'gain-muscle': GainWeight,
+const ICON_COMPONENTS_MAP: Record<GoalType, string> = {
+  [GoalType.Lose]: goalLoseIcon,
+  [GoalType.Maintain]: goalMaintainIcon,
+  [GoalType.Gain]: goalGainIcon,
 }
 
-const { goalOptions, selectGoal, selectedGoal } = useGoalSelection()
+const { selectGoal, selectedGoal } = useGoalSelection()
 </script>
 
 <style scoped>

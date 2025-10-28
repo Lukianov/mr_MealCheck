@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import type { GoalOption } from '@/features/onboarding/model/useGoalSelection'
+import { GoalOption } from '@/features/onboarding/const'
 
 interface Props {
   option: GoalOption
