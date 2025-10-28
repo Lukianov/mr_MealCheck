@@ -2,7 +2,7 @@
 
 <template>
   <div class="-mx-3">
-    <div class="rounded-[40px] overflow-hidden aspect-[0.8] mb-8">
+    <div class="rounded-[40px] overflow-hidden aspect-[0.8] mb-8 max-w-[510px]">
       <img
         class="w-full h-full object-cover"
         src="@/shared/assets/images/onboading/onboarding-first-step.gif"
