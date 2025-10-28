@@ -33,7 +33,7 @@ defineOptions({ name: 'UIButton' })
   border: 0;
   border-radius: 18px;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgb(29, 29, 29);
 }
 
 .ui-button:disabled {
