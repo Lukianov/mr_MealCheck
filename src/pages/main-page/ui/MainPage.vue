@@ -1,24 +1,30 @@
 <template>
-  <div class="w-full" :style="{ background: 'rgba(18, 18, 18, 1)' }">
-    <CalenderHeader class="mb-3" />
-    <DailySummary class="mb-2" v-bind="MOCK_DAILY" />
-    <MealList class="mx-4" :meals="DAILY_MEALS" />
+  <div class="w-full pb-10" :style="{ background: 'rgba(18, 18, 18, 1)' }">
+    <CalenderHeader class="mb-3 sticky relative top-0" />
+    <div class="px-4">
+      <DailyProgress
+        class="mb-6"
+        :reached-kcal="DAILY_PROGRESS.reachedKcal"
+        :goal-kcal="DAILY_PROGRESS.goalKcal"
+        :macros="DAILY_PROGRESS.macros"
+      />
+      <MealList classs="mx-4" :meals="DAILY_MEALS" />
+    </div>
     <LogMeal class="fixed bottom-12 right-4" />
   </div>
 </template>
 
 <script setup lang="ts">
 import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
-import DailySummary from '@/widgets/daily-summary/ui/DailySummary.vue'
 import { MealItem } from '@/features/meal-row/types'
 import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
+import { DailyProgress } from '@/widgets/daily-progress'
 
-const MOCK_DAILY = {
-  carbs: '30',
-  protein: '30',
-  fat: '30',
-  calories: '300',
+const DAILY_PROGRESS = {
+  reachedKcal: 100,
+  goalKcal: 1500,
+  macros: { protein: 24, fat: 18, carbs: 52 },
 }
 
 const DAILY_MEALS: MealItem[] = [
