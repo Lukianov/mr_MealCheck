@@ -16,11 +16,12 @@
       </p>
     </div>
     <UIPersonalInput
-      size="5"
+      v-model="personalWeight"
+      size="6"
       placeholder="75 kg"
       inputmode="numeric"
       pattern="[0-9]*"
-      maxlength="2"
+      maxlength="3"
       class="mb-6"
     />
     <PersonalParamSelector />
@@ -30,6 +31,9 @@
 <script setup lang="ts">
 import PersonalParamSelector from '@/features/onboarding/ui/components/PersonalParamSelector.vue'
 import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
+import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
+
+const { personalWeight } = useGoalSelection()
 </script>
 
 <style scoped></style>

@@ -1,3 +1,3 @@
 export const enum ApiResponseType {
-    UserOnboardingData = 'users/characteristics',
+  UserOnboardingData = 'users/characteristics',
 }
