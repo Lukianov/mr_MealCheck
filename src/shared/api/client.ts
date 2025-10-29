@@ -9,6 +9,8 @@ import type {
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api'
 
+console.log('API_BASE_URL', import.meta.env.VITE_API_URL, API_BASE_URL)
+
 const SKIP_AUTH_HEADER = 'x-mrmealcheck-skip-auth'
 
 const setTelegramInitData = (initData: string): string | null => {
