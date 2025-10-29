@@ -16,10 +16,13 @@
       </RouterLink>
       <p><span>Meal</span>check</p>
     </div>
-    <button>today</button>
+    <DatePickerButton v-model="selectedDate" locale="ru-RU" :firstDay="1" />
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { DatePickerButton } from '@/features/date-filter'
+import { ref } from 'vue'
 
-<style scoped></style>
+const selectedDate = ref<Date | null>(new Date())
+</script>

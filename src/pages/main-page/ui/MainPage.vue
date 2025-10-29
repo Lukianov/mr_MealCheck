@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full pb-10" :style="{ background: 'rgba(18, 18, 18, 1)' }">
+  <div
+    class="w-full pb-10 relative"
+    :style="{ background: 'rgba(18, 18, 18, 1)' }"
+  >
     <CalenderHeader class="mb-3 sticky top-0" />
     <div class="px-4">
       <DailyProgress
