@@ -52,31 +52,45 @@
 </template>
 
 <script setup lang="ts">
-import type { Macros } from '../model/types'
 import { computed } from 'vue'
 import UIRingProgress from '@/shared/ui/UIRingProgress/UIRingProgress.vue'
 import StatChip from '@/shared/ui/StatChip.vue'
+import type { DailyStatsResponse } from '@/entities/meal/types'
 
 type Props = {
-  reachedKcal: number
-  goalKcal: number
-  macros: Macros
+  stats: DailyStatsResponse | null
   loading?: boolean
 }
-const props = withDefaults(defineProps<Props>(), { loading: false })
+
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+  stats: null,
+})
+
+const safeStats = computed(() => props.stats ?? null)
 
 const percent = computed(() => {
-  if (!props.goalKcal) {
+  const stats = safeStats.value
+
+  if (!stats || !stats.goal.kcal) {
     return 0
   }
 
-  return Math.round((props.reachedKcal / props.goalKcal) * 100)
+  const ratio = (stats.reached.kcal / stats.goal.kcal) * 100
+
+  if (!Number.isFinite(ratio)) {
+    return 0
+  }
+
+  return Math.max(0, Math.round(ratio))
 })
 
 const formatted = computed(() => ({
-  kcal: `${props.reachedKcal}/${props.goalKcal} kcal`,
-  protein: `${props.macros.protein}`,
-  fat: `${props.macros.fat}`,
-  carbs: `${props.macros.carbs}`,
+  kcal: safeStats.value
+    ? `${safeStats.value.reached.kcal}/${safeStats.value.goal.kcal} kcal`
+    : '0/0 kcal',
+  protein: `${safeStats.value?.reached.protein ?? 0}`,
+  fat: `${safeStats.value?.reached.fat ?? 0}`,
+  carbs: `${safeStats.value?.reached.carbs ?? 0}`,
 }))
 </script>

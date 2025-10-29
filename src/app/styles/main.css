@@ -9,6 +9,13 @@
 /*  --color-separator-12: 'rgba(118, 118, 128, 0.12)';*/
 /*}*/
 
+@font-face {
+  font-family: "Inter";
+  src: url('@/shared/assets/fonts/Inter.woff2') format('woff2');
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -16,14 +23,6 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  @font-face {
-    font-family: "Suisse";
-    src: url('@/shared/assets/fonts/SuisseIntl.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
   }
 
   body {

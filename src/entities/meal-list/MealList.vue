@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-white mb-3 text-base mx-4">
+    <p class="text-white mb-3 text-base mx-4 font-semibold">
       {{ ru.todayMealBlock.mealBlockTitle }}
     </p>
     <div class="rounded-2xl overflow-hidden mb-4">
