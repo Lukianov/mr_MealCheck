@@ -55,5 +55,5 @@ jobs:
             mkdir -p "$REL"
             tar -xzf "$REL/release.tgz" -C "$REL"
             ln -sfn "$REL" "$BASE/current"
-            sudo systemctl reload nginx
+#            sudo systemctl reload nginx
             ls -1dt "$BASE/releases"/* | tail -n +6 | xargs -r rm -rf
