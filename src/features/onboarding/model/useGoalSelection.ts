@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   GENDER_OPTIONS,
   GenderTypes,
@@ -11,9 +11,17 @@ const selectedGoal = ref<string>(GOAL_OPTIONS[0]?.id ?? '')
 
 const selectedGender = ref<string>(GENDER_OPTIONS[1]?.id ?? '')
 
-const personalHeight = ref<number>(0)
+const personalHeight = ref<number | null>(null)
 
-const personalWeight = ref<number>(0)
+const personalWeight = ref<number | null>(null)
+
+const sanitizedHeight = computed(() =>
+  typeof personalHeight.value === 'number' ? personalHeight.value : undefined,
+)
+
+const sanitizedWeight = computed(() =>
+  typeof personalWeight.value === 'number' ? personalWeight.value : undefined,
+)
 
 export const useGoalSelection = () => {
   const selectGoal = (goalId: string) => {
@@ -29,8 +37,8 @@ export const useGoalSelection = () => {
       await sendOnboardingRequest({
         goal: selectedGoal.value as GoalType,
         gender: selectedGender.value as GenderTypes,
-        height: personalHeight.value,
-        weight: personalWeight.value,
+        height: sanitizedHeight.value,
+        weight: sanitizedWeight.value,
       })
     } catch (e) {
       console.error(e)

@@ -8,11 +8,15 @@
       :inputmode="props.inputmode"
       :pattern="props.pattern"
       :maxlength="props.maxlength"
+      :value="displayValue"
+      @input="onInput"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 interface Props {
   placeholder: string
   size?: string
@@ -23,7 +27,22 @@ interface Props {
 
 const props = defineProps<Props>()
 
-defineModel()
+const modelValue = defineModel<number | null>({ default: null })
+
+const displayValue = computed(() =>
+  typeof modelValue.value === 'number' ? String(modelValue.value) : '',
+)
+
+const onInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const rawValue = target.value
+  const sanitizedValue = rawValue.replace(/\D/g, '')
+
+  target.value = sanitizedValue
+
+  modelValue.value =
+    sanitizedValue.length === 0 ? null : Number.parseInt(sanitizedValue, 10)
+}
 </script>
 
 <style scoped>
