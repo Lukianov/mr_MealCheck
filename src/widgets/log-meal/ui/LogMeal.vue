@@ -25,6 +25,10 @@ import { ru } from '@/shared/lib/i18n/en'
 import WebApp from '@twa-dev/sdk'
 import { ref } from 'vue'
 import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
+import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
+import { ModalNames } from '@/shared/types/modalNames'
+
+const { setOpenedModal } = useOverlayManager()
 
 type Emits = {
   (e: 'open-analyze-popup'): void
@@ -62,7 +66,7 @@ async function onPick(e: Event) {
     return
   }
 
-  emit('open-analyze-popup')
+  setOpenedModal(ModalNames.MealAnalyzingModal)
 
   const res = await upload(file)
 

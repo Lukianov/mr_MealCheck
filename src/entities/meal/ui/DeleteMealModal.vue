@@ -1,5 +1,5 @@
 <template>
-  <UIBaseModal :model-value="true" dismissible>
+  <UIBaseModal>
     <template #header-icon>
       <img
         class="h-16 w-16"
@@ -20,7 +20,9 @@
           >
             Delete
           </UIButton>
-          <UIButton class="w-full"> Cancel </UIButton>
+          <UIButton class="w-full" @click="() => setOpenedModal(null)">
+            Cancel
+          </UIButton>
         </div>
       </div>
     </template>
@@ -30,6 +32,7 @@
 <script setup lang="ts">
 import UIBaseModal from '@/shared/ui/UIBaseModal/UIBaseModal.vue'
 import { UIButton } from '@/shared/ui/UIButton'
-</script>
+import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 
-<style scoped></style>
+const { setOpenedModal } = useOverlayManager()
+</script>

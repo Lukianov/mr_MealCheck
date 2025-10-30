@@ -1,25 +1,14 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
+import { ModalNames } from '@/shared/types/modalNames'
 
-const openCount = ref(0)
+const openedModal = ref<ModalNames | null>(null)
 
 export function useOverlayManager() {
-  const isVisible = computed(() => openCount.value > 0)
+  const isVisible = computed(() => openedModal.value)
 
-  function acquire() {
-    openCount.value += 1
-
-    let released = false
-
-    return () => {
-      if (released) {
-        return
-      }
-
-      released = true
-
-      openCount.value = Math.max(0, openCount.value - 1)
-    }
+  function setOpenedModal(overlayName: ModalNames | null) {
+    openedModal.value = overlayName
   }
 
-  return { isVisible, acquire }
+  return { isVisible, setOpenedModal, openedModal }
 }

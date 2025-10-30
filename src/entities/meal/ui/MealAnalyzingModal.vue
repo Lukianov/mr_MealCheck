@@ -1,5 +1,5 @@
 <template>
-  <UIBaseModal :model-value="true" dismissible>
+  <UIBaseModal>
     <template #header-icon>
       <img
         class="h-16 w-[52px]"
@@ -17,6 +17,7 @@
         <UIButton
           class="w-full"
           :style="{ background: 'rgba(0, 167, 237, 1)' }"
+          @click="() => setOpenedModal(null)"
         >
           Got it!
         </UIButton>
@@ -28,6 +29,9 @@
 <script setup lang="ts">
 import UIBaseModal from '@/shared/ui/UIBaseModal/UIBaseModal.vue'
 import { UIButton } from '@/shared/ui/UIButton'
+import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
+
+const { setOpenedModal } = useOverlayManager()
 </script>
 
 <style scoped></style>

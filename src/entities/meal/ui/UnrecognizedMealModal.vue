@@ -1,5 +1,5 @@
 <template>
-  <UIBaseModal :model-value="true" dismissible>
+  <UIBaseModal>
     <template #header-icon>
       <img
         class="h-16 w-16 object-cover rounded-xl"
@@ -24,9 +24,7 @@
           >
             Take photo
           </UIButton>
-          <UIButton class="w-full"
-                    @click="openGallery"
-          > Upload </UIButton>
+          <UIButton class="w-full" @click="openGallery"> Upload </UIButton>
         </div>
       </div>
       <input
