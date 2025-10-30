@@ -3,28 +3,25 @@
     <transition name="sheet">
       <div
         v-show="modelValue"
-        class="fixed inset-x-0 bottom-0 z-[100] mx-auto"
+        class="fixed inset-x-0 bottom-0 z-[100] mx-auto px-4 pb-10"
         :aria-label="ariaLabel"
         role="dialog"
       >
         <div
-          class="mx-auto px-4 pb-[max(env(safe-area-inset-bottom),16px)]"
+          class="mx-auto px-4 py-5 rounded-3xl border border-white/10 bg-zinc-900/95 text-zinc-50"
           :class="widthClass"
         >
-          <div
-            class="relative rounded-3xl border border-white/10 bg-zinc-900/95 text-zinc-50 shadow-2xl"
-          >
-            <!-- кнопка закрытия -->
-            <button
+          <div class="relative shadow-2xl mb-5">
+            <slot name="header-icon" />
+            <CircleCrossIcon
               v-if="dismissible"
               aria-label="Close"
-              class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-zinc-200 hover:bg-white/15 active:scale-95"
+              class="absolute -right-4 -top-4 grid h-14 w-14 place-items-center"
               @click="close"
-            >
-              ✕
-            </button>
-
-            <slot />
+            />
+          </div>
+          <div class="">
+            <slot></slot>
           </div>
         </div>
       </div>
@@ -35,6 +32,7 @@
 <script setup lang="ts">
 import { watch, onBeforeUnmount } from 'vue'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
+import CircleCrossIcon from '@/shared/assets/icons/circle-cross-icon.svg'
 
 interface Props {
   modelValue: boolean
@@ -60,6 +58,7 @@ watch(
       release = acquire()
     } else {
       release?.()
+
       release = null
     }
   },

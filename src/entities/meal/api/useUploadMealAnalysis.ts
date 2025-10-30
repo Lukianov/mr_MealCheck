@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { apiRequest } from '@/shared/api'
+import { apiRequest, ApiResponseType } from '@/shared/api'
 import { useISODate } from '@/shared/lib/composables/useISODate'
 import { UploadAnalysisResponse } from '@/entities/meal/types'
 
@@ -10,21 +10,27 @@ export function useUploadMealAnalysis() {
 
   const error = ref<unknown>(null)
 
-  async function upload(photo: File, currentDate?: Date) {
+  async function upload(photo: File) {
     isLoading.value = true
+
     error.value = null
+
     try {
       const form = new FormData()
+
       form.append('photo', photo)
 
-      const nowIso = toLocalIsoWithOffset(currentDate ?? new Date())
+      const nowIso = toLocalIsoWithOffset(new Date())
 
       form.append('currentDate', nowIso)
 
-      return await apiRequest<UploadAnalysisResponse>('/users/meals/analyses', {
-        method: 'POST',
-        body: form,
-      })
+      return await apiRequest<UploadAnalysisResponse>(
+        ApiResponseType.UploadAnalysisData,
+        {
+          method: 'POST',
+          body: form,
+        },
+      )
     } catch (e) {
       error.value = e
 

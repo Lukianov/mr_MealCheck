@@ -8,7 +8,10 @@
       <DailyProgress class="mb-6" :stats="DAILY_PROGRESS" />
       <MealList classs="mx-4" :meals="DAILY_MEALS" />
     </div>
-    <LogMeal class="fixed bottom-12 right-4" />
+    <LogMeal class="fixed bottom-12 right-4" @open-analyze-popup="handleOpen" />
+<!--    <MealAnalyzingModal v-if="isOpen" />-->
+<!--    <DeleteMealModal v-if="isOpen" />-->
+<!--    <UnrecognizedMealModal v-if="isOpen" />-->
   </div>
 </template>
 
@@ -19,6 +22,11 @@ import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
 import type { DailyStatsResponse } from '@/entities/meal/types'
+import { ref } from 'vue'
+
+import MealAnalyzingModal from '@/entities/meal/ui/MealAnalyzingModal.vue'
+import DeleteMealModal from "@/entities/meal/ui/DeleteMealModal.vue";
+import UnrecognizedMealModal from "@/entities/meal/ui/UnrecognizedMealModal.vue";
 
 const DAILY_PROGRESS: DailyStatsResponse = {
   reached: {
@@ -65,6 +73,12 @@ const DAILY_MEALS: MealItem[] = [
     status: 'pending',
   },
 ]
+
+const isOpen = ref(true)
+
+const handleOpen = () => {
+  isOpen.value = true
+}
 </script>
 
 <style scoped></style>

@@ -24,15 +24,18 @@ import { UIButton } from '@/shared/ui/UIButton'
 import { ru } from '@/shared/lib/i18n/en'
 import WebApp from '@twa-dev/sdk'
 import { ref } from 'vue'
+import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
 
 type Emits = {
-  (e: 'close'): void
+  (e: 'open-analyze-popup'): void
   (e: 'select', file: File): void
 }
 
 const isOpen = ref(false)
 
 const galleryInput = ref<HTMLInputElement>()
+
+const { upload } = useUploadMealAnalysis()
 
 const emit = defineEmits<Emits>()
 
@@ -48,8 +51,9 @@ function openGallery() {
   galleryInput.value?.click()
 }
 
-function onPick(e: Event) {
+async function onPick(e: Event) {
   const tgt = e.target as HTMLInputElement
+
   const file = tgt.files?.[0]
 
   tgt.value = '' // сброс
@@ -58,7 +62,13 @@ function onPick(e: Event) {
     return
   }
 
-  emit('select', file)
+  emit('open-analyze-popup')
+
+  const res = await upload(file)
+
+  if (res) {
+    emit('open-analyze-popup')
+  }
 
   isOpen.value = false
 }
