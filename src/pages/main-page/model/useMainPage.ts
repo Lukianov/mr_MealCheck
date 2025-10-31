@@ -1,11 +1,4 @@
-import {
-  computed,
-  ref,
-  shallowRef,
-  watch,
-  type ComputedRef,
-  type Ref,
-} from 'vue'
+import { computed, onBeforeMount, ref, shallowRef, watch } from 'vue'
 import { useDailyMealsStats } from '@/entities/meal/api/useDailyMealsStats'
 import { useMeals } from '@/entities/meal/api/useMeals'
 import type { DailyStatsResponse, MealsResponse } from '@/entities/meal/types'
@@ -16,19 +9,7 @@ export const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
 
 const mealsCache = shallowRef<MealsResponse | null>(null)
 
-type MainPageStore = {
-  dailyStats: ComputedRef<DailyStatsResponse | null>
-  meals: ComputedRef<MealsResponse | null>
-  statsLoading: Ref<boolean>
-  mealsLoading: Ref<boolean>
-  loadStats: (date?: Date | null) => Promise<void>
-  loadMeals: (date?: Date | null) => Promise<void>
-  loadAll: (date?: Date | null) => Promise<void>
-}
-
-let store: MainPageStore | null = null
-
-function createStore(): MainPageStore {
+export function useMainPage() {
   const {
     data: statsData,
     isLoading: statsLoading,
@@ -36,6 +17,18 @@ function createStore(): MainPageStore {
   } = useDailyMealsStats()
 
   const { data: mealsData, isLoading: mealsLoading, fetchMeals } = useMeals()
+
+  watch(
+    currentSelectedDate,
+    async (value) => {
+      try {
+        await loadAll(value ?? undefined)
+      } catch (err) {
+        console.error('Failed to fetch main page data', err)
+      }
+    },
+    { immediate: true },
+  )
 
   watch(
     statsData,
@@ -56,6 +49,14 @@ function createStore(): MainPageStore {
     },
     { flush: 'post' },
   )
+
+  onBeforeMount(() => {
+    if (!dailyStats.value) {
+      return
+    }
+
+    void loadAll()
+  })
 
   const dailyStats = computed(() => statsData.value ?? dailyStatsCache.value)
 
@@ -84,12 +85,4 @@ function createStore(): MainPageStore {
     loadMeals,
     loadAll,
   }
-}
-
-export function useMainPage(): MainPageStore {
-  if (!store) {
-    store = createStore()
-  }
-
-  return store
 }

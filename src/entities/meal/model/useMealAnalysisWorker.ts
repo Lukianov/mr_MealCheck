@@ -44,9 +44,13 @@ let singletonStore: MealAnalysisWorkerStore | null = null
 
 function createStore(): MealAnalysisWorkerStore {
   const workerRef = shallowRef<Worker | null>(null)
+
   const statuses = shallowRef<Map<number, AnalysisStatusResponse>>(new Map())
+
   const processingIds = shallowRef<Set<number>>(new Set())
+
   const errors = shallowRef<Map<number, string>>(new Map())
+
   const listeners = new Set<(event: WorkerEvent) => void>()
 
   function ensureWorker(): Worker {
@@ -232,6 +236,7 @@ export function useMealAnalysisWorker(): MealAnalysisWorkerStore {
   // Provide auto-unsubscribe helper for listeners per component
   const cleanupCallbacks: Array<() => void> = []
 
+  // TODO: сомнительная хуйня
   onBeforeUnmount(() => {
     cleanupCallbacks.splice(0).forEach((cleanup) => cleanup())
   })

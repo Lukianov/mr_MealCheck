@@ -33,11 +33,6 @@ import { useMainPage } from '@/pages/main-page/model'
 
 const { setOpenedModal } = useOverlayManager()
 
-type Emits = {
-  (e: 'open-analyze-popup'): void
-  (e: 'select', file: File): void
-}
-
 const isOpen = ref(false)
 
 const galleryInput = ref<HTMLInputElement>()
