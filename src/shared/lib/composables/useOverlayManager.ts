@@ -4,7 +4,7 @@ import { ModalNames } from '@/shared/types/modalNames'
 const openedModal = ref<ModalNames | null>(null)
 
 export function useOverlayManager() {
-  const isVisible = computed(() => openedModal.value)
+  const isVisible = computed(() => Boolean(openedModal.value))
 
   function setOpenedModal(overlayName: ModalNames | null) {
     openedModal.value = overlayName
