@@ -13,7 +13,7 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/main-page/ui/MainPage.vue'),
   },
   {
-    path: '/meal-details-page',
+    path: '/meal-details-page/:id',
     name: RouteName.MealDetails,
     component: () => import('@/pages/meal-details-page/ui/MealDetailsPage.vue'),
   },

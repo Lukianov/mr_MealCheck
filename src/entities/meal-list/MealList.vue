@@ -12,10 +12,16 @@
         :style="{ 'border-color': 'rgba(255, 255, 255, 0.15)' }"
       />
       <div
-        v-if="!mealRows.length && loading"
-        class="p-6 text-center text-sm text-white/70"
+        v-if="!mealRows.length && props.loading"
+        :style="{ 'background-color': 'rgba(29, 29, 29, 1)' }"
+        class="p-4"
       >
-        Скелетон
+        <UISkeleton
+          v-for="i in 3"
+          class="h-16 w-full"
+          :key="i"
+          :class="{ 'mb-2': i !== 3 }"
+        />
       </div>
     </div>
     <p
@@ -41,6 +47,7 @@ import { MealItem } from '@/features/meal-row/types'
 import MealRow from '@/features/meal-row/ui/MealRow.vue'
 import { ru } from '@/shared/lib/i18n/ru'
 import type { MealsResponse, MealType } from '@/entities/meal/types'
+import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
 
 const props = withDefaults(
   defineProps<{

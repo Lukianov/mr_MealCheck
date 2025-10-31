@@ -15,12 +15,18 @@
         </p>
         <div class="flex items-center gap-3">
           <UIButton
+            :is-disabled="isLoading"
             class="w-full"
+            @click="handleDelete"
             :style="{ background: 'rgba(255, 37, 80, 1)' }"
           >
             Delete
           </UIButton>
-          <UIButton class="w-full" @click="() => setOpenedModal(null)">
+          <UIButton
+            class="w-full"
+            :is-disabled="isLoading"
+            @click="() => setOpenedModal(null)"
+          >
             Cancel
           </UIButton>
         </div>
@@ -33,6 +39,24 @@
 import UIBaseModal from '@/shared/ui/UIBaseModal/UIBaseModal.vue'
 import { UIButton } from '@/shared/ui/UIButton'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
+import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
+import { RouteName, router } from '@/shared/lib/router'
+
+const { deleteMeal, isLoading } = useDeleteMeal()
 
 const { setOpenedModal } = useOverlayManager()
+
+const handleDelete = async () => {
+  const id = Number(router.currentRoute.value.params.id)
+
+  if (typeof id !== 'number') {
+    return
+  }
+
+  await deleteMeal(id)
+
+  void router.push({ name: RouteName.Main })
+
+  setOpenedModal(null)
+}
 </script>

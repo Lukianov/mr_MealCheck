@@ -66,4 +66,8 @@ const onInput = (event: Event) => {
   appearance: none;
   -webkit-appearance: none;
 }
+
+.ui-personal-input__input::placeholder {
+  color: rgba(0, 167, 237, 0.6);
+}
 </style>

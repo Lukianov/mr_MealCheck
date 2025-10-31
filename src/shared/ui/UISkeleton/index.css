@@ -1,0 +1,38 @@
+/* Базовый блок */
+.mc-skeleton{
+  position:relative;
+  display:block;
+  border-radius: 16px;
+  overflow:hidden;
+  isolation:isolate;
+  contain:paint;               /* дешевле перерисовка */
+}
+
+/* Блик — отдельный слой, едет transform’ом */
+.mc-skeleton::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  transform:translate3d(-150%,0,0) skewX(12deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+  animation:mc-shimmer 3000ms linear infinite;
+  will-change:transform;
+}
+
+@keyframes mc-shimmer{
+  to{ transform:translate3d(150%,0,0) skewX(12deg); }
+}
+
+/* Варианты форм */
+.mc-skeleton--circle{ aspect-ratio:1/1; border-radius:999px; }
+.mc-skeleton--pill{   border-radius:999px; }
+
+/* Акцентный вариант (например, кнопки/контролы) */
+.mc-skeleton--accent::after{
+  background:linear-gradient(90deg, transparent, rgba(0,167,237,.30), transparent);
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  .mc-skeleton::after{ animation:none; transform:none; }
+}

@@ -13,7 +13,7 @@
         :stats="displayStats"
         :loading="statsLoading"
       />
-      <MealList class="mx-4" :meals="displayMeals" :loading="mealsLoading" />
+      <MealList :meals="displayMeals" :loading="mealsLoading" />
     </div>
     <LogMeal class="fixed bottom-12 right-4" />
   </div>

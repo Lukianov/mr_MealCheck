@@ -11,11 +11,8 @@
         </p>
 
         <div class="mt-1 text-2xl font-semibold tabular-nums">
-          <span v-if="!loading">{{ formatted.kcal }}</span>
-          <span
-            v-else
-            class="inline-block h-8 w-56 animate-pulse rounded bg-white/10"
-          ></span>
+          <UISkeleton v-if="props.loading" class="h-7 w-40"></UISkeleton>
+          <span v-else>{{ formatted.kcal }}</span>
         </div>
       </div>
 
@@ -27,7 +24,8 @@
           progress-class="stroke-sky-500"
           track-class="stroke-zinc-800"
         >
-          <div class="text-center">
+          <UISkeleton v-if="props.loading" class="h-4 w-14"></UISkeleton>
+          <div v-else class="text-center">
             <div class="text-base text-[18px] font-semibold tabular-nums">
               {{ percent }}%
             </div>
@@ -43,9 +41,24 @@
       <h4 class="text-xl font-semibold">Macronutrients for today</h4>
 
       <div class="mt-4 grid gap-3 grid-cols-3">
-        <StatChip label="Protein" :value="formatted.protein" postfix="g" />
-        <StatChip label="Fat" :value="formatted.fat" postfix="g" />
-        <StatChip label="Carbs" :value="formatted.carbs" postfix="g" />
+        <StatChip
+          label="Protein"
+          :value="formatted.protein"
+          postfix="g"
+          :is-loading="props.loading"
+        />
+        <StatChip
+          label="Fat"
+          :value="formatted.fat"
+          postfix="g"
+          :is-loading="props.loading"
+        />
+        <StatChip
+          label="Carbs"
+          :value="formatted.carbs"
+          postfix="g"
+          :is-loading="props.loading"
+        />
       </div>
     </div>
   </section>
@@ -56,6 +69,7 @@ import { computed } from 'vue'
 import UIRingProgress from '@/shared/ui/UIRingProgress/UIRingProgress.vue'
 import StatChip from '@/shared/ui/StatChip.vue'
 import type { DailyStatsResponse } from '@/entities/meal/types'
+import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
 
 type Props = {
   stats: DailyStatsResponse | null

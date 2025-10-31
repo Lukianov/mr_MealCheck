@@ -1,7 +1,7 @@
 <template>
   <component
     :is="currentComponent"
-    :to="{ name: RouteName.MealDetails }"
+    :to="{ name: RouteName.MealDetails, params: { id: props.id } }"
     :class="{ 'cursor-not-allowed': props.status === 'pending' }"
   >
     <div
@@ -15,20 +15,26 @@
       />
       <div class="flex items-center justify-between grow gap-2 min-w-0">
         <div class="flex-1 min-w-0 basis-0">
-          <div class="flex gap-1 items-center">
-            <p class="mb-0.5 font-semibold text-white text-lg truncate">
+          <div v-if="props.title" class="mb-0.5 flex gap-1 items-center">
+            <p class="font-semibold text-white text-lg truncate">
               {{ props.title }}
             </p>
             <PointIcon v-if="isShowStatusPoint" class="w-5 h-5" />
           </div>
-          <p class="truncate" :style="{ color: 'rgba(162, 172, 176, 1)' }">
+          <UISkeleton v-else class="mb-0.5 w-1/2 h-7" />
+          <p
+            v-if="props.description"
+            class="truncate"
+            :style="{ color: 'rgba(162, 172, 176, 1)' }"
+          >
             {{ props.description }}
           </p>
+          <UISkeleton v-else class="w-full h-6" />
         </div>
         <div class="shrink-0">
           <div
             v-if="props.status === 'pending'"
-            class="text-center py-0.5 px-2 rounded uppercase shrink-0"
+            class="text-xs leading-5 font-semibold text-center px-2 rounded-lg uppercase shrink-0"
             :style="{
               'background-color': 'rgba(255, 255, 255, 0.08)',
               color: 'rgba(0, 167, 237, 1)',
@@ -62,8 +68,10 @@ import { ru } from '@/shared/lib/i18n/ru'
 import { RouteName } from '@/shared/lib/router'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
 
 interface Props {
+  id: number
   image: string
   title: string
   description: string
