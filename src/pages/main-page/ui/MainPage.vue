@@ -13,27 +13,38 @@
         :stats="displayStats"
         :loading="statsLoading"
       />
-      <MealList :meals="displayMeals" :loading="mealsLoading" />
+      <MealList class="mx-4" :meals="displayMeals" :loading="mealsLoading" />
     </div>
     <LogMeal class="fixed bottom-12 right-4" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
 import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
-import { useMainPage } from '@/pages/main-page/model'
+import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
 import { DAILY_STATS_MOCK, MEALS_RESPONSE_MOCK } from '@/shared/mocks'
 
-const { dailyStats, meals, statsLoading, mealsLoading, currentSelectedDate } =
-  useMainPage()
+const { dailyStats, meals, statsLoading, mealsLoading, loadAll } = useMainPage()
 
 const displayStats = computed(() => dailyStats.value ?? DAILY_STATS_MOCK)
 
 const displayMeals = computed(() => meals.value ?? MEALS_RESPONSE_MOCK)
+
+watch(
+  currentSelectedDate,
+  async (value) => {
+    try {
+      await loadAll(value ?? undefined)
+    } catch (err) {
+      console.error('Failed to fetch main page data', err)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped></style>
