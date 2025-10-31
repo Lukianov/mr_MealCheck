@@ -1,5 +1,10 @@
 <template>
-  <button class="ui-button px-4 py-4" :type="buttonType" v-bind="$attrs">
+  <button
+    class="ui-button px-4 py-4"
+    :type="buttonType"
+    :class="{ 'pointer-events-none': props.isDisabled }"
+    v-bind="$attrs"
+  >
     <span class="ui-button__content">
       <slot />
     </span>
@@ -11,6 +16,7 @@ import { computed } from 'vue'
 
 const props = defineProps<{
   type?: 'button' | 'submit' | 'reset'
+  isDisabled?: boolean
 }>()
 
 const buttonType = computed(() => props.type ?? 'button')

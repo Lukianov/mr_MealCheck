@@ -13,7 +13,7 @@
 import { UIButton } from '@/shared/ui/UIButton'
 import OnboardingSlider from '@/features/onboarding/ui/OnboardingSlider.vue'
 import { useOnboarding } from '@/features/onboarding/model/useOnboardingPage'
-import { ru } from '@/shared/lib/i18n/en'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const { currentSlideIndex, goToNextSlide } = useOnboarding()
 </script>

@@ -15,9 +15,12 @@
       />
       <div class="flex items-center justify-between grow gap-2 min-w-0">
         <div class="flex-1 min-w-0 basis-0">
-          <p class="mb-0.5 font-semibold text-white text-lg truncate">
-            {{ props.title }}
-          </p>
+          <div class="flex gap-1 items-center">
+            <p class="mb-0.5 font-semibold text-white text-lg truncate">
+              {{ props.title }}
+            </p>
+            <PointIcon v-if="isShowStatusPoint" class="w-5 h-5" />
+          </div>
           <p class="truncate" :style="{ color: 'rgba(162, 172, 176, 1)' }">
             {{ props.description }}
           </p>
@@ -53,7 +56,9 @@
 
 <script setup lang="ts">
 import RightArrowIcon from '@/shared/assets/icons/right-arrow-icon.svg'
-import { ru } from '@/shared/lib/i18n/en'
+import PointIcon from '@/shared/assets/icons/point-icon.svg'
+
+import { ru } from '@/shared/lib/i18n/ru'
 import { RouteName } from '@/shared/lib/router'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -64,12 +69,17 @@ interface Props {
   description: string
   status: string
   hasBorder: boolean
+  isViewed?: boolean
 }
 
 const props = defineProps<Props>()
 
 const currentComponent = computed(() =>
   props.status === 'pending' ? 'div' : RouterLink,
+)
+
+const isShowStatusPoint = computed(
+  () => typeof props?.isViewed !== 'undefined' && !props.isViewed,
 )
 </script>
 

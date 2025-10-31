@@ -16,13 +16,35 @@
       </RouterLink>
       <p><span>Meal</span>check</p>
     </div>
-    <DatePickerButton v-model="selectedDate" locale="ru-RU" :firstDay="1" />
+    <DatePickerButton
+      v-model="selectedDateProxy"
+      locale="ru-RU"
+      :firstDay="1"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { DatePickerButton } from '@/features/date-filter'
-import { ref } from 'vue'
+import { computed } from 'vue'
 
-const selectedDate = ref<Date | null>(new Date())
+const props = withDefaults(
+  defineProps<{
+    selectedDate?: Date | null
+  }>(),
+  {
+    selectedDate: null,
+  },
+)
+
+const emit = defineEmits<{
+  (e: 'update:selectedDate', value: Date | null): void
+}>()
+
+const selectedDateProxy = computed({
+  get: () => props.selectedDate ?? null,
+  set: (value: Date | null) => {
+    emit('update:selectedDate', value)
+  },
+})
 </script>

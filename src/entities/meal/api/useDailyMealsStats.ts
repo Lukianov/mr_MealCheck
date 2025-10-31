@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { apiRequest } from '@/shared/api'
+import { apiRequest, ApiResponseType } from '@/shared/api'
 import { useISODate } from '@/shared/lib/composables/useISODate'
 import { DailyStatsResponse } from '@/entities/meal/types'
 
@@ -18,10 +18,13 @@ export function useDailyMealsStats() {
     try {
       const end = endDate ? endOfDay(endDate) : endOfDay(new Date())
       const endIso = toLocalIsoWithOffset(end)
-      data.value = await apiRequest<DailyStatsResponse>('/users/meals/stats', {
-        method: 'GET',
-        searchParams: { endDate: endIso },
-      })
+      data.value = await apiRequest<DailyStatsResponse>(
+        ApiResponseType.GetUserDailyStats,
+        {
+          method: 'GET',
+          searchParams: { endDate: endIso },
+        },
+      )
     } catch (e) {
       error.value = e
       throw e

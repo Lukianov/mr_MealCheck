@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UIButton @click="openGallery" class="px-4 py-3">
+    <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">
       <div class="flex items-center justify-center shrink-0 gap-2.5">
         <LogPlusIcon class="w-7" />
         <p class="">
@@ -21,7 +21,8 @@
 <script setup lang="ts">
 import LogPlusIcon from '@/shared/assets/icons/log-plus-icon.svg'
 import { UIButton } from '@/shared/ui/UIButton'
-import { ru } from '@/shared/lib/i18n/en'
+import { ru } from '@/shared/lib/i18n/ru'
+
 import WebApp from '@twa-dev/sdk'
 import { ref } from 'vue'
 import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
@@ -41,8 +42,6 @@ const galleryInput = ref<HTMLInputElement>()
 
 const { upload } = useUploadMealAnalysis()
 
-const emit = defineEmits<Emits>()
-
 function haptic() {
   WebApp.HapticFeedback.impactOccurred('light')
 }
@@ -55,25 +54,31 @@ function openGallery() {
   galleryInput.value?.click()
 }
 
+const isDisabled = ref(false)
+
 async function onPick(e: Event) {
-  const tgt = e.target as HTMLInputElement
+  try {
+    isDisabled.value = true
 
-  const file = tgt.files?.[0]
+    const tgt = e.target as HTMLInputElement
 
-  tgt.value = '' // сброс
+    const file = tgt.files?.[0]
 
-  if (!file) {
-    return
+    tgt.value = ''
+
+    if (!file) {
+      return
+    }
+
+    const res = await upload(file)
+
+    if (res) {
+      setOpenedModal(ModalNames.MealAnalyzingModal)
+    }
+
+    isOpen.value = false
+  } finally {
+    isDisabled.value = false
   }
-
-  setOpenedModal(ModalNames.MealAnalyzingModal)
-
-  const res = await upload(file)
-
-  if (res) {
-    emit('open-analyze-popup')
-  }
-
-  isOpen.value = false
 }
 </script>

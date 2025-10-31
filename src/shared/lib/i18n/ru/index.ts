@@ -1,4 +1,4 @@
-export const en = {
+export const ru = {
   onboarding: {
     buttonTitle: 'Next',
   },
@@ -9,12 +9,8 @@ export const en = {
     carbs: 'carbs',
   },
   todayMealBlock: {
+    empty: 'Nothing was added yet',
     mealBlockTitle: 'Meals logged today',
-    pendingMealTitle: 'Pending meal',
-    pendingMealDescription: 'Analysis in progress',
-    emptyDishesPlaceholder: 'No dishes listed',
-    loading: 'Loading meals...',
-    empty: 'No meals logged yet',
     mealRow: {
       status: {
         pending: 'pending',
@@ -36,5 +32,6 @@ export const en = {
     dishesSection: {
       macronutrients: 'Macronutrients',
     },
+    deleteButton: 'Delete',
   },
 }

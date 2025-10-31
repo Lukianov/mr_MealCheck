@@ -3,68 +3,37 @@
     class="w-full pb-10 relative"
     :style="{ background: 'rgba(18, 18, 18, 1)' }"
   >
-    <CalenderHeader class="mb-3 sticky top-0" />
+    <CalenderHeader
+      class="mb-3 sticky top-0"
+      v-model:selectedDate="currentSelectedDate"
+    />
     <div class="px-4">
-      <DailyProgress class="mb-6" :stats="DAILY_PROGRESS" />
-      <MealList classs="mx-4" :meals="DAILY_MEALS" />
+      <DailyProgress
+        class="mb-6"
+        :stats="displayStats"
+        :loading="statsLoading"
+      />
+      <MealList :meals="displayMeals" :loading="mealsLoading" />
     </div>
     <LogMeal class="fixed bottom-12 right-4" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
-import { MealItem } from '@/features/meal-row/types'
 import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
-import type { DailyStatsResponse } from '@/entities/meal/types'
+import { useMainPage } from '@/pages/main-page/model'
+import { DAILY_STATS_MOCK, MEALS_RESPONSE_MOCK } from '@/shared/mocks'
 
-const DAILY_PROGRESS: DailyStatsResponse = {
-  reached: {
-    kcal: 100,
-    protein: 24,
-    fat: 18,
-    carbs: 52,
-  },
-  goal: {
-    kcal: 1500,
-    protein: 100,
-    fat: 70,
-    carbs: 250,
-  },
-}
+const { dailyStats, meals, statsLoading, mealsLoading, currentSelectedDate } =
+  useMainPage()
 
-const DAILY_MEALS: MealItem[] = [
-  {
-    id: 1,
-    title: 'Snack #1',
-    description: 'Oatmeal with fruits and nuts',
-    image: 'src/shared/assets/images/mock-images/meal-template.jpg',
-    status: '',
-  },
-  {
-    id: 2,
-    title: 'Snack #1',
-    description: 'Oatmeal with fruits and nuts',
-    image: 'src/shared/assets/images/mock-images/meal-template.jpg',
-    status: '',
-  },
-  {
-    id: 3,
-    title: 'Snack #1',
-    description: 'Oatmeal with fruits and nuts',
-    image: 'src/shared/assets/images/mock-images/meal-template.jpg',
-    status: '',
-  },
-  {
-    id: 4,
-    title: 'Snack #1',
-    description: 'Spaghetti Bolognese, Cappuchino, Cheese Sandwich',
-    image: 'src/shared/assets/images/mock-images/meal-template.jpg',
-    status: 'pending',
-  },
-]
+const displayStats = computed(() => dailyStats.value ?? DAILY_STATS_MOCK)
+
+const displayMeals = computed(() => meals.value ?? MEALS_RESPONSE_MOCK)
 </script>
 
 <style scoped></style>

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { apiRequest } from '@/shared/api'
+import { apiRequest, ApiResponseType } from '@/shared/api'
 import { useISODate } from '@/shared/lib/composables/useISODate'
 import { MealsResponse } from '@/entities/meal/types'
 
@@ -22,10 +22,13 @@ export function useMeals() {
 
       const endIso = toLocalIsoWithOffset(end)
 
-      data.value = await apiRequest<MealsResponse>('/users/meals', {
-        method: 'GET',
-        searchParams: { endDate: endIso },
-      })
+      data.value = await apiRequest<MealsResponse>(
+        ApiResponseType.GetUserMeals,
+        {
+          method: 'GET',
+          searchParams: { endDate: endIso },
+        },
+      )
     } catch (e) {
       error.value = e
       throw e

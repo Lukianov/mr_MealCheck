@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import Card from '@/shared/ui/Card.vue'
-import { ru } from '@/shared/lib/i18n/en'
+import { ru } from '@/shared/lib/i18n/ru'
 
 defineProps<{ summary: string; recommendations: string }>()
 

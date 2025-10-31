@@ -34,7 +34,7 @@ import type { Dish } from '@/entities/meal/model/types'
 import StatChip from '@/shared/ui/StatChip.vue'
 import Card from '@/shared/ui/Card.vue'
 import KeyValueRow from '@/shared/ui/KeyValueRow.vue'
-import { ru } from '@/shared/lib/i18n/en'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const props = defineProps<{ dishes: Dish[] }>()
 </script>
