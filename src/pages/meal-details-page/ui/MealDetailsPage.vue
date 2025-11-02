@@ -73,6 +73,8 @@ import { useMealDetails } from '@/entities/meal/api/useMealDetails'
 import type { MealType } from '@/entities/meal/types'
 import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { DEFAULT_MEAL_DETAILS } from '@/shared/mocks'
+import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
+import { useMainPage } from '@/pages/main-page/model'
 
 const route = useRoute()
 
@@ -100,7 +102,19 @@ async function loadMeal(id: number | null) {
   }
 }
 
+const { markViewed } = useMarkMealViewed()
+
+const { meals } = useMainPage()
+
 onMounted(() => {
+  const currentMeal = meals.value.meals.find((item) => item.id === mealId.value)
+
+  if (currentMeal && !currentMeal.isViewed) {
+    markViewed(currentMeal.id)
+
+    currentMeal.isViewed = true
+  }
+
   void loadMeal(mealId.value)
 })
 

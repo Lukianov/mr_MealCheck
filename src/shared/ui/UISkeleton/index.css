@@ -5,7 +5,7 @@
   border-radius: 16px;
   overflow:hidden;
   isolation:isolate;
-  contain:paint;               /* дешевле перерисовка */
+  contain:paint; /* дешевле перерисовка */
 }
 
 /* Блик — отдельный слой, едет transform’ом */
