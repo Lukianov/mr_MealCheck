@@ -12,7 +12,7 @@ export function useDeleteMeal() {
     error.value = null
 
     try {
-      await apiRequest<void>(`/users/meals/${id}`, { method: 'DELETE' })
+      await apiRequest<void>(`users/meals/${id}`, { method: 'DELETE' })
     } catch (e) {
       error.value = e
       throw e

@@ -10,7 +10,7 @@ export function useMarkMealViewed() {
     isLoading.value = true
     error.value = null
     try {
-      await apiRequest<void>(`/users/meals/${id}/viewed`, { method: 'PUT' })
+      await apiRequest<void>(`users/meals/${id}/viewed`, { method: 'PUT' })
     } catch (e) {
       error.value = e
       throw e
