@@ -1,6 +1,8 @@
 /// <reference lib="webworker" />
 import { AnalysisStatusResponse } from '@/entities/meal/types'
-import { apiRequest, ApiResponseType } from '@/shared/api'
+import { apiRequest, ApiResponseType, useApiClient } from '@/shared/api'
+
+const { setTelegramInitData } = useApiClient()
 
 type IncomingMessage =
   | {
@@ -9,6 +11,7 @@ type IncomingMessage =
     }
   | { type: 'cancel'; payload: { id: number } }
   | { type: 'clear' }
+  | { type: 'setInitData'; payload: { initData: string | null } }
 
 type OutgoingMessage =
   | {
@@ -166,6 +169,10 @@ ctx.addEventListener('message', (event: MessageEvent<IncomingMessage>) => {
       break
     case 'clear':
       handleClear()
+      break
+    case 'setInitData':
+      setTelegramInitData(event.data.payload.initData)
+
       break
     default:
       break

@@ -1,5 +1,6 @@
-import { onBeforeUnmount, shallowRef } from 'vue'
+import { onBeforeUnmount, shallowRef, watch } from 'vue'
 import type { AnalysisStatusResponse } from '@/entities/meal/types'
+import { useApiClient } from '@/shared/api'
 
 type WorkerEvent =
   | {
@@ -43,6 +44,8 @@ interface MealAnalysisWorkerStore {
 let singletonStore: MealAnalysisWorkerStore | null = null
 
 function createStore(): MealAnalysisWorkerStore {
+  const { initData } = useApiClient()
+
   const workerRef = shallowRef<Worker | null>(null)
 
   const statuses = shallowRef<Map<number, AnalysisStatusResponse>>(new Map())
@@ -52,6 +55,21 @@ function createStore(): MealAnalysisWorkerStore {
   const errors = shallowRef<Map<number, string>>(new Map())
 
   const listeners = new Set<(event: WorkerEvent) => void>()
+
+  let lastSentInitData: string | null = null
+
+  function syncWorkerAuth(worker: Worker) {
+    const currentInitData = initData.value ?? null
+
+    if (currentInitData !== lastSentInitData) {
+      worker.postMessage({
+        type: 'setInitData',
+        payload: { initData: currentInitData },
+      })
+
+      lastSentInitData = currentInitData
+    }
+  }
 
   function ensureWorker(): Worker {
     if (!workerRef.value) {
@@ -73,8 +91,20 @@ function createStore(): MealAnalysisWorkerStore {
       })
     }
 
+    syncWorkerAuth(workerRef.value)
+
     return workerRef.value
   }
+
+  watch(
+    initData,
+    () => {
+      if (workerRef.value) {
+        syncWorkerAuth(workerRef.value)
+      }
+    },
+    { immediate: false },
+  )
 
   function updateStatuses(
     updater: (
@@ -163,6 +193,9 @@ function createStore(): MealAnalysisWorkerStore {
 
   function postMessage(message: WorkerRequest) {
     const worker = ensureWorker()
+
+    syncWorkerAuth(worker)
+
     worker.postMessage(message)
   }
 
