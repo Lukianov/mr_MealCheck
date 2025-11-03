@@ -49,7 +49,7 @@ function postMessageToMain(message: OutgoingMessage) {
 
 async function fetchStatus(id: number): Promise<AnalysisStatusResponse> {
   return apiRequest<AnalysisStatusResponse>(
-    `${ApiResponseType.GetMealAnalyzedStatus}${id}`,
+    `${ApiResponseType.GetMealAnalyzedStatus}${id}/status`,
     {
       method: 'GET',
     },

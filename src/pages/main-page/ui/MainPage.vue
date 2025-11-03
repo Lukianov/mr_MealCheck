@@ -13,38 +13,25 @@
         :stats="displayStats"
         :loading="statsLoading"
       />
-      <MealList :meals="displayMeals" :loading="mealsLoading" />
+      <MealList :meals="mealsCache" :loading="mealsLoading" />
     </div>
-    <LogMeal class="fixed bottom-12 right-4" />
+    <LogMeal class="fixed bottom-12 right-4" @update-data="loadAll" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
 import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
 import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
 import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
-import { DAILY_STATS_MOCK, MEALS_RESPONSE_MOCK } from '@/shared/mocks'
+import { computed } from 'vue'
+import { DAILY_STATS_MOCK } from '@/shared/mocks'
 
-const { dailyStats, meals, statsLoading, mealsLoading, loadAll } = useMainPage()
+const { dailyStatsCache, mealsCache, statsLoading, mealsLoading, loadAll } =
+  useMainPage()
 
-const displayStats = computed(() => dailyStats.value ?? DAILY_STATS_MOCK)
-
-const displayMeals = computed(() => meals.value ?? MEALS_RESPONSE_MOCK)
-
-watch(
-  currentSelectedDate,
-  async (value) => {
-    try {
-      await loadAll(value ?? undefined)
-    } catch (err) {
-      console.error('Failed to fetch main page data', err)
-    }
-  },
-  { immediate: true },
-)
+const displayStats = computed(() => dailyStatsCache.value ?? DAILY_STATS_MOCK)
 </script>
 
 <style scoped></style>

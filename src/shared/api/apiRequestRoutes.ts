@@ -3,5 +3,5 @@ export const enum ApiResponseType {
   UploadAnalysisData = 'users/meals/analyses',
   GetUserDailyStats = 'users/meals/stats',
   GetUserMeals = 'users/meals',
-  GetMealAnalyzedStatus = '/users/meals/analyzes/',
+  GetMealAnalyzedStatus = 'users/meals/analyses/',
 }

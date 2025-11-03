@@ -18,17 +18,13 @@ export function useMainPage() {
 
   const { data: mealsData, isLoading: mealsLoading, fetchMeals } = useMeals()
 
-  watch(
-    currentSelectedDate,
-    async (value) => {
-      try {
-        await loadAll(value ?? undefined)
-      } catch (err) {
-        console.error('Failed to fetch main page data', err)
-      }
-    },
-    { immediate: true },
-  )
+  watch(currentSelectedDate, async (value) => {
+    try {
+      await loadAll(value ?? undefined)
+    } catch (err) {
+      console.error('Failed to fetch main page data', err)
+    }
+  })
 
   watch(
     statsData,
@@ -51,7 +47,7 @@ export function useMainPage() {
   )
 
   onBeforeMount(() => {
-    if (!dailyStats.value) {
+    if (dailyStats.value) {
       return
     }
 
@@ -59,8 +55,6 @@ export function useMainPage() {
   })
 
   const dailyStats = computed(() => statsData.value ?? dailyStatsCache.value)
-
-  const meals = computed(() => mealsData.value ?? mealsCache.value)
 
   async function loadStats(date?: Date | null) {
     await fetchStats(date ?? undefined)
@@ -77,8 +71,8 @@ export function useMainPage() {
   }
 
   return {
-    dailyStats,
-    meals,
+    dailyStatsCache,
+    mealsCache,
     statsLoading,
     mealsLoading,
     loadStats,

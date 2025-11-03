@@ -31,6 +31,8 @@ import { ModalNames } from '@/shared/types/modalNames'
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
 import { useMainPage } from '@/pages/main-page/model'
 
+const emit = defineEmits<{ (e: 'update-data'): void }>()
+
 const { setOpenedModal } = useOverlayManager()
 
 const isOpen = ref(false)
@@ -82,6 +84,8 @@ async function onPick(e: Event) {
     const res = await upload(file)
 
     if (res) {
+      emit('update-data')
+
       enqueue(res.id)
 
       setOpenedModal(ModalNames.MealAnalyzingModal)
