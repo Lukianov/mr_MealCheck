@@ -50,6 +50,8 @@ const { setOpenedModal } = useOverlayManager()
 const route = useRoute()
 
 const handleDelete = async () => {
+  debugger
+
   const id = Number(route.params.id)
 
   if (typeof id !== 'number') {
