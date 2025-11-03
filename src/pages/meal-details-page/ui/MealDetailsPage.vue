@@ -43,7 +43,7 @@
           ></div>
           <DishSection id="dish-section" class="mb-6" :dishes="dishList" />
         </template>
-        <ResendMeal v-else />
+        <ResendMeal v-else-if="!hasMeal && !isLoading" />
         <UIButton
           @click="() => setOpenedModal(ModalNames.DeleteMealModal)"
           class="w-full"
@@ -106,18 +106,18 @@ const { markViewed } = useMarkMealViewed()
 
 const { mealsCache } = useMainPage()
 
-onMounted(() => {
-  const currentMeal = mealsCache.value.meals.find(
-    (item) => item.id === mealId.value,
-  )
+onMounted(async () => {
+  await loadMeal(mealId.value)
 
-  if (currentMeal && !currentMeal.isViewed) {
-    markViewed(currentMeal.id)
+  if (data.value && !data.value.isViewed) {
+    void markViewed(data.value.id)
 
-    currentMeal.isViewed = true
+    mealsCache.value.meals.forEach((item) => {
+      if (item.id === data.value.id) {
+        item.isViewed = true
+      }
+    })
   }
-
-  void loadMeal(mealId.value)
 })
 
 const rawMeal = computed(() => data.value ?? DEFAULT_MEAL_DETAILS)

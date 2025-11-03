@@ -41,13 +41,16 @@ import { UIButton } from '@/shared/ui/UIButton'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
 import { RouteName, router } from '@/shared/lib/router'
+import { useRoute } from 'vue-router'
 
 const { deleteMeal, isLoading } = useDeleteMeal()
 
 const { setOpenedModal } = useOverlayManager()
 
+const route = useRoute()
+
 const handleDelete = async () => {
-  const id = Number(router.currentRoute.value.params.id)
+  const id = Number(route.params.id)
 
   if (typeof id !== 'number') {
     return
