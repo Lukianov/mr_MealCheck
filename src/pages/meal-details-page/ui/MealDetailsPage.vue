@@ -104,10 +104,12 @@ async function loadMeal(id: number | null) {
 
 const { markViewed } = useMarkMealViewed()
 
-const { meals } = useMainPage()
+const { mealsCache } = useMainPage()
 
 onMounted(() => {
-  const currentMeal = meals.value.meals.find((item) => item.id === mealId.value)
+  const currentMeal = mealsCache.value.meals.find(
+    (item) => item.id === mealId.value,
+  )
 
   if (currentMeal && !currentMeal.isViewed) {
     markViewed(currentMeal.id)
