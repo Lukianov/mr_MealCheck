@@ -42,7 +42,11 @@ import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
 import { RouteName, router } from '@/shared/lib/router'
 import { useRoute } from 'vue-router'
+import { useDailyMealsStats } from '@/entities/meal/api/useDailyMealsStats'
+import { useMeals } from '@/entities/meal/api/useMeals'
 
+const { fetchStats } = useDailyMealsStats()
+const { fetchMeals } = useMeals()
 const { deleteMeal, isLoading } = useDeleteMeal()
 
 const { setOpenedModal } = useOverlayManager()
@@ -57,6 +61,10 @@ const handleDelete = async () => {
   }
 
   await deleteMeal(id)
+
+  await fetchStats()
+
+  await fetchMeals()
 
   void router.push({ name: RouteName.Main })
 
