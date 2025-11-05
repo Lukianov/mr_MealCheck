@@ -10,42 +10,44 @@
     <main class="container">
       <div class="px-4">
         <UIDetailedMealSkeleton v-if="isLoading" />
-        <template v-else-if="!isLoading && hasMeal">
-          <div class="pt-5 mb-6">
-            <div class="mb-4">
-              <div class="font-semibold text-white mb-1 text-2xl">
-                {{ displayMeal.title }}
+        <template v-else>
+          <template v-if="!isLoading && hasMeal">
+            <div class="pt-5 mb-6">
+              <div class="mb-4">
+                <div class="font-semibold text-white mb-1 text-2xl">
+                  {{ displayMeal.title }}
+                </div>
+                <div
+                  v-if="displayMeal.subtitle"
+                  class="text-sm"
+                  :style="{ color: 'rgba(162, 172, 176, 1)' }"
+                >
+                  {{ displayMeal.subtitle }}
+                </div>
               </div>
-              <div
-                v-if="displayMeal.subtitle"
-                class="text-sm"
-                :style="{ color: 'rgba(162, 172, 176, 1)' }"
-              >
-                {{ displayMeal.subtitle }}
+              <div class="flex items-center justify-center gap-2">
+                <StatChip
+                  v-for="chip in macroChips"
+                  :key="chip.key"
+                  :label="chip.label"
+                  :value="chip.value"
+                  :postfix="chip.postfix"
+                />
               </div>
             </div>
-            <div class="flex items-center justify-center gap-2">
-              <StatChip
-                v-for="chip in macroChips"
-                :key="chip.key"
-                :label="chip.label"
-                :value="chip.value"
-                :postfix="chip.postfix"
-              />
-            </div>
-          </div>
-          <MealSummaryCard
-            class="mb-6"
-            :summary="displayMeal.summary"
-            :recommendations="displayMeal.recommendation"
-          />
-          <div
-            class="mb-6 border-b -mx-4"
-            :style="{ 'border-color': 'rgba(255, 255, 255, 0.08)' }"
-          ></div>
-          <DishSection id="dish-section" class="mb-6" :dishes="dishList" />
+            <MealSummaryCard
+              class="mb-6"
+              :summary="displayMeal.summary"
+              :recommendations="displayMeal.recommendation"
+            />
+            <div
+              class="mb-6 border-b -mx-4"
+              :style="{ 'border-color': 'rgba(255, 255, 255, 0.08)' }"
+            ></div>
+            <DishSection id="dish-section" class="mb-6" :dishes="dishList" />
+          </template>
+          <ResendMeal v-else-if="!hasMeal && !isLoading" />
         </template>
-        <ResendMeal v-else-if="!hasMeal && !isLoading" />
         <div
           :class="{
             'absolute  bottom-10 w-full px-4 left-0': !hasMeal && !isLoading,
