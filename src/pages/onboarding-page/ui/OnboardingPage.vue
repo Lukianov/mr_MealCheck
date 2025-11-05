@@ -1,9 +1,8 @@
 <template>
   <div
-    ref="pageRef"
     class="pb-11 pt-2 px-5 flex flex-col items-center justify-between w-full"
   >
-    <component :is="currentSlide" @on-focus="handleFocus"></component>
+    <component :is="currentSlide" />
     <UIButton
       class="max-w-[388px] w-full"
       @click="goToNextSlide"
@@ -24,7 +23,7 @@ import WeightSlide from '@/features/onboarding/ui/slides/WeightSlide.vue'
 import HeightSlide from '@/features/onboarding/ui/slides/HeightSlide.vue'
 import FinishSlide from '@/features/onboarding/ui/slides/FinishSlide.vue'
 import GenderSlide from '@/features/onboarding/ui/slides/GenderSlide.vue'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 
 const { currentSlideIndex, goToNextSlide } = useOnboarding()
@@ -49,14 +48,4 @@ const isDisabled = computed(() => {
 
   return currentSlide.value === HeightSlide && !personalHeight.value
 })
-
-const pageRef = ref<HTMLElement | null>(null)
-
-const handleFocus = () => {
-  if (!pageRef.value) {
-    return
-  }
-
-  pageRef.value.scrollIntoView({ behavior: 'smooth', block: 'end' })
-}
 </script>

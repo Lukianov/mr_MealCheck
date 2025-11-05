@@ -10,7 +10,6 @@
       :maxlength="props.maxlength"
       :value="displayValue"
       @input="onInput"
-      @focus="emit('on-focus')"
     />
   </div>
 </template>
@@ -27,10 +26,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const emit = defineEmits<{
-  (e: 'on-focus'): void
-}>()
 
 const modelValue = defineModel<number | null>({ default: null })
 

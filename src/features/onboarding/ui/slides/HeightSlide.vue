@@ -23,7 +23,6 @@
       inputmode="numeric"
       pattern="[0-9]*"
       maxlength="3"
-      @on-focus="emit('on-focus')"
     />
     <PersonalParamSelector />
   </div>
@@ -35,10 +34,6 @@ import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 
 const { personalHeight } = useGoalSelection()
-
-const emit = defineEmits<{
-  (e: 'on-focus'): void
-}>()
 </script>
 
 <style scoped></style>

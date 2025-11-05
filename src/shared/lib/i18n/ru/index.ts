@@ -1,6 +1,7 @@
 export const ru = {
   onboarding: {
     buttonTitle: 'Next',
+    final: 'Let`s go',
   },
   summaryWidget: {
     caloriesShort: 'KCAL',
