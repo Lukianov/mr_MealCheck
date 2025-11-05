@@ -25,12 +25,6 @@ export const setupTelegramWebApp = async () => {
     },
   )
 
-  console.log(
-    'onboardingKey',
-    onboardingKey,
-    WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY),
-  )
-
   if (!onboardingKey) {
     void router.push({ name: RouteName.Onboarding })
   }
