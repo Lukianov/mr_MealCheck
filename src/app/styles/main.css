@@ -25,10 +25,13 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  html, body {
+    background-color: #121212;
+  }
+
   body {
     user-select: none;
     font-family: "Suisse", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
-    background-color: rgba(18, 18, 18, 1);
     @apply m-0 min-h-screen min-w-80 text-slate-100 antialiased;
   }
 
