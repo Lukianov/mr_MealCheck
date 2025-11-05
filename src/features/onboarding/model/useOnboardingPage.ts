@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouteName, router } from '@/shared/lib/router'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import WebApp from '@twa-dev/sdk'
@@ -7,6 +7,24 @@ import { ru } from '@/shared/lib/i18n/ru'
 
 export const useOnboarding = () => {
   const currentSlideIndex = ref(0)
+
+  const { personalWeight, personalHeight } = useGoalSelection()
+
+  const isDisabled = computed(() => {
+    if (currentSlideIndex.value === 3 && !personalWeight.value) {
+      return true
+    }
+
+    return currentSlideIndex.value === 4 && !personalHeight.value
+  })
+
+  watch(isDisabled, (isFlag) => {
+    if (isFlag) {
+      WebApp.MainButton.disable()
+    } else {
+      WebApp.MainButton.enable()
+    }
+  })
 
   const { sendOnboardingCharacteristics } = useGoalSelection()
 
@@ -33,8 +51,6 @@ export const useOnboarding = () => {
   }
 
   onMounted(() => {
-    WebApp.setBackgroundColor?.('#121212')
-
     WebApp.MainButton.setParams({
       text: ru.onboarding.final,
       color: '#1d1d1d',
@@ -54,6 +70,5 @@ export const useOnboarding = () => {
 
   return {
     currentSlideIndex,
-    goToNextSlide,
   }
 }

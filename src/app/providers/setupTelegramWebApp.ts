@@ -9,6 +9,8 @@ export const setupTelegramWebApp = async () => {
 
   WebApp.headerColor = '#121212'
 
+  WebApp.backgroundColor = '#121212'
+
   WebApp.ready()
 
   setTelegramInitData(WebApp.initData)
