@@ -7,9 +7,13 @@ export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 export const setupTelegramWebApp = async () => {
   const { setTelegramInitData } = useApiClient()
 
-  WebApp.headerColor = '#121212'
+  WebApp.setHeaderColor('#121212')
 
   WebApp.setBottomBarColor('#121212')
+
+  WebApp.themeParams.secondary_bg_color = '#121212'
+
+  WebApp.themeParams.section_bg_color = '#121212'
 
   WebApp.ready()
 
