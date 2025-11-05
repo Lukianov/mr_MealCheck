@@ -1,23 +1,23 @@
 import WebApp from '@twa-dev/sdk'
 import type { Router } from 'vue-router'
-import { RouteName } from '../route-names'
 
 const historyBackHandler = () => {
   window.history.back()
 }
 
-export function registerMealDetailsBackButtonGuard(router: Router) {
-  router.beforeEach((to, from, next) => {
-    if (to.name === RouteName.MealDetails) {
+export function registerTmaBackButtonGuard(router: Router) {
+  WebApp.ready()
+
+  WebApp.BackButton.offClick(historyBackHandler)
+  WebApp.BackButton.onClick(historyBackHandler)
+
+  router.afterEach((to) => {
+    const needBack = Boolean(to.meta?.tmaBackButton)
+
+    if (needBack) {
       WebApp.BackButton.show()
-
-      WebApp.BackButton.onClick(historyBackHandler)
     } else {
-      WebApp.BackButton.offClick(historyBackHandler)
-
       WebApp.BackButton.hide()
     }
-
-    next()
   })
 }

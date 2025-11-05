@@ -16,6 +16,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/meal-details-page/:id',
     name: RouteName.MealDetails,
     component: () => import('@/pages/meal-details-page/ui/MealDetailsPage.vue'),
+    meta: { tmaBackButton: true },
   },
   {
     path: '/',

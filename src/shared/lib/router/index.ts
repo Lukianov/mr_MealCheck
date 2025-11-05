@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from './routes'
-import { registerMealDetailsBackButtonGuard } from './guards/registerMealDetailsBackButtonGuard'
+import { registerTmaBackButtonGuard } from './guards/registerMealDetailsBackButtonGuard'
 
 export const router = createRouter({
   history: createWebHistory(),
   routes,
 })
 
-registerMealDetailsBackButtonGuard(router)
+registerTmaBackButtonGuard(router)
 
 export * from './routes'
 export * from './route-names'
