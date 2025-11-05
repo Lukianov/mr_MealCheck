@@ -103,8 +103,8 @@ const formatted = computed(() => ({
   kcal: safeStats.value
     ? `${safeStats.value.reached.kcal}/${safeStats.value.goal.kcal} kcal`
     : '0/0 kcal',
-  protein: `${safeStats.value?.reached.protein ?? 0}`,
-  fat: `${safeStats.value?.reached.fat ?? 0}`,
-  carbs: `${safeStats.value?.reached.carbs ?? 0}`,
+  protein: `${(safeStats.value?.reached.protein ?? 0).toFixed(1)}`,
+  fat: `${(safeStats.value?.reached.fat ?? 0).toFixed(1)}`,
+  carbs: `${(safeStats.value?.reached.carb ?? 0).toFixed(1)}`,
 }))
 </script>

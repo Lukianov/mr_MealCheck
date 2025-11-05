@@ -31,7 +31,7 @@ export interface Macros {
   kcal: number
   protein: number
   fat: number
-  carbs: number
+  carb: number
 }
 
 export interface DailyStatsResponse {

@@ -132,6 +132,7 @@ const MEAL_TYPE_LABEL: Record<MealType, string> = {
 
 const displayMeal = computed(() => {
   const details = rawMeal.value
+
   const subtitle = details.dishes.length
     ? details.dishes.map((dish) => dish.name).join(', ')
     : ''
