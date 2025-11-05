@@ -47,10 +47,9 @@ export function useMainPage() {
   )
 
   onBeforeMount(() => {
-    // TODO: back daily stat
-    // if (dailyStats.value) {
-    //   return
-    // }
+    if (dailyStats.value) {
+      return
+    }
 
     void loadAll()
   })

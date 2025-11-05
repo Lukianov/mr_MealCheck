@@ -115,8 +115,6 @@ async function loadMeal(id: number | null) {
   } catch (err) {
     console.error('Failed to fetch meal details', err)
   }
-
-  console.log('isLoading', isLoading.value, hasMeal.value)
 }
 
 onMounted(async () => {
@@ -144,7 +142,11 @@ const MEAL_TYPE_LABEL: Record<MealType, string> = {
 
 const displayMeal = computed(() => {
   if (!data.value) {
-    return undefined
+    return {
+      title: '',
+      subtitle: '',
+      image: '',
+    }
   }
 
   const details = data.value
@@ -187,30 +189,32 @@ const macroChips = computed(() => [
   {
     key: 'kcal',
     label: 'KCAL',
-    value: displayMeal.value.macros.kcal,
+    value: displayMeal.value?.macros.kcal,
     postfix: '',
   },
   {
     key: 'protein',
     label: 'PROTEIN',
-    value: displayMeal.value.macros.protein,
+    value: displayMeal.value?.macros.protein,
     postfix: 'g',
   },
   {
     key: 'fat',
     label: 'FAT',
-    value: displayMeal.value.macros.fat,
+    value: displayMeal.value?.macros.fat,
     postfix: 'g',
   },
   {
     key: 'carb',
     label: 'CARBS',
-    value: displayMeal.value.macros.carb,
+    value: displayMeal.value?.macros.carb,
     postfix: 'g',
   },
 ])
 
-const dishList = computed(() => displayMeal.value.dishes as unknown as UIDish[])
+const dishList = computed(
+  () => displayMeal.value?.dishes as unknown as UIDish[],
+)
 
 const { setOpenedModal } = useOverlayManager()
 </script>

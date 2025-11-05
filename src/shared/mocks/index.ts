@@ -61,33 +61,30 @@
 // }
 //
 // export const MEALS_RESPONSE_MOCK: MealsResponse = {
-//   pendingMeals: [
-//     {
-//       id: 1001,
-//       photoUrl: 'src/shared/assets/images/mock-images/meal-template.jpg',
-//     },
-//   ],
+//   pendingMeals: [],
 //   meals: [
 //     {
-//       id: 2001,
-//       photoUrl: 'src/shared/assets/images/mock-images/meal-template.jpg',
+//       id: 121,
+//       photoUrl:
+//         'https://minio.kolupaev.tech/mealcheck/180600889.1762337293.image.jpg',
+//       type: 'snack',
+//       isViewed: false,
+//       dishes: [],
+//     },
+//     {
+//       id: 118,
+//       photoUrl:
+//         'https://minio.kolupaev.tech/mealcheck/180600889.1762323107.image.jpg',
 //       type: 'breakfast',
 //       isViewed: true,
-//       dishes: [{ name: 'Oatmeal with berries' }, { name: 'Almond milk' }],
-//     },
-//     {
-//       id: 2002,
-//       photoUrl: 'src/shared/assets/images/mock-images/meal-template.jpg',
-//       type: 'lunch',
-//       isViewed: false,
-//       dishes: [{ name: 'Spaghetti Bolognese' }, { name: 'Caesar salad' }],
-//     },
-//     {
-//       id: 2003,
-//       photoUrl: 'src/shared/assets/images/mock-images/meal-template.jpg',
-//       type: 'snack',
-//       isViewed: true,
-//       dishes: [{ name: 'Greek yogurt' }],
+//       dishes: [
+//         {
+//           name: 'Творожная запеканка',
+//         },
+//         {
+//           name: 'Сметана',
+//         },
+//       ],
 //     },
 //   ],
 // }

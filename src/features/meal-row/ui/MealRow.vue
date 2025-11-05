@@ -19,18 +19,26 @@
             <p class="font-semibold text-white text-lg truncate">
               {{ props.title }}
             </p>
-            <PointIcon
-              v-if="isShowStatusPoint"
-              class="w-5 h-5"
-              :class="{ 'fill-[#ff2550]': isUnrecognizedDishes }"
-            />
+            <template v-if="isShowStatusPoint">
+              <div class="h-5 w-5 flex justify-center items-center">
+                <span
+                  class="rounded-full w-1.5 h-1.5"
+                  :class="[
+                    isUnrecognizedDishes
+                      ? 'bg-[#FF2550]'
+                      : 'bg-[#00A7ED]',
+                  ]"
+                ></span>
+              </div>
+            </template>
           </div>
           <UISkeleton v-else class="mb-0.5 w-1/2 h-7" />
           <p
-            v-if="props.description"
+            v-if="mealRowDescription"
             class="truncate"
-            :class="{ 'text-[#00a7ed]': isUnrecognizedDishes }"
-            :style="{ color: 'rgba(162, 172, 176, 1)' }"
+            :class="[
+              isUnrecognizedDishes ? 'text-[#00a7ed]' : 'text-[#a2acb0]',
+            ]"
           >
             {{ mealRowDescription }}
           </p>
@@ -67,8 +75,6 @@
 
 <script setup lang="ts">
 import RightArrowIcon from '@/shared/assets/icons/right-arrow-icon.svg'
-import PointIcon from '@/shared/assets/icons/point-icon.svg'
-
 import { ru } from '@/shared/lib/i18n/ru'
 import { RouteName } from '@/shared/lib/router'
 import { computed } from 'vue'
