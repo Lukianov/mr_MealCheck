@@ -23,6 +23,7 @@
       pattern="[0-9]*"
       maxlength="3"
       class="mb-6"
+      @on-focus="emit('on-focus')"
     />
     <PersonalParamSelector />
   </div>
@@ -34,6 +35,10 @@ import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 
 const { personalWeight } = useGoalSelection()
+
+const emit = defineEmits<{
+  (e: 'on-focus'): void
+}>()
 </script>
 
 <style scoped></style>

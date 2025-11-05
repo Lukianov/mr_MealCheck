@@ -3,7 +3,7 @@
     ref="pageRef"
     class="pb-11 pt-2 px-5 flex flex-col items-center justify-between w-full"
   >
-    <component :is="currentSlide"></component>
+    <component :is="currentSlide" @on-focus="handleFocus"></component>
     <UIButton
       class="max-w-[388px] w-full"
       @click="goToNextSlide"
@@ -26,13 +26,6 @@ import FinishSlide from '@/features/onboarding/ui/slides/FinishSlide.vue'
 import GenderSlide from '@/features/onboarding/ui/slides/GenderSlide.vue'
 import { computed, ref } from 'vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
-import { useKeyboardInset } from '@/shared/lib/composables/useKeyboardInset'
-import { useTwaViewportVar } from '@/shared/lib/composables/useTwaViewportVar'
-import { useFocusAutoscroll } from '@/shared/lib/composables/useFocusAutoscroll'
-
-useKeyboardInset()
-
-useTwaViewportVar()
 
 const { currentSlideIndex, goToNextSlide } = useOnboarding()
 
@@ -59,5 +52,11 @@ const isDisabled = computed(() => {
 
 const pageRef = ref<HTMLElement | null>(null)
 
-useFocusAutoscroll({ container: pageRef, footerReserve: 96 })
+const handleFocus = () => {
+  if (!pageRef.value) {
+    return
+  }
+
+  pageRef.value.scrollIntoView({ behavior: 'smooth', block: 'end' })
+}
 </script>
