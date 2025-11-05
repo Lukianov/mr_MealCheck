@@ -119,7 +119,7 @@ const { mealsCache } = useMainPage()
 onMounted(async () => {
   await loadMeal(mealId.value)
 
-  if (data.value && !data.value.isViewed) {
+  if (data.value && !data.value?.isViewed) {
     void markViewed(data.value.id)
 
     mealsCache.value.meals.forEach((item) => {
@@ -131,7 +131,8 @@ onMounted(async () => {
 })
 
 const rawMeal = computed(() => data.value ?? DEFAULT_MEAL_DETAILS)
-const hasMeal = computed(() => !isLoading.value && data.value.dishes.length)
+
+const hasMeal = computed(() => !isLoading.value && !data.value)
 
 const MEAL_TYPE_LABEL: Record<MealType, string> = {
   breakfast: 'Breakfast',

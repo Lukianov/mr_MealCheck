@@ -10,10 +10,11 @@ export function registerMealDetailsBackButtonGuard(router: Router) {
   router.beforeEach((to, from, next) => {
     if (to.name === RouteName.MealDetails) {
       WebApp.BackButton.show()
-      WebApp.BackButton.offClick(historyBackHandler)
+
       WebApp.BackButton.onClick(historyBackHandler)
-    } else if (from.name === RouteName.MealDetails) {
+    } else {
       WebApp.BackButton.offClick(historyBackHandler)
+
       WebApp.BackButton.hide()
     }
 

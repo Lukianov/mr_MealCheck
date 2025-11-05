@@ -27,6 +27,7 @@ export function useMealDetails() {
       )
     } catch (e) {
       error.value = e
+
       throw e
     } finally {
       isLoading.value = false
