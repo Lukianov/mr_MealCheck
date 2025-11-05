@@ -4,7 +4,7 @@ import { useApiClient } from '@/shared/api'
 
 export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 
-export const setupTelegramWebApp = () => {
+export const setupTelegramWebApp = async () => {
   const { setTelegramInitData } = useApiClient()
 
   WebApp.headerColor = '#121212'
@@ -15,7 +15,17 @@ export const setupTelegramWebApp = () => {
 
   debugger
 
-  const onboardingKey = WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY)
+  const onboardingKey = await new Promise<string | undefined>(
+    (resolve, reject) => {
+      WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY, (err, value) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(value)
+        }
+      })
+    },
+  )
 
   console.log(
     'onboardingKey',
