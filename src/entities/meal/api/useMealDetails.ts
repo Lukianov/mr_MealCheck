@@ -26,6 +26,8 @@ export function useMealDetails() {
         },
       )
     } catch (e) {
+      console.log('message', e, e.message)
+
       if (e.response?.status === 404) {
         return null
       }
