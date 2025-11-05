@@ -115,6 +115,8 @@ async function loadMeal(id: number | null) {
   } catch (err) {
     console.error('Failed to fetch meal details', err)
   }
+
+  console.log('isLoading', isLoading.value, hasMeal.value)
 }
 
 onMounted(async () => {

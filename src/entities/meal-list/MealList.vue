@@ -87,6 +87,7 @@ const mealRows = computed<MealItem[]>(() => {
     description: meal.dishes.map((dish) => dish.name).join(', '),
     status: 'completed',
     isViewed: meal.isViewed,
+    dishes: meal.dishes,
   }))
 
   return [...pending, ...completed]

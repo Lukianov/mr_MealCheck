@@ -34,4 +34,7 @@ export const ru = {
     },
     deleteButton: 'Delete',
   },
+  mealRow: {
+    unrecognizedDish: 'Need to retake photo',
+  },
 }

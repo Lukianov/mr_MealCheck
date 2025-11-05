@@ -19,15 +19,20 @@
             <p class="font-semibold text-white text-lg truncate">
               {{ props.title }}
             </p>
-            <PointIcon v-if="isShowStatusPoint" class="w-5 h-5" />
+            <PointIcon
+              v-if="isShowStatusPoint"
+              class="w-5 h-5"
+              :class="{ 'fill-[#ff2550]': isUnrecognizedDishes }"
+            />
           </div>
           <UISkeleton v-else class="mb-0.5 w-1/2 h-7" />
           <p
             v-if="props.description"
             class="truncate"
+            :class="{ 'text-[#00a7ed]': isUnrecognizedDishes }"
             :style="{ color: 'rgba(162, 172, 176, 1)' }"
           >
-            {{ props.description }}
+            {{ mealRowDescription }}
           </p>
           <UISkeleton v-else class="w-full h-6" />
         </div>
@@ -77,6 +82,7 @@ interface Props {
   description: string
   status: string
   hasBorder: boolean
+  dishes?: string[]
   isViewed?: boolean
 }
 
@@ -88,6 +94,14 @@ const currentComponent = computed(() =>
 
 const isShowStatusPoint = computed(
   () => typeof props?.isViewed !== 'undefined' && !props.isViewed,
+)
+
+const isUnrecognizedDishes = computed(
+  () => props.dishes && !props.dishes.length,
+)
+
+const mealRowDescription = computed(() =>
+  isUnrecognizedDishes.value ? ru.mealRow.unrecognizedDish : props.description,
 )
 </script>
 
