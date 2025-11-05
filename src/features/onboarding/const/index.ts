@@ -46,9 +46,4 @@ export const GENDER_OPTIONS: GoalOption[] = [
     title: 'Man',
     imageUrl: 'src/shared/assets/images/onboading/gender-slide-man.png',
   },
-  {
-    id: GenderTypes.Unknown,
-    title: "I don't want to specify",
-    imageUrl: 'src/shared/assets/images/onboading/gender-slide-man.png',
-  },
 ]

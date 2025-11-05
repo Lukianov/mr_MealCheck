@@ -3,7 +3,7 @@
     <!-- Image block with parallax -->
     <div class="relative h-[292px] overflow-hidden">
       <UISkeleton
-        v-if="isLoading"
+        v-if="isLoading || !props.image"
         class="absolute max-w-full w-full h-[280px] will-change-transform"
       />
       <img

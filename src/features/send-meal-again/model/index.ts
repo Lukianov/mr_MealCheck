@@ -26,11 +26,13 @@ export const useResendMeal = () => {
 
     const file = tgt.files?.[0]
 
-    tgt.value = '' // сброс
+    tgt.value = ''
 
     if (!file) {
       return
     }
+
+    return file
   }
 
   return {

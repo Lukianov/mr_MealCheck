@@ -46,7 +46,7 @@
             ></div>
             <DishSection id="dish-section" class="mb-6" :dishes="dishList" />
           </template>
-          <ResendMeal v-else-if="!hasMeal && !isLoading" />
+          <ResendMeal :meal-id="mealId" v-else-if="!hasMeal && !isLoading" />
         </template>
         <div
           :class="{
