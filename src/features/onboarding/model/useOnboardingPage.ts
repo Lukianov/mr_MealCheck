@@ -1,4 +1,4 @@
-import { onBeforeMount, onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import { RouteName, router } from '@/shared/lib/router'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import WebApp from '@twa-dev/sdk'
@@ -8,20 +8,6 @@ export const useOnboarding = () => {
   const currentSlideIndex = ref(0)
 
   const { sendOnboardingCharacteristics } = useGoalSelection()
-
-  onBeforeMount(() => {
-    WebApp.MainButton.setText('Next')
-
-    WebApp.MainButton.show()
-
-    WebApp.onEvent('mainButtonClicked', goToNextSlide)
-  })
-
-  onUnmounted(() => {
-    WebApp.MainButton.hide()
-
-    WebApp.offEvent('mainButtonClicked', goToNextSlide)
-  })
 
   function goToNextSlide() {
     if (currentSlideIndex.value === 5) {
