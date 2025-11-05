@@ -2,8 +2,8 @@
   <div>
     <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">
       <div class="flex items-center justify-center shrink-0 gap-2.5">
-        <LogPlusIcon class="w-7" />
-        <p class="">
+        <LogPlusIcon class="w-7" :class="{ 'ui-log-meal': isDisabled }" />
+        <p class="label font-medium select-none">
           {{ ru.logMealWidget.buttonTitle }}
         </p>
       </div>
@@ -35,8 +35,6 @@ const emit = defineEmits<{ (e: 'update-data'): void }>()
 
 const { setOpenedModal } = useOverlayManager()
 
-const isOpen = ref(false)
-
 const galleryInput = ref<HTMLInputElement>()
 
 const { upload } = useUploadMealAnalysis()
@@ -58,8 +56,6 @@ function haptic() {
 }
 
 function openGallery() {
-  isOpen.value = true
-
   haptic()
 
   galleryInput.value?.click()
@@ -90,10 +86,20 @@ async function onPick(e: Event) {
 
       setOpenedModal(ModalNames.MealAnalyzingModal)
     }
-
-    isOpen.value = false
   } finally {
     isDisabled.value = false
   }
 }
 </script>
+
+<style>
+.ui-log-meal {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
