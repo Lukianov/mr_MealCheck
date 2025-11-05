@@ -26,6 +26,10 @@ export function useMealDetails() {
         },
       )
     } catch (e) {
+      if (e.response?.status === 404) {
+        return null
+      }
+
       error.value = e
 
       throw e

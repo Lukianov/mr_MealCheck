@@ -89,6 +89,10 @@ const route = useRoute()
 
 const { data, isLoading, fetchMeal } = useMealDetails()
 
+const { markViewed } = useMarkMealViewed()
+
+const { mealsCache } = useMainPage()
+
 const mealId = computed(() => {
   const raw = route.params.id
 
@@ -111,10 +115,6 @@ async function loadMeal(id: number | null) {
   }
 }
 
-const { markViewed } = useMarkMealViewed()
-
-const { mealsCache } = useMainPage()
-
 onMounted(async () => {
   await loadMeal(mealId.value)
 
@@ -129,7 +129,7 @@ onMounted(async () => {
   }
 })
 
-const hasMeal = computed(() => !isLoading.value && !data.value)
+const hasMeal = computed(() => !isLoading.value && data.value)
 
 const MEAL_TYPE_LABEL: Record<MealType, string> = {
   breakfast: 'Breakfast',
