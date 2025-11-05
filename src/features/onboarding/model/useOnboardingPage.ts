@@ -44,7 +44,7 @@ export const useOnboarding = () => {
     }
 
     if (currentSlideIndex.value === 4) {
-      WebApp.MainButton.setText(ru.onboarding.buttonTitle)
+      WebApp.MainButton.setText(ru.onboarding.final)
     }
 
     currentSlideIndex.value = currentSlideIndex.value + 1
@@ -52,7 +52,7 @@ export const useOnboarding = () => {
 
   onMounted(() => {
     WebApp.MainButton.setParams({
-      text: ru.onboarding.final,
+      text: ru.onboarding.buttonTitle,
       color: '#1d1d1d',
       text_color: '#ffffff',
     })
