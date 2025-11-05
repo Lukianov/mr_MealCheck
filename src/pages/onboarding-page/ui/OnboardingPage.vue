@@ -1,19 +1,16 @@
 <template>
   <div
-    class="pt-2 px-5 flex flex-col items-center justify-between w-full min-h-[var(--twa-vh,100dvh)] pb-[calc(96px+env(safe-area-inset-bottom,0px))]"
+    ref="pageRef"
+    class="pb-11 pt-2 px-5 flex flex-col items-center justify-between w-full"
   >
     <component :is="currentSlide"></component>
-    <footer
-      class="fixed left-0 right-0 bottom-0 z-20 px-5 pb-[calc(12px+env(safe-area-inset-bottom,0px))] transform-gpu translate-y-[calc(-1*var(--kb,0px))]"
+    <UIButton
+      class="max-w-[388px] w-full"
+      @click="goToNextSlide"
+      :is-disabled="isDisabled"
     >
-      <UIButton
-        class="max-w-[388px] w-full"
-        @click="goToNextSlide"
-        :is-disabled="isDisabled"
-      >
-        {{ ru.onboarding.buttonTitle }}
-      </UIButton>
-    </footer>
+      {{ ru.onboarding.buttonTitle }}
+    </UIButton>
   </div>
 </template>
 
@@ -27,10 +24,11 @@ import WeightSlide from '@/features/onboarding/ui/slides/WeightSlide.vue'
 import HeightSlide from '@/features/onboarding/ui/slides/HeightSlide.vue'
 import FinishSlide from '@/features/onboarding/ui/slides/FinishSlide.vue'
 import GenderSlide from '@/features/onboarding/ui/slides/GenderSlide.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { useKeyboardInset } from '@/shared/lib/composables/useKeyboardInset'
 import { useTwaViewportVar } from '@/shared/lib/composables/useTwaViewportVar'
+import { useFocusAutoscroll } from '@/shared/lib/composables/useFocusAutoscroll'
 
 useKeyboardInset()
 
@@ -58,4 +56,8 @@ const isDisabled = computed(() => {
 
   return currentSlide.value === HeightSlide && !personalHeight.value
 })
+
+const pageRef = ref<HTMLElement | null>(null)
+
+useFocusAutoscroll({ container: pageRef, footerReserve: 96 })
 </script>
