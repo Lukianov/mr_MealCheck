@@ -81,7 +81,6 @@ import ResendMeal from '@/features/send-meal-again/ui/ResendMeal.vue'
 import { useMealDetails } from '@/entities/meal/api/useMealDetails'
 import type { MealType } from '@/entities/meal/types'
 import type { Dish as UIDish } from '@/entities/meal/model/types'
-import { DEFAULT_MEAL_DETAILS } from '@/shared/mocks'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
@@ -130,8 +129,6 @@ onMounted(async () => {
   }
 })
 
-const rawMeal = computed(() => data.value ?? DEFAULT_MEAL_DETAILS)
-
 const hasMeal = computed(() => !isLoading.value && !data.value)
 
 const MEAL_TYPE_LABEL: Record<MealType, string> = {
@@ -142,7 +139,11 @@ const MEAL_TYPE_LABEL: Record<MealType, string> = {
 }
 
 const displayMeal = computed(() => {
-  const details = rawMeal.value
+  if (!data.value) {
+    return undefined
+  }
+
+  const details = data.value
 
   const subtitle = details.dishes.length
     ? details.dishes.map((dish) => dish.name).join(', ')
