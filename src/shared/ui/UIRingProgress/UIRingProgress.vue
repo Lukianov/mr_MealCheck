@@ -1,34 +1,3 @@
-<script setup lang="ts">
-import { computed } from 'vue'
-
-type Props = {
-  /** 0..100 */
-  value: number
-  size?: number
-  stroke?: number
-  trackClass?: string
-  progressClass?: string
-  rounded?: boolean
-  ariaLabel?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  size: 112,
-  stroke: 10,
-  trackClass: 'stroke-zinc-700/60',
-  progressClass: 'stroke-sky-500',
-  rounded: true,
-  ariaLabel: 'progress ring',
-})
-
-const radius = computed(() => 50 - props.stroke / 2)
-const circumference = computed(() => 2 * Math.PI * radius.value)
-const dash = computed(() => {
-  const v = Math.min(100, Math.max(0, props.value))
-  return (v / 100) * circumference.value
-})
-</script>
-
 <template>
   <div
     class="relative inline-flex"
@@ -52,7 +21,7 @@ const dash = computed(() => {
         cy="50"
         :r="radius"
         :stroke-width="stroke"
-        :class="progressClass"
+        :class="computedProgressClass"
         stroke-linecap="round"
         :style="{
           strokeDasharray: `${dash} ${circumference - dash}`,
@@ -62,10 +31,44 @@ const dash = computed(() => {
         fill="transparent"
       />
     </svg>
-
-    <!-- центр (слот для текста) -->
     <div class="absolute inset-0 grid place-items-center select-none">
       <slot />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+type Props = {
+  value: number
+  size?: number
+  stroke?: number
+  trackClass?: string
+  progressClass?: string
+  rounded?: boolean
+  ariaLabel?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 112,
+  stroke: 10,
+  trackClass: 'stroke-zinc-700/60',
+  progressClass: 'stroke-sky-500',
+  rounded: true,
+  ariaLabel: 'progress ring',
+})
+
+const radius = computed(() => 50 - props.stroke / 2)
+
+const circumference = computed(() => 2 * Math.PI * radius.value)
+
+const dash = computed(() => {
+  const v = Math.min(100, Math.max(0, props.value))
+  return (v / 100) * circumference.value
+})
+
+const computedProgressClass = computed(() =>
+  props.value > 100 ? 'stroke-[#ff2550]' : props.progressClass,
+)
+</script>
