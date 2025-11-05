@@ -1,14 +1,16 @@
 <template>
-  <div class="pb-20">
+  <div class="pb-20 w-full">
     <MealHero
       :title="displayMeal.title"
       :subtitle="displayMeal.subtitle"
       :image="displayMeal.image"
+      :is-loading="isLoading"
     />
 
     <main class="container">
       <div class="px-4">
-        <template v-if="hasMeal">
+        <UIDetailedMealSkeleton v-if="isLoading" />
+        <template v-else-if="!isLoading && hasMeal">
           <div class="pt-5 mb-6">
             <div class="mb-4">
               <div class="font-semibold text-white mb-1 text-2xl">
@@ -44,14 +46,21 @@
           <DishSection id="dish-section" class="mb-6" :dishes="dishList" />
         </template>
         <ResendMeal v-else-if="!hasMeal && !isLoading" />
-        <UIButton
-          @click="() => setOpenedModal(ModalNames.DeleteMealModal)"
-          class="w-full"
+        <div
+          :class="{
+            'absolute  bottom-10 w-full px-4 left-0': !hasMeal && !isLoading,
+          }"
         >
-          <p :style="{ color: 'rgba(255, 37, 80, 1)' }">
-            {{ ru.mealDetail.deleteButton }}
-          </p>
-        </UIButton>
+          <UIButton
+            v-if="!isLoading"
+            @click="() => setOpenedModal(ModalNames.DeleteMealModal)"
+            class="w-full"
+          >
+            <p :style="{ color: 'rgba(255, 37, 80, 1)' }">
+              {{ ru.mealDetail.deleteButton }}
+            </p>
+          </UIButton>
+        </div>
       </div>
     </main>
   </div>
@@ -75,6 +84,7 @@ import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { DEFAULT_MEAL_DETAILS } from '@/shared/mocks'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
+import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
 
 const route = useRoute()
 

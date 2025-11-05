@@ -5,7 +5,7 @@
         {{ dish.name }}
       </template>
       <template #default>
-        <KeyValueRow label="Weight" :value="dish.weight || '~150g'" />
+        <KeyValueRow label="Weight" :value="dish.weight" />
         <KeyValueRow
           label="Calories"
           :value="(dish.calories ?? '') + ' kcal'"

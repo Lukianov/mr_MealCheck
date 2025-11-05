@@ -4,7 +4,9 @@ import type { MealDetailsResponse } from '@/entities/meal/types'
 
 export function useMealDetails() {
   const data = ref<MealDetailsResponse | null>(null)
-  const isLoading = ref(false)
+
+  const isLoading = ref(true)
+
   const error = ref<unknown>(null)
 
   async function fetchMeal(id: number) {
@@ -13,6 +15,7 @@ export function useMealDetails() {
     }
 
     isLoading.value = true
+
     error.value = null
 
     try {
