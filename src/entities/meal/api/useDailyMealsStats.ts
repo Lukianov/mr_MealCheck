@@ -14,7 +14,9 @@ export function useDailyMealsStats() {
 
   async function fetchStats(endDate?: Date) {
     isLoading.value = true
+
     error.value = null
+
     try {
       const end = endDate ? endOfDay(endDate) : endOfDay(new Date())
       const endIso = toLocalIsoWithOffset(end)

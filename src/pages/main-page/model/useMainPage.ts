@@ -2,6 +2,8 @@ import { computed, onBeforeMount, ref, shallowRef, watch } from 'vue'
 import { useDailyMealsStats } from '@/entities/meal/api/useDailyMealsStats'
 import { useMeals } from '@/entities/meal/api/useMeals'
 import type { DailyStatsResponse, MealsResponse } from '@/entities/meal/types'
+import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
+import { ModalNames } from '@/shared/types/modalNames'
 
 export const currentSelectedDate = ref<Date | null>(new Date())
 
@@ -9,7 +11,30 @@ export const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
 
 const mealsCache = shallowRef<MealsResponse | null>(null)
 
+export function hasUnrecognizedNewMeal(
+  dailyMeal: MealsResponse,
+  newValue: MealsResponse,
+): boolean {
+  const existingIds = new Set(dailyMeal.meals.map((m) => m.id))
+
+  for (let i = 0; i < newValue.meals.length; i++) {
+    const m = newValue.meals[i]
+
+    const isNew = !existingIds.has(m.id)
+
+    const isEmpty = (m.dishes?.length ?? 0) === 0
+
+    if (isNew && isEmpty) {
+      return true
+    }
+  }
+
+  return false
+}
+
 export function useMainPage() {
+  const { setOpenedModal } = useOverlayManager()
+
   const {
     data: statsData,
     isLoading: statsLoading,
@@ -40,6 +65,10 @@ export function useMainPage() {
     mealsData,
     (value) => {
       if (value) {
+        if (hasUnrecognizedNewMeal(mealsCache.value, value)) {
+          setOpenedModal(ModalNames.UnrecognizedModal)
+        }
+
         mealsCache.value = value
       }
     },
