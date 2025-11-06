@@ -15,6 +15,10 @@ export function hasUnrecognizedNewMeal(
   dailyMeal: MealsResponse,
   newValue: MealsResponse,
 ): boolean {
+  if (!dailyMeal) {
+    return
+  }
+
   const existingIds = new Set(dailyMeal.meals.map((m) => m.id))
 
   for (let i = 0; i < newValue.meals.length; i++) {
