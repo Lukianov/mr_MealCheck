@@ -31,6 +31,14 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/DeleteMealModal.vue'),
       )
+    case ModalNames.PhotoLoaderModal:
+      return defineAsyncComponent(
+        () => import('@/entities/meal/ui/PhotoLoaderModal.vue'),
+      )
+    case ModalNames.RetakePhotoModal:
+      return defineAsyncComponent(
+        () => import('@/entities/meal/ui/RetakePhotoModal.vue'),
+      )
     default:
       return null
   }

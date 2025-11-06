@@ -2,7 +2,7 @@
   <div>
     <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">
       <div class="flex items-center justify-center shrink-0 gap-2.5">
-        <LogPlusIcon class="w-7" :class="{ 'ui-log-meal': isDisabled }" />
+        <LogPlusIcon class="w-7" />
         <p class="label font-medium select-none">
           {{ ru.logMealWidget.buttonTitle }}
         </p>
@@ -65,6 +65,8 @@ const isDisabled = ref(false)
 
 async function onPick(e: Event) {
   try {
+    setOpenedModal(ModalNames.PhotoLoaderModal)
+
     isDisabled.value = true
 
     const tgt = e.target as HTMLInputElement
@@ -74,32 +76,28 @@ async function onPick(e: Event) {
     tgt.value = ''
 
     if (!file) {
+      setOpenedModal(null)
+
       return
     }
 
-    const res = await upload(file)
+    try {
+      const res = await upload(file)
 
-    if (res) {
-      emit('update-data')
+      if (res) {
+        emit('update-data')
 
-      enqueue(res.id)
+        enqueue(res.id)
 
-      setOpenedModal(ModalNames.MealAnalyzingModal)
+        setOpenedModal(ModalNames.MealAnalyzingModal)
+      }
+    } catch (e) {
+      console.error(e)
+
+      setOpenedModal(ModalNames.RetakePhotoModal)
     }
   } finally {
     isDisabled.value = false
   }
 }
 </script>
-
-<style>
-.ui-log-meal {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

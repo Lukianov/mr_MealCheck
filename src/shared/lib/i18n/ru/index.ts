@@ -38,4 +38,11 @@ export const ru = {
   mealRow: {
     unrecognizedDish: 'Need to retake photo',
   },
+  retakePhotoModal: {
+    title: 'We couldn’t recognize the food in your photo',
+    description:
+      'Please try again with a clearer shot — make sure the dish is fully visible and well-lit',
+    acceptButton: 'Retake photo',
+    cancel: 'Cancel',
+  },
 }
