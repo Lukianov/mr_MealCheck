@@ -4,7 +4,7 @@
     :style="{ background: 'rgba(18, 18, 18, 1)' }"
   >
     <CalenderHeader
-      class="mb-3 sticky top-0"
+      class="mb-3 sticky top-0 z-10"
       v-model:selectedDate="currentSelectedDate"
     />
     <div class="px-4">

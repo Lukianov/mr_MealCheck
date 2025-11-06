@@ -123,6 +123,7 @@ async function ensurePicker() {
     clickOpens: false,
     allowInput: false,
     appendTo: document.body,
+    maxDate: 'today',
     positionElement: btnRef.value!, // якорь
     onChange: (selected: Date[]) => {
       const d = selected?.[0]

@@ -16,6 +16,16 @@
   font-display: swap;
 }
 
+html, body {
+  background-color: #121212;
+  /*touch-action: manipulation;*/
+  touch-action: pan-x pan-y;
+}
+
+a, button, [role="button"] {
+  touch-action: manipulation;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -25,17 +35,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  html, body {
-    background-color: #121212;
-  }
-
   body {
     user-select: none;
     font-family: "Suisse", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
     @apply m-0 min-h-screen min-w-80 text-slate-100 antialiased;
-  }
-
-  a {
-    @apply font-medium text-emerald-400 underline-offset-4 transition-colors hover:text-emerald-300;
   }
 }
