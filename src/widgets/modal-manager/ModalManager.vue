@@ -23,10 +23,6 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/MealAnalyzingModal.vue'),
       )
-    case ModalNames.UnrecognizedModal:
-      return defineAsyncComponent(
-        () => import('@/entities/meal/ui/UnrecognizedMealModal.vue'),
-      )
     case ModalNames.DeleteMealModal:
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/DeleteMealModal.vue'),

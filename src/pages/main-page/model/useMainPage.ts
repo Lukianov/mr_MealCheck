@@ -70,7 +70,7 @@ export function useMainPage() {
     (value) => {
       if (value) {
         if (hasUnrecognizedNewMeal(mealsCache.value, value)) {
-          setOpenedModal(ModalNames.UnrecognizedModal)
+          setOpenedModal(ModalNames.RetakePhotoModal)
         }
 
         mealsCache.value = value

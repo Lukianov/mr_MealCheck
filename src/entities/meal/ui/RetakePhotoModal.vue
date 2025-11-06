@@ -53,21 +53,11 @@ const { setOpenedModal } = useOverlayManager()
 
 const { cameraInput, openCamera, onPick } = useResendMeal()
 
-const { enqueue, onEvent } = useMealAnalysisWorker()
+const { enqueue } = useMealAnalysisWorker()
 
 const { upload } = useUploadMealAnalysis()
 
 const { loadAll } = useMainPage()
-
-onEvent(async (event) => {
-  if (event.type === 'done') {
-    try {
-      await loadAll()
-    } catch (err) {
-      console.error('Failed to refresh meals after analysis completion', err)
-    }
-  }
-})
 
 const handlePick = async (e: Event) => {
   setOpenedModal(ModalNames.PhotoLoaderModal)

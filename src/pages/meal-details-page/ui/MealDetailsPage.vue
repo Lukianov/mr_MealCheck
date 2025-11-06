@@ -113,7 +113,13 @@ async function loadMeal(id: number | null) {
   try {
     await fetchMeal(id)
   } catch (err) {
-    console.error('Failed to fetch meal details', err)
+    mealsCache.value.meals = mealsCache.value.meals.filter(
+      (meal) => meal.id !== id,
+    )
+
+    await markViewed(data.value.id)
+
+    console.error('Failed to fetch meal details', err, err.message)
   }
 }
 
