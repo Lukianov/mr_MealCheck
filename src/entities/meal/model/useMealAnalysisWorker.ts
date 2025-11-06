@@ -1,4 +1,4 @@
-import { onBeforeUnmount, shallowRef, watch } from 'vue'
+import { shallowRef, watch } from 'vue'
 import type { AnalysisStatusResponse } from '@/entities/meal/types'
 import { useApiClient } from '@/shared/api'
 
@@ -266,22 +266,10 @@ export function useMealAnalysisWorker(): MealAnalysisWorkerStore {
     singletonStore = createStore()
   }
 
-  // Provide auto-unsubscribe helper for listeners per component
-  const cleanupCallbacks: Array<() => void> = []
-
-  // TODO: сомнительная хуйня
-  onBeforeUnmount(() => {
-    cleanupCallbacks.splice(0).forEach((cleanup) => cleanup())
-  })
-
   return {
     ...singletonStore,
     onEvent(handler) {
-      const unsubscribe = singletonStore!.onEvent(handler)
-
-      cleanupCallbacks.push(unsubscribe)
-
-      return unsubscribe
+      return singletonStore!.onEvent(handler)
     },
   }
 }

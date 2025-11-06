@@ -29,7 +29,6 @@ import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
-import { useMainPage } from '@/pages/main-page/model'
 
 const emit = defineEmits<{ (e: 'update-data'): void }>()
 
@@ -38,18 +37,7 @@ const { setOpenedModal } = useOverlayManager()
 const galleryInput = ref<HTMLInputElement>()
 
 const { upload } = useUploadMealAnalysis()
-const { enqueue, onEvent } = useMealAnalysisWorker()
-const { loadAll } = useMainPage()
-
-onEvent(async (event) => {
-  if (event.type === 'done') {
-    try {
-      await loadAll()
-    } catch (err) {
-      console.error('Failed to refresh meals after analysis completion', err)
-    }
-  }
-})
+const { enqueue } = useMealAnalysisWorker()
 
 function haptic() {
   WebApp.HapticFeedback.impactOccurred('light')
@@ -93,8 +81,6 @@ async function onPick(e: Event) {
       }
     } catch (e) {
       console.error(e)
-
-      setOpenedModal(ModalNames.RetakePhotoModal)
     }
   } finally {
     isDisabled.value = false

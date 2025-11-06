@@ -97,7 +97,9 @@ async function poll(id: number) {
 
     if (status.status === 'done') {
       cleanup(id)
+
       postMessageToMain({ type: 'done', payload: { id, status } })
+
       return
     }
 

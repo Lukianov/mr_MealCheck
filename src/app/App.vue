@@ -9,4 +9,7 @@
 <script setup lang="ts">
 import UIBackgroundBlurred from '@/shared/ui/UIBackgroundBlurred/UIBackgroundBlurred.vue'
 import ModalManager from '@/widgets/modal-manager/ModalManager.vue'
+import { getPullingMealStatus } from '@/app/providers/getPullingMealStatus'
+
+getPullingMealStatus()
 </script>
