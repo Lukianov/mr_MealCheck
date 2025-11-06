@@ -3,5 +3,6 @@ export interface Dish {
   name: string
   weight?: string
   calories?: number
-  macros?: { protein?: number; fat?: number; carbs?: number }
+  recommendation?: string
+  macros?: { protein?: number; fat?: number; carbs?: number; calories?: number }
 }

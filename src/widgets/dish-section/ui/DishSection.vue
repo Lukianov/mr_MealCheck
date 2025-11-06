@@ -6,15 +6,13 @@
       </template>
       <template #default>
         <KeyValueRow label="Weight" :value="dish.weight" />
-        <KeyValueRow
-          label="Calories"
-          :value="(dish.calories ?? '') + ' kcal'"
-        />
+        <KeyValueRow label="Recommendation" :value="dish.recommendation" />
         <div>
           <div class="text-zinc-400 text-sm mb-1">
             {{ ru.mealDetail.dishesSection.macronutrients }}
           </div>
           <div class="flex items-center gap-2">
+            <StatChip label="Kcal" :value="dish.macros?.calories" postfix="" />
             <StatChip
               label="Protein"
               :value="dish.macros?.protein"

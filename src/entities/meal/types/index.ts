@@ -12,6 +12,8 @@ export interface Dish {
   protein?: number
   fat?: number
   carb?: number
+  recommendation?: string
+  id: number
 }
 
 export interface Meal {

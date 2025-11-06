@@ -155,37 +155,36 @@ const displayMeal = computed(() => {
     }
   }
 
-  const details = data.value
-
-  const subtitle = details.dishes.length
-    ? details.dishes.map((dish) => dish.name).join(', ')
+  const subtitle = data.value.dishes.length
+    ? data.value.dishes.map((dish) => dish.name).join(', ')
     : ''
 
   return {
-    id: details.id,
-    title: MEAL_TYPE_LABEL[details.type] ?? 'Meal',
+    id: data.value.id,
+    title: MEAL_TYPE_LABEL[data.value.type] ?? 'Meal',
     subtitle,
-    image: details.photoUrl,
-    summary: details.summary ?? '',
-    recommendation: details.recommendation ?? '',
+    image: data.value.photoUrl,
+    summary: data.value.summary ?? '',
+    recommendation: data.value.recommendation ?? '',
     macros: {
-      kcal: details.kcal,
-      protein: details.protein,
-      fat: details.fat,
-      carb: details.carb,
+      kcal: data.value.kcal,
+      protein: data.value.protein,
+      fat: data.value.fat,
+      carb: data.value.carb,
     },
-    dishes: details.dishes.map((dish, index) => ({
-      id: `${details.id}-${index}`,
+    dishes: data.value.dishes.map((dish) => ({
+      id: dish.id,
       name: dish.name,
       weight:
         typeof dish.weight === 'number'
           ? `${Math.round(dish.weight)} g`
           : undefined,
-      calories: dish.kcal ?? undefined,
+      recommendation: dish?.recommendation,
       macros: {
         protein: dish.protein ?? undefined,
         fat: dish.fat ?? undefined,
         carbs: dish.carb ?? undefined,
+        calories: dish.kcal ?? undefined,
       },
     })),
   }
