@@ -35,6 +35,10 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/RetakePhotoModal.vue'),
       )
+    case ModalNames.WeightChangerModal:
+      return defineAsyncComponent(
+        () => import('@/entities/weight-changer/ui/WeightChangerModal.vue'),
+      )
     default:
       return null
   }

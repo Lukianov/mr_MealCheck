@@ -39,6 +39,7 @@ export interface Macros {
 export interface DailyStatsResponse {
   reached: Macros
   goal: Macros
+  weight: number
 }
 
 export interface UploadAnalysisResponse {

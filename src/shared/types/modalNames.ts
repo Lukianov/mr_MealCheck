@@ -4,4 +4,5 @@ export const enum ModalNames {
   DeleteMealModal = 'DeleteMealModal',
   PhotoLoaderModal = 'PhotoLoaderModal',
   RetakePhotoModal = 'RetakePhotoModal',
+  WeightChangerModal = 'WeightChangerModal',
 }

@@ -19,7 +19,7 @@
               {{ safeStats?.reached.kcal ?? 0 }} {{ ru.metrics.kcal }}
             </p>
             <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-              {{ ru.metrics.from ?? 0 }} {{ safeStats.goal.kcal }}
+              {{ ru.metrics.from }} {{ safeStats?.goal?.kcal ?? 0 }}
             </p>
           </template>
         </div>

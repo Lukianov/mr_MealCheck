@@ -13,6 +13,11 @@
         :stats="dailyStatsCache"
         :loading="statsLoading"
       />
+      <WeightChanger
+        :weight="dailyStatsCache?.weight"
+        :is-today="isToday"
+        class="mb-6"
+      />
       <MealList :meals="mealsCache" :loading="mealsLoading" />
     </div>
     <LogMeal class="fixed bottom-12 right-4" @update-data="loadAll" />
@@ -25,9 +30,16 @@ import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
 import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
+import WeightChanger from '@/entities/weight-changer/ui/WeightChanger.vue'
 
-const { dailyStatsCache, mealsCache, statsLoading, mealsLoading, loadAll } =
-  useMainPage()
+const {
+  dailyStatsCache,
+  mealsCache,
+  statsLoading,
+  mealsLoading,
+  loadAll,
+  isToday,
+} = useMainPage()
 </script>
 
 <style scoped></style>

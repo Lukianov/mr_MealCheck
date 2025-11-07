@@ -1,6 +1,7 @@
 import WebApp from '@twa-dev/sdk'
 import { useApiClient } from '@/shared/api'
 import { RouteName, router } from '@/shared/lib/router'
+import { isDev } from '@/shared/env/env'
 
 export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 
@@ -8,7 +9,7 @@ async function checkUserOnboardingProcess() {
   const canUseCloudStorage =
     WebApp.CloudStorage && typeof WebApp.CloudStorage.getItem === 'function'
 
-  if (canUseCloudStorage) {
+  if (canUseCloudStorage && !isDev) {
     const onboardingKey = await new Promise<string | undefined>(
       (resolve, reject) => {
         WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY, (err, value) => {

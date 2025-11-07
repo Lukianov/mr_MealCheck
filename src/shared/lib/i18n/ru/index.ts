@@ -75,11 +75,21 @@ export const ru = {
     title: 'За сегодня',
     more: 'Подробнее',
   },
+  weightChangerModal: {
+    title: 'Обновление веса',
+    description: 'Введите актуальное значение, чтобы отслеживать прогресс',
+    save: 'Сохранить',
+  },
+  weightProgressWidget: {
+    addValue: 'Добавить значения',
+  },
   metrics: {
     kcal: 'ккал',
     from: 'из',
     protein: 'белки',
     fat: 'жиры',
     carbs: 'углеводы',
+    weight: 'Вес',
+    kilo: 'кг',
   },
 }

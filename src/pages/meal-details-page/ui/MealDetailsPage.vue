@@ -48,7 +48,7 @@
               id="dish-section"
               class="mb-6"
               :dishes="dishList"
-              @on-delete="handleDelete"
+              @on-delete="setOpenedModal(ModalNames.DeleteMealModal)"
             />
           </template>
           <ResendMeal :meal-id="mealId" v-else-if="!hasMeal && !isLoading" />
@@ -91,7 +91,6 @@ import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
-import { useDeleteDish } from '@/entities/meal/api/useDeleteDish'
 
 const route = useRoute()
 
@@ -100,8 +99,6 @@ const { data, isLoading, fetchMeal } = useMealDetails()
 const { markViewed } = useMarkMealViewed()
 
 const { mealsCache } = useMainPage()
-
-const { deleteDish } = useDeleteDish()
 
 const mealId = computed(() => {
   const raw = route.params.id
@@ -146,8 +143,6 @@ onMounted(async () => {
 })
 
 const hasMeal = computed(() => !isLoading.value && data.value)
-
-const handleDelete = (mealId: number) => {}
 
 const MEAL_TYPE_LABEL: Record<MealType, string> = {
   breakfast: 'Breakfast',

@@ -115,7 +115,14 @@ export function useMainPage() {
     await Promise.all([fetchStats(targetDate), fetchMeals(targetDate)])
   }
 
+  const isToday = computed(() =>
+    currentSelectedDate.value
+      ? currentSelectedDate.value.toDateString() === new Date().toDateString()
+      : false,
+  )
+
   return {
+    isToday,
     dailyStatsCache,
     mealsCache,
     statsLoading,
