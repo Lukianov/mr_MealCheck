@@ -92,4 +92,15 @@ export const ru = {
     weight: 'Вес',
     kilo: 'кг',
   },
+  userStatistics: {
+    title: 'Дневник изменений',
+    description: 'Здесь мы бережно храним данные \n о вашем прогрессе',
+    chartUserCalories: {
+      title: 'Потребление калорий'
+    },
+    chartUserWeight: {
+      title: 'Изменение веса'
+    },
+    loading: 'Загрузка...'
+  },
 }
