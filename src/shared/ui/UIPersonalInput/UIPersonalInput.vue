@@ -1,6 +1,19 @@
 <template>
   <div class="inline-flex rounded-3xl items-center py-3 px-5 ui-personal-input">
     <input
+      v-if="props.mask"
+      class="ui-personal-input__input"
+      v-maska="props.mask"
+      :placeholder="props.placeholder"
+      :name="props.placeholder"
+      :size="props.size"
+      :inputmode="props.inputmode"
+      :pattern="props.pattern"
+      :maxlength="props.maxlength"
+      v-model="modelValue"
+    />
+    <input
+      v-else
       class="ui-personal-input__input"
       :placeholder="props.placeholder"
       :name="props.placeholder"
@@ -15,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { vMaska } from 'maska/vue'
 import { computed } from 'vue'
 
 interface Props {
@@ -23,11 +37,12 @@ interface Props {
   inputmode?: 'numeric' | 'text'
   pattern?: string
   maxlength?: string
+  mask?: string
 }
 
 const props = defineProps<Props>()
 
-const modelValue = defineModel<number | null>({ default: null })
+const modelValue = defineModel<string | number | null>({ default: null })
 
 const displayValue = computed(() =>
   typeof modelValue.value === 'number' ? String(modelValue.value) : '',
@@ -36,6 +51,11 @@ const displayValue = computed(() =>
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement
   const rawValue = target.value
+
+  if (props.inputmode === 'text') {
+    modelValue.value = target.value
+  }
+
   const sanitizedValue = rawValue.replace(/\D/g, '')
 
   target.value = sanitizedValue

@@ -8,14 +8,18 @@ import { ru } from '@/shared/lib/i18n/ru'
 export const useOnboarding = () => {
   const currentSlideIndex = ref(0)
 
-  const { personalWeight, personalHeight } = useGoalSelection()
+  const { personalWeight, personalHeight, personalAge } = useGoalSelection()
 
   const isDisabled = computed(() => {
     if (currentSlideIndex.value === 3 && !personalWeight.value) {
       return true
     }
 
-    return currentSlideIndex.value === 4 && !personalHeight.value
+    if (currentSlideIndex.value === 4 && !personalHeight.value) {
+      return true
+    }
+
+    return currentSlideIndex.value === 5 && !personalAge.value
   })
 
   watch(isDisabled, (isFlag) => {
@@ -29,7 +33,7 @@ export const useOnboarding = () => {
   const { sendOnboardingCharacteristics } = useGoalSelection()
 
   function goToNextSlide() {
-    if (currentSlideIndex.value === 5) {
+    if (currentSlideIndex.value === 7) {
       try {
         void sendOnboardingCharacteristics()
 
@@ -43,7 +47,7 @@ export const useOnboarding = () => {
       return
     }
 
-    if (currentSlideIndex.value === 4) {
+    if (currentSlideIndex.value === 6) {
       WebApp.MainButton.setText(ru.onboarding.final)
     }
 

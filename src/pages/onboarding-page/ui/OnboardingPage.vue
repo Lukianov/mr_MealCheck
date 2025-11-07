@@ -15,6 +15,8 @@ import HeightSlide from '@/features/onboarding/ui/slides/HeightSlide.vue'
 import FinishSlide from '@/features/onboarding/ui/slides/FinishSlide.vue'
 import GenderSlide from '@/features/onboarding/ui/slides/GenderSlide.vue'
 import { computed } from 'vue'
+import AgeSlide from '@/features/onboarding/ui/slides/AgeSlide.vue'
+import ActivityLevelSlide from '@/features/onboarding/ui/slides/ActivityLevelSlide.vue'
 
 const { currentSlideIndex } = useOnboarding()
 
@@ -24,7 +26,9 @@ const SLIDES_MAP = {
   2: GenderSlide,
   3: WeightSlide,
   4: HeightSlide,
-  5: FinishSlide,
+  5: AgeSlide,
+  6: ActivityLevelSlide,
+  7: FinishSlide,
 }
 
 const currentSlide = computed(() => SLIDES_MAP[currentSlideIndex.value])

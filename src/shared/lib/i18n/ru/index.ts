@@ -2,6 +2,32 @@ export const ru = {
   onboarding: {
     buttonTitle: 'Next',
     final: 'Let`s go',
+    birthDate: {
+      title: 'Дата рождения',
+      description: 'Дата нужна для точного расчёта базового метаболизма',
+    },
+    activityLevel: {
+      title: 'Уровень активности',
+      description: 'Рассчитаем норму каллорий под вашу цель',
+      activityOptions: {
+        low: {
+          title: 'Низкая',
+          description: 'Сидячий образ жизни',
+        },
+        light: {
+          title: 'Легкая',
+          description: 'Активность в течение дня',
+        },
+        average: {
+          title: 'Умеренная',
+          description: '1–3 тренировки в неделю',
+        },
+        high: {
+          title: 'Высокая',
+          description: 'Тренировки почти каждый день',
+        },
+      },
+    },
   },
   summaryWidget: {
     caloriesShort: 'KCAL',
