@@ -71,4 +71,15 @@ export const ru = {
     acceptButton: 'Retake photo',
     cancel: 'Cancel',
   },
+  dailyProgressWidget: {
+    title: 'За сегодня',
+    more: 'Подробнее',
+  },
+  metrics: {
+    kcal: 'ккал',
+    from: 'из',
+    protein: 'белки',
+    fat: 'жиры',
+    carbs: 'углеводы',
+  },
 }

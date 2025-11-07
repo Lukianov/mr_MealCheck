@@ -19,6 +19,13 @@ export const routes: RouteRecordRaw[] = [
     meta: { tmaBackButton: true },
   },
   {
+    path: '/user-statistics-page',
+    name: RouteName.UserStatistics,
+    component: () =>
+      import('@/pages/user-statistics/ui/UserStatisticsPage.vue'),
+    meta: { tmaBackButton: true },
+  },
+  {
     path: '/',
     redirect: () => {
       return { path: '/main-page' }
