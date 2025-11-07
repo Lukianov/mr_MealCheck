@@ -4,6 +4,7 @@ import { useMeals } from '@/entities/meal/api/useMeals'
 import type { DailyStatsResponse, MealsResponse } from '@/entities/meal/types'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
+import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 
 export const currentSelectedDate = ref<Date | null>(new Date())
 
@@ -11,10 +12,10 @@ export const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
 
 const mealsCache = shallowRef<MealsResponse | null>(null)
 
-export function hasUnrecognizedNewMeal(
+export function getUnrecognizedNewMealId(
   dailyMeal: MealsResponse,
   newValue: MealsResponse,
-): boolean {
+): number | undefined {
   if (!dailyMeal) {
     return
   }
@@ -29,14 +30,16 @@ export function hasUnrecognizedNewMeal(
     const isEmpty = (m.dishes?.length ?? 0) === 0
 
     if (isNew && isEmpty) {
-      return true
+      return m.id
     }
   }
 
-  return false
+  return undefined
 }
 
 export function useMainPage() {
+  const { markViewed } = useMarkMealViewed()
+
   const { setOpenedModal } = useOverlayManager()
 
   const {
@@ -69,7 +72,16 @@ export function useMainPage() {
     mealsData,
     (value) => {
       if (value) {
-        if (hasUnrecognizedNewMeal(mealsCache.value, value)) {
+        const unrecognizedMealId = getUnrecognizedNewMealId(
+          mealsCache.value,
+          value,
+        )
+
+        if (unrecognizedMealId) {
+          markViewed(unrecognizedMealId).catch((error) => {
+            console.error('Unrecognized meal', error, value)
+          })
+
           setOpenedModal(ModalNames.RetakePhotoModal)
         }
 
