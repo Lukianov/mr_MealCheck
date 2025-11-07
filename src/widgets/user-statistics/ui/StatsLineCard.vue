@@ -131,12 +131,13 @@ function render(points: Point[]) {
       },
       scales: {
         x: {
-          grid: {
-            color: 'rgba(255,255,255,0.06)',
-            borderColor: 'rgba(255,255,255,0.08)',
-            borderDash: [4, 4],
-            tickColor: 'rgba(0,0,0,0)',
-          },
+          //TODO: прикрутить цвет грида
+          // grid: {
+          //   color: 'rgba(255,255,255,0.06)',
+          //   borderColor: 'rgba(255,255,255,0.08)',
+          //   borderDash: [4, 4],
+          //   tickColor: 'rgba(0,0,0,0)',
+          // },
           ticks: {
             color: '#A1A1AA',
             maxRotation: 0,
@@ -145,11 +146,11 @@ function render(points: Point[]) {
         y: {
           beginAtZero: true,
           suggestedMax: props.yMax ?? undefined,
-          grid: {
-            color: 'rgba(255,255,255,0.06)',
-            borderColor: 'rgba(255,255,255,0.08)',
-            borderDash: [4, 4],
-          },
+          // grid: {
+          //   color: 'rgba(255,255,255,0.06)',
+          //   borderColor: 'rgba(255,255,255,0.08)',
+          //   borderDash: [4, 4],
+          // },
           ticks: { color: '#A1A1AA' },
         },
       },

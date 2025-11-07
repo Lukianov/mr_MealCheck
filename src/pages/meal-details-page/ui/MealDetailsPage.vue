@@ -49,10 +49,7 @@
               class="mb-6"
               :dishes="dishList"
               @on-delete="
-                setOpenedModal(ModalNames.DeleteDishModal, {
-                  dish: event,
-                  meal: data,
-                })
+                setOpenedModal(ModalNames.DeleteDishModal)
               "
             />
           </template>
@@ -96,6 +93,8 @@ import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
+
+//TODO: прикрутить прокидывание modalPayload для dishDelete
 
 const route = useRoute()
 
