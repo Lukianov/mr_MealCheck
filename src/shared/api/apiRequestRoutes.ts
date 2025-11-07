@@ -4,4 +4,5 @@ export const enum ApiResponseType {
   GetUserDailyStats = 'users/meals/stats',
   GetUserMeals = 'users/meals',
   GetMealAnalyzedStatus = 'users/meals/analyses/',
+  DeleteDish = 'users/meals/',
 }

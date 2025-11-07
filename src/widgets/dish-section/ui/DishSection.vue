@@ -4,6 +4,9 @@
       <template #header>
         {{ dish.name }}
       </template>
+      <template #icon>
+        <TrashIcon @click="emit('on-delete', dish.id)" />
+      </template>
       <template #default>
         <KeyValueRow label="Weight" :value="dish.weight" />
         <KeyValueRow label="Recommendation" :value="dish.recommendation" />
@@ -33,6 +36,9 @@ import StatChip from '@/shared/ui/StatChip.vue'
 import Card from '@/shared/ui/Card.vue'
 import KeyValueRow from '@/shared/ui/KeyValueRow.vue'
 import { ru } from '@/shared/lib/i18n/ru'
+import TrashIcon from '@/shared/assets/icons/trash-icon.svg'
 
 const props = defineProps<{ dishes: Dish[] }>()
+
+const emit = defineEmits<{ (e: 'on-delete', dishId: number): void }>()
 </script>

@@ -1,5 +1,5 @@
 export interface Dish {
-  id: string
+  id: number
   name: string
   weight?: string
   calories?: number
