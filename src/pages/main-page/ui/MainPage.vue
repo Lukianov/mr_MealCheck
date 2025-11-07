@@ -20,7 +20,13 @@
       />
       <MealList :meals="mealsCache" :loading="mealsLoading" />
     </div>
-    <LogMeal class="fixed bottom-12 right-4" @update-data="loadAll" />
+    <transition name="fade">
+      <LogMeal
+        v-show="isToday"
+        class="fixed bottom-12 right-4"
+        @update-data="loadAll"
+      />
+    </transition>
   </div>
 </template>
 

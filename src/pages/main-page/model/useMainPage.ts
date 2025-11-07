@@ -1,4 +1,4 @@
-import { computed, onBeforeMount, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { useDailyMealsStats } from '@/entities/meal/api/useDailyMealsStats'
 import { useMeals } from '@/entities/meal/api/useMeals'
 import type { DailyStatsResponse, MealsResponse } from '@/entities/meal/types'
@@ -12,58 +12,35 @@ export const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
 
 const mealsCache = shallowRef<MealsResponse | null>(null)
 
-export function getUnrecognizedNewMealId(
-  dailyMeal: MealsResponse,
-  newValue: MealsResponse,
-): number | undefined {
-  if (!dailyMeal) {
+const { markViewed } = useMarkMealViewed()
+
+const { setOpenedModal } = useOverlayManager()
+
+const {
+  data: statsData,
+  isLoading: statsLoading,
+  fetchStats,
+} = useDailyMealsStats()
+
+const { data: mealsData, isLoading: mealsLoading, fetchMeals } = useMeals()
+
+const initialized = ref(false)
+
+function initOnce() {
+  if (initialized.value) {
     return
   }
 
-  const existingIds = new Set(dailyMeal.meals.map((m) => m.id))
+  initialized.value = true
 
-  for (let i = 0; i < newValue.meals.length; i++) {
-    const m = newValue.meals[i]
-
-    const isNew = !existingIds.has(m.id)
-
-    const isEmpty = (m.dishes?.length ?? 0) === 0
-
-    if (isNew && isEmpty) {
-      return m.id
-    }
-  }
-
-  return undefined
-}
-
-export function useMainPage() {
-  const { markViewed } = useMarkMealViewed()
-
-  const { setOpenedModal } = useOverlayManager()
-
-  const {
-    data: statsData,
-    isLoading: statsLoading,
-    fetchStats,
-  } = useDailyMealsStats()
-
-  const { data: mealsData, isLoading: mealsLoading, fetchMeals } = useMeals()
-
-  watch(currentSelectedDate, async (value) => {
-    try {
-      await loadAll(value ?? undefined)
-    } catch (err) {
-      console.error('Failed to fetch main page data', err)
-    }
+  watch(currentSelectedDate, (value) => {
+    void loadAll(value ?? undefined)
   })
 
   watch(
     statsData,
     (value) => {
-      if (value) {
-        dailyStatsCache.value = value
-      }
+      if (value) dailyStatsCache.value = value
     },
     { flush: 'post' },
   )
@@ -81,7 +58,6 @@ export function useMainPage() {
           markViewed(unrecognizedMealId).catch((error) => {
             console.error('Unrecognized meal', error, value)
           })
-
           setOpenedModal(ModalNames.RetakePhotoModal)
         }
 
@@ -91,35 +67,50 @@ export function useMainPage() {
     { flush: 'post' },
   )
 
-  onBeforeMount(() => {
-    if (dailyStats.value) {
-      return
-    }
-
+  if (!dailyStatsCache.value) {
     void loadAll()
-  })
-
-  const dailyStats = computed(() => statsData.value ?? dailyStatsCache.value)
-
-  async function loadStats(date?: Date | null) {
-    await fetchStats(date ?? undefined)
   }
+}
 
-  async function loadMeals(date?: Date | null) {
-    await fetchMeals(date ?? undefined)
+function getUnrecognizedNewMealId(
+  dailyMeal: MealsResponse | null,
+  newValue: MealsResponse,
+): number | undefined {
+  if (!dailyMeal) return
+  const existingIds = new Set(dailyMeal.meals.map((m) => m.id))
+  for (let i = 0; i < newValue.meals.length; i++) {
+    const m = newValue.meals[i]
+    const isNew = !existingIds.has(m.id)
+    const isEmpty = (m.dishes?.length ?? 0) === 0
+    if (isNew && isEmpty) return m.id
   }
+  return undefined
+}
 
-  async function loadAll(date?: Date | null) {
-    const targetDate = date ?? currentSelectedDate.value ?? undefined
+async function loadStats(date?: Date | null) {
+  await fetchStats(date ?? undefined)
+}
 
-    await Promise.all([fetchStats(targetDate), fetchMeals(targetDate)])
-  }
+async function loadMeals(date?: Date | null) {
+  await fetchMeals(date ?? undefined)
+}
 
-  const isToday = computed(() =>
-    currentSelectedDate.value
-      ? currentSelectedDate.value.toDateString() === new Date().toDateString()
-      : false,
-  )
+async function loadAll(date?: Date | null) {
+  const targetDate = date ?? currentSelectedDate.value ?? undefined
+
+  await Promise.all([fetchStats(targetDate), fetchMeals(targetDate)])
+}
+
+const isToday = computed(() =>
+  currentSelectedDate.value
+    ? currentSelectedDate.value.toDateString() === new Date().toDateString()
+    : false,
+)
+
+const dailyStats = computed(() => statsData.value ?? dailyStatsCache.value)
+
+export function useMainPage() {
+  initOnce()
 
   return {
     isToday,
@@ -130,5 +121,7 @@ export function useMainPage() {
     loadStats,
     loadMeals,
     loadAll,
+    dailyStats,
+    currentSelectedDate,
   }
 }

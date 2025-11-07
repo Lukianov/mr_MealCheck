@@ -41,3 +41,13 @@ a, button, [role="button"] {
     @apply m-0 min-h-screen min-w-80 text-slate-100 antialiased;
   }
 }
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}

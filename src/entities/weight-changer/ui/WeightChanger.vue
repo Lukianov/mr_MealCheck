@@ -21,7 +21,7 @@
     </div>
     <div
       class="flex gap-4 mt-3"
-      v-if="isToday || true"
+      v-if="isToday"
       @click="setOpenedModal(ModalNames.WeightChangerModal, props.weight)"
     >
       <div class="pt-3">
