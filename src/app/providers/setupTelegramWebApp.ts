@@ -4,6 +4,29 @@ import { RouteName, router } from '@/shared/lib/router'
 
 export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 
+async function checkUserOnboardingProcess() {
+  const canUseCloudStorage =
+    WebApp.CloudStorage && typeof WebApp.CloudStorage.getItem === 'function'
+
+  if (canUseCloudStorage) {
+    const onboardingKey = await new Promise<string | undefined>(
+      (resolve, reject) => {
+        WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY, (err, value) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(value)
+          }
+        })
+      },
+    )
+
+    if (!onboardingKey) {
+      void router.push({ name: RouteName.Onboarding })
+    }
+  }
+}
+
 export const setupTelegramWebApp = async () => {
   const { setTelegramInitData } = useApiClient()
 
@@ -19,21 +42,7 @@ export const setupTelegramWebApp = async () => {
 
   setTelegramInitData(WebApp.initData)
 
-  const onboardingKey = await new Promise<string | undefined>(
-    (resolve, reject) => {
-      WebApp.CloudStorage.getItem(IS_ONBOARDING_PASSED_KEY, (err, value) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(value)
-        }
-      })
-    },
-  )
-
-  if (!onboardingKey) {
-    void router.push({ name: RouteName.Onboarding })
-  }
+  void checkUserOnboardingProcess()
 
   WebApp.expand()
 }

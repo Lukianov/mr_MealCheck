@@ -6,13 +6,13 @@ import type {
   ApiRequestOptions,
   BeforeRequestHooks,
 } from './types'
+import { isDev } from '@/shared/env/env'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api'
-
-const SKIP_AUTH_HEADER = 'x-mrmealcheck-skip-auth'
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? 'https://mealcheck.backend.kolupaev.tech/api'
 
 const setTelegramInitData = (initData: string): string | null => {
-  telegramInitData.value = initData
+  telegramInitData.value = isDev ? 'testik_pestik-10943' : initData
 
   return telegramInitData.value
 }
@@ -23,14 +23,6 @@ const clientRef = shallowRef<KyInstance | null>(null)
 
 const beforeRequest: BeforeRequestHooks = [
   (request) => {
-    const shouldSkip = request.headers.get(SKIP_AUTH_HEADER)
-
-    if (shouldSkip === 'true') {
-      request.headers.delete(SKIP_AUTH_HEADER)
-
-      return
-    }
-
     const currentInitData = telegramInitData.value
 
     if (currentInitData && !telegramInitData.value) {
@@ -51,31 +43,6 @@ const createClient = (): KyInstance =>
     },
   })
 
-const withSkipAuthHeader = (
-  headers?: KyOptions['headers'],
-): KyOptions['headers'] => {
-  if (typeof headers === 'undefined') {
-    return {
-      [SKIP_AUTH_HEADER]: 'true',
-    }
-  }
-
-  if (typeof Headers !== 'undefined' && headers instanceof Headers) {
-    const clone = new Headers(headers)
-    clone.set(SKIP_AUTH_HEADER, 'true')
-    return clone
-  }
-
-  if (Array.isArray(headers)) {
-    return [...headers, [SKIP_AUTH_HEADER, 'true']] as KyOptions['headers']
-  }
-
-  return {
-    ...(headers as Record<string, string | undefined>),
-    [SKIP_AUTH_HEADER]: 'true',
-  } as KyOptions['headers']
-}
-
 export const apiClient = (): KyInstance => {
   if (!clientRef.value) {
     clientRef.value = createClient()
@@ -88,15 +55,13 @@ export const apiRequest = async <T>(
   input: ApiRequestInput,
   options: ApiRequestOptions = {},
 ): Promise<T> => {
-  const { skipAuth, headers, ...kyOptions } = options
+  const { headers, ...kyOptions } = options
 
   const instance = apiClient()
 
-  const finalHeaders = skipAuth ? withSkipAuthHeader(headers) : headers
-
   const finalOptions: KyOptions = {
     ...kyOptions,
-    headers: finalHeaders,
+    headers,
   }
 
   return instance(input, finalOptions).json<T>()
