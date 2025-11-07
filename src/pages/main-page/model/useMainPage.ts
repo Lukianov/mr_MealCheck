@@ -8,7 +8,7 @@ import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 
 export const currentSelectedDate = ref<Date | null>(new Date())
 
-export const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
+const dailyStatsCache = shallowRef<DailyStatsResponse | null>(null)
 
 const mealsCache = shallowRef<MealsResponse | null>(null)
 
@@ -40,7 +40,9 @@ function initOnce() {
   watch(
     statsData,
     (value) => {
-      if (value) dailyStatsCache.value = value
+      if (value) {
+        dailyStatsCache.value = value
+      }
     },
     { flush: 'post' },
   )

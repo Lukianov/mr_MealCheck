@@ -1,5 +1,1 @@
-export {
-  useMainPage,
-  currentSelectedDate,
-  dailyStatsCache,
-} from './useMainPage'
+export { useMainPage, currentSelectedDate } from './useMainPage'
