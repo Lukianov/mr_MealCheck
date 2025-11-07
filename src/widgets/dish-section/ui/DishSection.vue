@@ -5,7 +5,7 @@
         {{ dish.name }}
       </template>
       <template #icon>
-        <TrashIcon @click="emit('on-delete', dish.id)" />
+        <TrashIcon class="w-5 h-5" @click="emit('on-delete', dish.id)" />
       </template>
       <template #default>
         <KeyValueRow label="Weight" :value="dish.weight" />
