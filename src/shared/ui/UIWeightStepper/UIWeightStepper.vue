@@ -1,8 +1,8 @@
 <!-- src/shared/ui/WeightStepper/WeightStepper.vue -->
 <template>
   <div
-    class="weight-stepper relative inline-flex items-center justify-between select-none rounded-[999px] bg-[#111] text-white"
-    :class="[disabled ? 'opacity-60' : 'opacity-100', sizeClass.container]"
+    class="weight-stepper relative inline-flex items-center justify-between select-none rounded-[999px] bg-[#111] text-white h-14 px-5 gap-3"
+    :class="[disabled ? 'opacity-60' : 'opacity-100']"
     role="group"
     aria-label="Выбор веса"
     @wheel.passive="onWheel"
@@ -10,7 +10,6 @@
     @keydown.right.prevent="nudge(1)"
     tabindex="0"
   >
-    <!-- внешняя окантовка -->
     <span
       class="pointer-events-none absolute inset-0 rounded-[999px]"
       aria-hidden="true"
@@ -18,8 +17,7 @@
 
     <button
       type="button"
-      class="btn"
-      :class="sizeClass.button"
+      class="btn w-10 h-10"
       :disabled="isMin || disabled"
       aria-label="Уменьшить вес"
       @mousedown="press(-1)"
@@ -28,12 +26,10 @@
       @mouseleave="release"
       @touchend="release"
     >
-      <span class="icon" :class="sizeClass.icon">−</span>
+      <span class="icon text-[18px]">−</span>
     </button>
-
     <output
-      class="value font-semibold text-white"
-      :class="sizeClass.text"
+      class="value font-semibold text-white text-[18px] tracking-tight"
       :aria-live="disabled ? 'off' : 'polite'"
     >
       {{ formatted }} кг
@@ -41,8 +37,7 @@
 
     <button
       type="button"
-      class="btn"
-      :class="sizeClass.button"
+      class="btn w-10 h-10"
       :disabled="isMax || disabled"
       aria-label="Увеличить вес"
       @mousedown="press(1)"
@@ -51,7 +46,7 @@
       @mouseleave="release"
       @touchend="release"
     >
-      <span class="icon" :class="sizeClass.icon">+</span>
+      <span class="icon text-[18px]">+</span>
     </button>
   </div>
 </template>
@@ -84,9 +79,10 @@ const emit = defineEmits<{
   (e: 'change', v: number): void
 }>()
 
-// ——— безопасная работа с десятичным шагом 0.1 (без ошибок float)
 const scale = computed(() => Math.round(1 / props.step))
+
 const clamp = (v: number) => Math.min(props.max!, Math.max(props.min!, v))
+
 const roundToStep = (v: number) => Math.round(v * scale.value) / scale.value
 
 const value = ref(roundToStep(clamp(props.modelValue)))
@@ -122,15 +118,19 @@ function nudge(dir: -1 | 1) {
   setValue(value.value + dir * props.step)
 }
 
-// ——— удержание кнопки (press&hold)
 let holdTimer: number | null = null
+
 let repeatTimer: number | null = null
 
 function press(dir: -1 | 1) {
-  if (props.disabled) return
+  if (props.disabled) {
+    return
+  }
+
   nudge(dir)
+
   clearTimers()
-  // задержка перед автоповтором
+
   holdTimer = window.setTimeout(() => {
     repeatTimer = window.setInterval(() => nudge(dir), 60)
   }, 300)
@@ -153,32 +153,11 @@ function clearTimers() {
 
 onBeforeUnmount(clearTimers)
 
-// ——— колёсико мыши
 function onWheel(e: WheelEvent) {
   if (props.disabled) return
   const dir = e.deltaY > 0 ? -1 : 1
   nudge(dir as -1 | 1)
 }
-
-// размеры
-const sizeClass = computed(() => {
-  const map: Record<Size, any> = {
-    md: {
-      container: 'h-14 px-5 gap-3',
-      button: 'w-10 h-10',
-      icon: 'text-[18px]',
-      text: 'text-[18px] tracking-tight',
-    },
-    lg: {
-      container: 'h-14 px-5 gap-3',
-      button: 'w-10 h-10',
-      icon: 'text-[18px]',
-      text: 'text-[18px] tracking-tight',
-    },
-  }
-
-  return map[props.size]
-})
 </script>
 
 <style scoped>

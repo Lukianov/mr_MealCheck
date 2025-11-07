@@ -8,10 +8,7 @@ const modalPayload = ref<unknown | null>(null)
 export function useOverlayManager() {
   const isVisible = computed(() => Boolean(openedModal.value))
 
-  function setOpenedModal(
-    overlayName: ModalNames | null,
-    payload?: unknown | null,
-  ) {
+  function setOpenedModal(overlayName: ModalNames, payload?: unknown) {
     modalPayload.value = payload ?? null
 
     openedModal.value = overlayName

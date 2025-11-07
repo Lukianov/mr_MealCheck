@@ -39,6 +39,10 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/weight-changer/ui/WeightChangerModal.vue'),
       )
+    case ModalNames.DeleteDishModal:
+      return defineAsyncComponent(
+        () => import('@/entities/meal/ui/DeleteDishModal.vue'),
+      )
     default:
       return null
   }

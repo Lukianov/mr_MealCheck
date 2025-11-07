@@ -5,7 +5,7 @@
         {{ dish.name }}
       </template>
       <template #icon>
-        <TrashIcon class="w-5 h-5" @click="emit('on-delete', dish.id)" />
+        <TrashIcon class="w-5 h-5" @click="emit('on-delete', dish)" />
       </template>
       <template #default>
         <KeyValueRow label="Weight" :value="dish.weight" />
@@ -40,5 +40,5 @@ import TrashIcon from '@/shared/assets/icons/trash-icon.svg'
 
 const props = defineProps<{ dishes: Dish[] }>()
 
-const emit = defineEmits<{ (e: 'on-delete', dishId: number): void }>()
+const emit = defineEmits<{ (e: 'on-delete', dish: Dish): void }>()
 </script>

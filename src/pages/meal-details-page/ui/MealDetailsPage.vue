@@ -48,7 +48,12 @@
               id="dish-section"
               class="mb-6"
               :dishes="dishList"
-              @on-delete="setOpenedModal(ModalNames.DeleteMealModal)"
+              @on-delete="
+                setOpenedModal(ModalNames.DeleteDishModal, {
+                  dish: event,
+                  meal: data,
+                })
+              "
             />
           </template>
           <ResendMeal :meal-id="mealId" v-else-if="!hasMeal && !isLoading" />

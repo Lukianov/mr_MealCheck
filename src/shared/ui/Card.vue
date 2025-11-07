@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div class="flex justify-between items-center">
-      <h2 class="px-4 text-white font-semibold text-base tracking-tight mb-2">
+    <div class="flex justify-between items-center px-4">
+      <h2 class="text-white font-semibold text-base tracking-tight mb-2">
         <slot name="header" />
       </h2>
       <slot name="icon" />

@@ -12,7 +12,7 @@
           {{ ru.weightChangerModal.description }}
         </p>
         <div class="flex justify-center">
-          <UIWeightStepper v-model="modalPayload as number" class="mb-7" />
+          <UIWeightStepper v-model="payload" class="mb-7" />
         </div>
         <UIButton
           @click="handleSave"
@@ -34,13 +34,16 @@ import UIBaseModal from '@/shared/ui/UIBaseModal/UIBaseModal.vue'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { sendOnboardingRequest } from '@/features/onboarding/api/sendOnboardingRequest'
 import { useMainPage } from '@/pages/main-page/model'
+import { ref } from 'vue'
 
 const { modalPayload, setOpenedModal } = useOverlayManager()
 
 const { dailyStatsCache } = useMainPage()
 
+const payload = ref(modalPayload.value as number)
+
 const handleSave = async () => {
-  await sendOnboardingRequest({ weight: modalPayload.value as number })
+  await sendOnboardingRequest({ weight: payload.value })
 
   dailyStatsCache.value.weight = modalPayload.value as number
 

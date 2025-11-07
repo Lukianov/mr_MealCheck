@@ -96,11 +96,17 @@ export const ru = {
     title: 'Дневник изменений',
     description: 'Здесь мы бережно храним данные \n о вашем прогрессе',
     chartUserCalories: {
-      title: 'Потребление калорий'
+      title: 'Потребление калорий',
     },
     chartUserWeight: {
-      title: 'Изменение веса'
+      title: 'Изменение веса',
     },
-    loading: 'Загрузка...'
+    loading: 'Загрузка...',
+  },
+  deleteDishModal: {
+    title: (title: string) => `Удалить ${title} из приема пищи?`,
+    description: 'Это действие невозможно отменить',
+    delete: 'Удалить',
+    cancel: 'Отменить',
   },
 }

@@ -18,22 +18,6 @@ export const useISODate = () => {
     return `${y}-${m}-${d}T${hh}:${mm}:${ss}.${ms}${sign}${tzh}:${tzm}`
   }
 
-  function daysInMonth(y: number, mZeroBased: number) {
-    return new Date(y, mZeroBased + 1, 0).getDate()
-  }
-
-  function subMonthsClamped(d: Date, months: number) {
-    const y = d.getFullYear()
-    const m = d.getMonth()
-    const target = new Date(y, m - months, 1) // 1-е число целевого месяца
-    const day = Math.min(
-      d.getDate(),
-      daysInMonth(target.getFullYear(), target.getMonth()),
-    )
-    target.setDate(day)
-    return target
-  }
-
   function endOfDay(date: Date): Date {
     const d = new Date(date)
 
