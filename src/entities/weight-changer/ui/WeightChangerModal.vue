@@ -45,7 +45,7 @@ const payload = ref(modalPayload.value as number)
 const handleSave = async () => {
   await sendOnboardingRequest({ weight: payload.value })
 
-  dailyStatsCache.value.weight = modalPayload.value as number
+  dailyStatsCache.value.weight = payload.value as number
 
   setOpenedModal(null)
 }
