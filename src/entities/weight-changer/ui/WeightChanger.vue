@@ -15,7 +15,7 @@
           {{ ru.metrics.weight }}
         </p>
         <p class="text-[18px] leading-6 text-white">
-          {{ props.weight }}{{ ru.metrics.kilo }}
+          {{ props?.weight }}{{ ru.metrics.kilo }}
         </p>
       </div>
     </div>
@@ -48,7 +48,7 @@ import { ru } from '@/shared/lib/i18n/ru'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
 
-const props = defineProps<{ weight: number; isToday: boolean }>()
+const props = defineProps<{ weight?: number; isToday: boolean }>()
 
 const { setOpenedModal } = useOverlayManager()
 </script>
