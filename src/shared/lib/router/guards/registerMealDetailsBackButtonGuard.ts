@@ -1,25 +1,20 @@
 import WebApp from '@twa-dev/sdk'
-import type { RouteLocationRaw, Router } from 'vue-router'
-import { RouteName } from '@/shared/lib/router'
+import type { Router } from 'vue-router'
+import { RouteName, router } from '@/shared/lib/router'
 
 const historyBackHandler = () => {
-  window.history.back()
+  const hasBack =
+    Boolean(window.history.state?.back) || window.history.length > 1
+
+  if (hasBack) {
+    window.history.back()
+  } else {
+    router.push({ name: RouteName.Main })
+  }
 }
 
 export function registerTmaBackButtonGuard(router: Router) {
-  let currentFallback: RouteLocationRaw = {
-    name: RouteName.Main,
-  } as RouteLocationRaw
-
-  const backHandler = () => {
-    const hasBack = Boolean(window.history.state?.back)
-
-    if (hasBack) {
-      router.back()
-    } else {
-      router.replace(currentFallback || { path: '/main-page' })
-    }
-  }
+  WebApp.ready()
 
   WebApp.BackButton.offClick(historyBackHandler)
 
@@ -28,18 +23,9 @@ export function registerTmaBackButtonGuard(router: Router) {
   router.afterEach((to) => {
     const needBack = Boolean(to.meta?.tmaBackButton)
 
-    currentFallback = (to.meta?.backFallback as RouteLocationRaw) ?? {
-      name: RouteName.Main,
-    }
-
     if (needBack) {
-      WebApp.BackButton.offClick(backHandler)
-
-      WebApp.BackButton.onClick(backHandler)
-
       WebApp.BackButton.show()
     } else {
-      WebApp.BackButton.offClick(backHandler)
       WebApp.BackButton.hide()
     }
   })
