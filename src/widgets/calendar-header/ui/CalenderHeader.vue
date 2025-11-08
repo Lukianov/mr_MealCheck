@@ -7,9 +7,9 @@
     }"
   >
     <div class="flex items-center gap-1">
-      <RouterLink :to="{ path: '/onboarding-page' }">
+      <component :is="userPicComponent" :to="{ path: '/onboarding-page' }">
         <img class="w-7 h-7 rounded-full" :src="userPic" alt="user picture" />
-      </RouterLink>
+      </component>
       <p><span class="font-bold">Meal</span>check</p>
     </div>
     <DatePickerButton
@@ -24,8 +24,11 @@
 import { DatePickerButton } from '@/features/date-filter'
 import { computed } from 'vue'
 import { useApiClient } from '@/shared/api'
+import { useTestUserData } from '@/features/test-user-data/useTestUserData'
+import { RouterLink } from 'vue-router'
 
 const { userData } = useApiClient()
+const { isTestUser } = useTestUserData()
 
 const props = withDefaults(
   defineProps<{
@@ -48,4 +51,6 @@ const selectedDateProxy = computed({
 })
 
 const userPic = userData.value?.photo_url ?? ''
+
+const userPicComponent = computed(() => (isTestUser.value ? RouterLink : 'div'))
 </script>
