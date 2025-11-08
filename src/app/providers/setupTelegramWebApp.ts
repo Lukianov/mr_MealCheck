@@ -43,6 +43,8 @@ export const setupTelegramWebApp = async () => {
 
   setTelegramInitData(WebApp.initData)
 
+  console.warn('WebApp.initData', WebApp.initData)
+
   void checkUserOnboardingProcess()
 
   WebApp.expand()
