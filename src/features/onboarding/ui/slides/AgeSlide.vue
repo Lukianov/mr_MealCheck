@@ -7,34 +7,32 @@
         alt="onboarding-third-step.gif"
       />
     </div>
-    <div class="mb-8 text-center">
+    <div class="mb-8 text-center relative">
       <p class="mb-3 text-2xl font-bold text-white">
         <span class="font-bold">{{ ru.onboarding.birthDate.title }}</span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
         {{ ru.onboarding.birthDate.description }}
       </p>
-    </div>
-    <div class="relative">
       <div
-        class="absolute -top-6 left-0 w-full text-center whitespace-nowrap"
+        class="absolute left-0 w-full text-center"
         :style="{ color: 'rgba(255, 37, 80, 1)' }"
       >
         {{ personalAgeError }}
       </div>
-      <UIPersonalInput
-        v-model="personalAge"
-        class="mb-6"
-        placeholder="**.**.****"
-        mask="##.##.####"
-        size="10"
-        type="text"
-        inputmode="numeric"
-        pattern="[0-9]*"
-        maxlength="10"
-        @blur="validatePersonalAge"
-      />
     </div>
+    <UIPersonalInput
+      v-model="personalAge"
+      class="mb-6"
+      placeholder="**.**.****"
+      mask="##.##.####"
+      size="10"
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      maxlength="10"
+      @blur="validatePersonalAge"
+    />
     <PersonalParamSelector />
   </div>
 </template>
