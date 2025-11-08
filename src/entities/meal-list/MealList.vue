@@ -29,7 +29,7 @@
       class="text-white text-base text-center"
       :style="{ color: 'rgba(162, 172, 176, 1)' }"
     >
-      {{ mealRows.length }} meals
+      {{ formatMeals(mealRows.length) }}
     </p>
     <p
       v-else-if="!loading"
@@ -48,7 +48,8 @@ import MealRow from '@/features/meal-row/ui/MealRow.vue'
 import { ru } from '@/shared/lib/i18n/ru'
 import type { MealsResponse } from '@/entities/meal/types'
 import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
-import { TYPE_LABEL } from '@/shared/const'
+import { MEAL_FORMS, TYPE_LABEL } from '@/shared/const'
+import { pluralizeRu } from '@/shared/lib/helpers/pluralizeRu'
 
 const props = withDefaults(
   defineProps<{
@@ -88,6 +89,9 @@ const mealRows = computed<MealItem[]>(() => {
 })
 
 const loading = computed(() => props.loading)
+
+const formatMeals = (n: number, withNumber = true) =>
+  pluralizeRu(n, MEAL_FORMS, { withNumber })
 </script>
 
 <style scoped></style>

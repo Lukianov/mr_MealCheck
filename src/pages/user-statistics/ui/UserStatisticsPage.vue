@@ -15,7 +15,7 @@
         />
       </div>
       <p class="text-white mb-2 font-bold text-2xl">
-        {{ ru.weightChangerModal.title }}
+        {{ ru.userStatistics.title }}
       </p>
       <p
         class="text-base text-center"
