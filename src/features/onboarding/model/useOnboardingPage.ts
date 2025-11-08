@@ -20,11 +20,7 @@ export const useOnboarding = () => {
       return true
     }
 
-    if (currentSlideIndex.value === 4 && !personalHeight.value) {
-      return true
-    }
-
-    return currentSlideIndex.value === 5 && !isPersonalAgeValid.value
+    return currentSlideIndex.value === 4 && !personalHeight.value
   })
 
   watch(isDisabled, (isFlag) => {
