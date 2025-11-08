@@ -7,6 +7,7 @@ import {
   GoalType,
 } from '@/features/onboarding/const'
 import { sendOnboardingRequest } from '@/features/onboarding/api/sendOnboardingRequest'
+import {useISODate} from "@/shared/lib/composables/useISODate";
 
 const selectedGoal = ref<string>(GOAL_OPTIONS[0]?.id ?? '')
 
@@ -29,6 +30,8 @@ const sanitizedWeight = computed(() =>
 )
 
 export const useGoalSelection = () => {
+  const { toIsoDate } = useISODate()
+
   const selectGoal = (goalId: string) => {
     selectedGoal.value = goalId
   }
@@ -49,7 +52,7 @@ export const useGoalSelection = () => {
         height: sanitizedHeight.value,
         weight: sanitizedWeight.value,
         activityLevel: selectedActivityLevel.value,
-        birthDate: personalAge.value,
+        birthDate: toIsoDate(personalAge.value),
       })
     } catch (e) {
       console.error(e)

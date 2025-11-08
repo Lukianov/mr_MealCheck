@@ -50,9 +50,32 @@ export const useISODate = () => {
     }
   }
 
+  function toIsoDate(dotted: string): string | null {
+    const m = dotted.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
+
+    if (!m) return null
+
+    const d = Number(m[1]),
+      mo = Number(m[2]),
+      y = Number(m[3])
+
+    const dt = new Date(Date.UTC(y, mo - 1, d))
+
+    const ok =
+      dt.getUTCFullYear() === y &&
+      dt.getUTCMonth() + 1 === mo &&
+      dt.getUTCDate() === d
+
+    if (!ok) return null
+
+    const pad = (n: number) => String(n).padStart(2, '0')
+    return `${y}-${pad(mo)}-${pad(d)}`
+  }
+
   return {
     toLocalIsoWithOffset,
     endOfDay,
     getRange,
+    toIsoDate,
   }
 }
