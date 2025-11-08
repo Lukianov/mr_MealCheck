@@ -10,7 +10,7 @@
       />
     </div>
     <div class="mb-8 text-center">
-      <p class="mb-3 text-4xl leading-10">
+      <p class="mb-3 text-2xl leading-10">
         <span class="font-bold"> {{ ru.onboarding.finishSlide.title }} </span>
       </p>
       <p class="text-xl leading-6">

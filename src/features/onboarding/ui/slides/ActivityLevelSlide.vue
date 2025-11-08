@@ -8,7 +8,7 @@
       />
     </div>
     <div class="mb-8 text-center">
-      <p class="mb-2 text-3xl font-bold text-white">
+      <p class="mb-2 text-2xl font-bold text-white">
         <span class="font-bold"> {{ ru.onboarding.activityLevel.title }}</span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">

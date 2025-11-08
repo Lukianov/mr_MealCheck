@@ -8,7 +8,7 @@
       />
     </div>
     <div class="mb-8 text-center">
-      <p class="mb-3 text-3xl font-bold text-white">
+      <p class="mb-3 text-2xl font-bold text-white">
         <span class="font-bold">
           {{ ru.onboarding.genderSlide.title }}
         </span>
