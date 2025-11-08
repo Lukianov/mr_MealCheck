@@ -97,6 +97,7 @@ import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
 import { TYPE_LABEL } from '@/shared/const'
+import WebApp from "@twa-dev/sdk";
 
 const route = useRoute()
 
@@ -230,4 +231,6 @@ const dishList = computed(
 )
 
 const { setOpenedModal } = useOverlayManager()
+
+console.warn('WebApp.initData', WebApp.initData)
 </script>

@@ -37,7 +37,6 @@ import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
 import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
 import WeightChanger from '@/entities/weight-changer/ui/WeightChanger.vue'
-import WebApp from "@twa-dev/sdk";
 
 const {
   dailyStatsCache,
@@ -47,8 +46,6 @@ const {
   loadAll,
   isToday,
 } = useMainPage()
-
-console.warn('WebApp.initData', WebApp.initData)
 </script>
 
 <style scoped></style>
