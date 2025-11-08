@@ -28,6 +28,18 @@ async function checkUserOnboardingProcess() {
   }
 }
 
+function redirectByExtractDetailsId(raw: string): number | null {
+  const s = raw.replace(/^"|"$/g, '')
+
+  const m = s.match(/(?:^|[?&])start_param=details-(\d+)(?:&|$)/)
+
+  if (!m) {
+    return
+  }
+
+  void router.push({ name: RouteName.MealDetails, params: { id: m[1] } })
+}
+
 export const setupTelegramWebApp = async () => {
   const { setTelegramInitData } = useApiClient()
 
@@ -42,6 +54,8 @@ export const setupTelegramWebApp = async () => {
   WebApp.ready()
 
   setTelegramInitData(WebApp.initData)
+
+  redirectByExtractDetailsId(WebApp.initData)
 
   void checkUserOnboardingProcess()
 
