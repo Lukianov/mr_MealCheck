@@ -7,7 +7,7 @@ import {
   GoalType,
 } from '@/features/onboarding/const'
 import { sendOnboardingRequest } from '@/features/onboarding/api/sendOnboardingRequest'
-import {useISODate} from "@/shared/lib/composables/useISODate";
+import { useISODate } from '@/shared/lib/composables/useISODate'
 
 const selectedGoal = ref<string>(GOAL_OPTIONS[0]?.id ?? '')
 

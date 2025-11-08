@@ -38,6 +38,7 @@ interface Props {
   pattern?: string
   maxlength?: string
   mask?: string
+  type?: string
 }
 
 const props = defineProps<Props>()
@@ -52,7 +53,7 @@ const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement
   const rawValue = target.value
 
-  if (props.inputmode === 'text') {
+  if (props.type === 'text') {
     modelValue.value = target.value
   }
 
