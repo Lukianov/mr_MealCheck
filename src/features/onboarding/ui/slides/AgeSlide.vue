@@ -15,17 +15,26 @@
         {{ ru.onboarding.birthDate.description }}
       </p>
     </div>
-    <UIPersonalInput
-      v-model="personalAge"
-      class="mb-6"
-      placeholder="**.**.****"
-      mask="##.##.####"
-      size="10"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      maxlength="10"
-    />
+    <div class="relative">
+      <div
+        class="absolute -top-6 left-0 w-full text-center whitespace-nowrap"
+        :style="{ color: 'rgba(255, 37, 80, 1)' }"
+      >
+        {{ personalAgeError }}
+      </div>
+      <UIPersonalInput
+        v-model="personalAge"
+        class="mb-6"
+        placeholder="**.**.****"
+        mask="##.##.####"
+        size="10"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="10"
+        @blur="validatePersonalAge"
+      />
+    </div>
     <PersonalParamSelector />
   </div>
 </template>
@@ -36,7 +45,8 @@ import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { ru } from '@/shared/lib/i18n/ru'
 
-const { personalAge } = useGoalSelection()
+const { personalAge, personalAgeError, validatePersonalAge } =
+  useGoalSelection()
 </script>
 
 <style scoped></style>

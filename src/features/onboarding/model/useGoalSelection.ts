@@ -8,6 +8,7 @@ import {
 } from '@/features/onboarding/const'
 import { sendOnboardingRequest } from '@/features/onboarding/api/sendOnboardingRequest'
 import { useISODate } from '@/shared/lib/composables/useISODate'
+import { useBirthDateField } from '@/shared/lib/validate/useBirthDateField'
 
 const selectedGoal = ref<string>(GOAL_OPTIONS[0]?.id ?? '')
 
@@ -19,7 +20,7 @@ const personalHeight = ref<number | null>(null)
 
 const personalWeight = ref<number | null>(null)
 
-const personalAge = ref<string | null>(null)
+// const personalAge = ref<string | null>(null)
 
 const sanitizedHeight = computed(() =>
   typeof personalHeight.value === 'number' ? personalHeight.value : undefined,
@@ -28,6 +29,14 @@ const sanitizedHeight = computed(() =>
 const sanitizedWeight = computed(() =>
   typeof personalWeight.value === 'number' ? personalWeight.value : undefined,
 )
+
+const {
+  value: personalAge, // строка "ДД.ММ.ГГГГ" для v-model
+  error: personalAgeError, // текст ошибки или null
+  isValid: isPersonalAgeValid,
+  touch: touchPersonalAge,
+  validate: validatePersonalAge,
+} = useBirthDateField(null)
 
 export const useGoalSelection = () => {
   const { toIsoDate } = useISODate()
@@ -60,6 +69,11 @@ export const useGoalSelection = () => {
   }
 
   return {
+    personalAge,
+    personalAgeError,
+    isPersonalAgeValid,
+    validatePersonalAge,
+    touchPersonalAge,
     sendOnboardingCharacteristics,
     selectedGoal,
     selectedGender,
@@ -67,7 +81,6 @@ export const useGoalSelection = () => {
     selectGender,
     personalHeight,
     personalWeight,
-    personalAge,
     selectActivityLevel,
     selectedActivityLevel,
   }

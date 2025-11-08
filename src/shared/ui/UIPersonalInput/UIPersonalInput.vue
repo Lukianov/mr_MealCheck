@@ -11,6 +11,7 @@
       :pattern="props.pattern"
       :maxlength="props.maxlength"
       v-model="modelValue"
+      @blur="emit('blur')"
     />
     <input
       v-else
@@ -23,6 +24,7 @@
       :maxlength="props.maxlength"
       :value="displayValue"
       @input="onInput"
+      @blur="emit('blur')"
     />
   </div>
 </template>
@@ -40,6 +42,8 @@ interface Props {
   mask?: string
   type?: string
 }
+
+const emit = defineEmits(['blur'])
 
 const props = defineProps<Props>()
 

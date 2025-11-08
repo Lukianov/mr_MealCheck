@@ -8,7 +8,12 @@ import { ru } from '@/shared/lib/i18n/ru'
 export const useOnboarding = () => {
   const currentSlideIndex = ref(0)
 
-  const { personalWeight, personalHeight, personalAge } = useGoalSelection()
+  const {
+    personalWeight,
+    personalHeight,
+    isPersonalAgeValid,
+    validatePersonalAge,
+  } = useGoalSelection()
 
   const isDisabled = computed(() => {
     if (currentSlideIndex.value === 3 && !personalWeight.value) {
@@ -19,7 +24,7 @@ export const useOnboarding = () => {
       return true
     }
 
-    return currentSlideIndex.value === 5 && !personalAge.value
+    return currentSlideIndex.value === 5 && isPersonalAgeValid.value
   })
 
   watch(isDisabled, (isFlag) => {
@@ -33,6 +38,18 @@ export const useOnboarding = () => {
   const { sendOnboardingCharacteristics } = useGoalSelection()
 
   function goToNextSlide() {
+    if (currentSlideIndex.value === 5) {
+      validatePersonalAge()
+
+      if (!isPersonalAgeValid.value) {
+        return
+      }
+    }
+
+    if (currentSlideIndex.value === 6) {
+      WebApp.MainButton.setText(ru.onboarding.final)
+    }
+
     if (currentSlideIndex.value === 7) {
       try {
         void sendOnboardingCharacteristics()
@@ -45,10 +62,6 @@ export const useOnboarding = () => {
       void router.push({ name: RouteName.Main })
 
       return
-    }
-
-    if (currentSlideIndex.value === 6) {
-      WebApp.MainButton.setText(ru.onboarding.final)
     }
 
     currentSlideIndex.value = currentSlideIndex.value + 1
