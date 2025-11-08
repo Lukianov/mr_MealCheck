@@ -104,7 +104,7 @@ export const ru = {
     loading: 'Загрузка...',
   },
   deleteDishModal: {
-    title: (title: string) => `Удалить ${title} из приема пищи?`,
+    title: (title: string) => `Удалить "${title}" из приема пищи?`,
     description: 'Это действие невозможно отменить',
     delete: 'Удалить',
     cancel: 'Отменить',

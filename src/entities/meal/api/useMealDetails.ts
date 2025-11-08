@@ -2,9 +2,9 @@ import { ref } from 'vue'
 import { apiRequest, ApiResponseType } from '@/shared/api'
 import type { MealDetailsResponse } from '@/entities/meal/types'
 
-export function useMealDetails() {
-  const data = ref<MealDetailsResponse | null>(null)
+const cacheMealDetails = ref<MealDetailsResponse | null>(null)
 
+export function useMealDetails() {
   const isLoading = ref(true)
 
   const error = ref<unknown>(null)
@@ -19,7 +19,7 @@ export function useMealDetails() {
     error.value = null
 
     try {
-      data.value = await apiRequest<MealDetailsResponse>(
+      cacheMealDetails.value = await apiRequest<MealDetailsResponse>(
         `${ApiResponseType.GetUserMeals}/${id}`,
         {
           method: 'GET',
@@ -35,9 +35,9 @@ export function useMealDetails() {
   }
 
   return {
-    data,
     isLoading,
     error,
     fetchMeal,
+    cacheMealDetails,
   }
 }

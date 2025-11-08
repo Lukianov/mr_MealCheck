@@ -49,7 +49,11 @@
               class="mb-6"
               :dishes="dishList"
               @on-delete="
-                setOpenedModal(ModalNames.DeleteDishModal)
+                (event) =>
+                  setOpenedModal(ModalNames.DeleteDishModal, {
+                    dish: event,
+                    meal: displayMeal,
+                  })
               "
             />
           </template>
@@ -76,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import MealHero from '@/widgets/meal-hero/ui/MealHero.vue'
 import MealSummaryCard from '@/widgets/meal-summary/ui/MealSummaryCard.vue'
@@ -94,11 +98,9 @@ import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
 
-//TODO: прикрутить прокидывание modalPayload для dishDelete
-
 const route = useRoute()
 
-const { data, isLoading, fetchMeal } = useMealDetails()
+const { cacheMealDetails, isLoading, fetchMeal } = useMealDetails()
 
 const { markViewed } = useMarkMealViewed()
 
@@ -114,6 +116,10 @@ const mealId = computed(() => {
   return Number.isFinite(parsed) ? parsed : null
 })
 
+onBeforeUnmount(() => {
+  cacheMealDetails.value = null
+})
+
 async function loadMeal(id: number | null) {
   if (!id) {
     return
@@ -126,7 +132,7 @@ async function loadMeal(id: number | null) {
       (meal) => meal.id !== id,
     )
 
-    await markViewed(data.value.id)
+    await markViewed(cacheMealDetails.value.id)
 
     console.error('Failed to fetch meal details', err, err.message)
   }
@@ -135,18 +141,18 @@ async function loadMeal(id: number | null) {
 onMounted(async () => {
   await loadMeal(mealId.value)
 
-  if (data.value && !data.value?.isViewed) {
-    void markViewed(data.value.id)
+  if (cacheMealDetails.value && !cacheMealDetails.value?.isViewed) {
+    void markViewed(cacheMealDetails.value.id)
 
     mealsCache.value.meals.forEach((item) => {
-      if (item.id === data.value.id) {
+      if (item.id === cacheMealDetails.value.id) {
         item.isViewed = true
       }
     })
   }
 })
 
-const hasMeal = computed(() => !isLoading.value && data.value)
+const hasMeal = computed(() => !isLoading.value && cacheMealDetails.value)
 
 const MEAL_TYPE_LABEL: Record<MealType, string> = {
   breakfast: 'Breakfast',
@@ -156,7 +162,7 @@ const MEAL_TYPE_LABEL: Record<MealType, string> = {
 }
 
 const displayMeal = computed(() => {
-  if (!data.value) {
+  if (!cacheMealDetails.value) {
     return {
       title: '',
       subtitle: '',
@@ -164,24 +170,24 @@ const displayMeal = computed(() => {
     }
   }
 
-  const subtitle = data.value.dishes.length
-    ? data.value.dishes.map((dish) => dish.name).join(', ')
+  const subtitle = cacheMealDetails.value.dishes.length
+    ? cacheMealDetails.value.dishes.map((dish) => dish.name).join(', ')
     : ''
 
   return {
-    id: data.value.id,
-    title: MEAL_TYPE_LABEL[data.value.type] ?? 'Meal',
+    id: cacheMealDetails.value.id,
+    title: MEAL_TYPE_LABEL[cacheMealDetails.value.type] ?? 'Meal',
     subtitle,
-    image: data.value.photoUrl,
-    summary: data.value.summary ?? '',
-    recommendation: data.value.recommendation ?? '',
+    image: cacheMealDetails.value.photoUrl,
+    summary: cacheMealDetails.value.summary ?? '',
+    recommendation: cacheMealDetails.value.recommendation ?? '',
     macros: {
-      kcal: data.value.kcal,
-      protein: data.value.protein,
-      fat: data.value.fat,
-      carb: data.value.carb,
+      kcal: cacheMealDetails.value.kcal,
+      protein: cacheMealDetails.value.protein,
+      fat: cacheMealDetails.value.fat,
+      carb: cacheMealDetails.value.carb,
     },
-    dishes: data.value.dishes.map((dish) => ({
+    dishes: cacheMealDetails.value.dishes.map((dish) => ({
       id: dish.id,
       name: dish.name,
       weight:
