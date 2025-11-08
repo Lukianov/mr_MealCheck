@@ -4,7 +4,9 @@ import { ru } from '@/shared/lib/i18n/ru'
 
 <template>
   <div class="-mx-3">
-    <div class="rounded-[40px] overflow-hidden aspect-[0.8] mb-8 max-w-[510px]">
+    <div
+      class="rounded-[40px] overflow-hidden aspect-square mb-8 max-w-[510px]"
+    >
       <img
         class="w-full h-full object-contain"
         src="@/shared/assets/images/onboading/welcome-step-onboarding.png"
