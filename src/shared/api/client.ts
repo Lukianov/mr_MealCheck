@@ -1,5 +1,5 @@
 import ky, { type KyInstance, type Options as KyOptions } from 'ky'
-import { readonly, ref, shallowRef } from 'vue'
+import { computed, readonly, ref, shallowRef } from 'vue'
 
 import type {
   ApiRequestInput,
@@ -7,6 +7,7 @@ import type {
   BeforeRequestHooks,
 } from './types'
 import { isDev } from '@/shared/env/env'
+import { parseTelegramInitData } from '@/shared/lib/helpers/parseInitDate'
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'https://mealcheck.backend.kolupaev.tech/api'
@@ -67,9 +68,20 @@ export const apiRequest = async <T>(
   return instance(input, finalOptions).json<T>()
 }
 
+const userData = computed(() => {
+  const parsedData = parseTelegramInitData(telegramInitData.value)
+
+  if (parsedData.user) {
+    return parsedData.user
+  }
+
+  return ''
+})
+
 export const useApiClient = () => ({
   apiClient,
   apiRequest,
   initData: readonly(telegramInitData),
   setTelegramInitData,
+  userData,
 })

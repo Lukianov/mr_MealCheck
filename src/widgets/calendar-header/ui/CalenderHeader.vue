@@ -8,11 +8,7 @@
   >
     <div class="flex items-center gap-1">
       <RouterLink :to="{ path: '/onboarding-page' }">
-        <img
-          class="w-7 h-7 rounded-lg"
-          src="@/shared/assets/images/logo-mascot.png"
-          alt="mealcheck logo"
-        />
+        <img class="w-7 h-7 rounded-full" :src="userPic" alt="user picture" />
       </RouterLink>
       <p><span class="font-bold">Meal</span>check</p>
     </div>
@@ -27,6 +23,9 @@
 <script setup lang="ts">
 import { DatePickerButton } from '@/features/date-filter'
 import { computed } from 'vue'
+import { useApiClient } from '@/shared/api'
+
+const { userData } = useApiClient()
 
 const props = withDefaults(
   defineProps<{
@@ -47,4 +46,6 @@ const selectedDateProxy = computed({
     emit('update:selectedDate', value)
   },
 })
+
+const userPic = userData.value?.photo_url ?? ''
 </script>

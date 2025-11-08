@@ -2,8 +2,8 @@
   <div class="pt-5 flex flex-col justify-between w-full items-center">
     <div class="rounded-full overflow-hidden w-[180px] h-[180px] mb-8">
       <img
-        class="w-full h-full object-cover"
-        src="@/shared/assets/images/onboading/onboarding-second-step.gif"
+        class="w-full h-full object-contain"
+        src="@/shared/assets/images/onboading/param-step-onboarding.png"
         alt="onboarding-second-step.gif"
       />
     </div>

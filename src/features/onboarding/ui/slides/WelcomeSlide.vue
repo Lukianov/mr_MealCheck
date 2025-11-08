@@ -6,8 +6,8 @@ import { ru } from '@/shared/lib/i18n/ru'
   <div class="-mx-3">
     <div class="rounded-[40px] overflow-hidden aspect-[0.8] mb-8 max-w-[510px]">
       <img
-        class="w-full h-full object-cover"
-        src="@/shared/assets/images/onboading/onboarding-first-step.gif"
+        class="w-full h-full object-contain"
+        src="@/shared/assets/images/onboading/welcome-step-onboarding.png"
         alt="onboarding-first-step.gif"
       />
     </div>
