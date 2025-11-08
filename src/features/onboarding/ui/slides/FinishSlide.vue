@@ -1,6 +1,8 @@
 <template>
   <div class="-mx-3">
-    <div class="rounded-[40px] overflow-hidden aspect-1 mb-13 max-h-[250px]">
+    <div
+      class="rounded-[40px] overflow-hidden aspect-1 mb-13 max-w-[250px] max-h-[250px]"
+    >
       <img
         class="w-full h-full object-contain"
         src="@/shared/assets/images/onboading/final-step-onboarding.png"
