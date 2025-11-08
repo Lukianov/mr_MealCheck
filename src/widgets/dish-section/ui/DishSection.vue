@@ -8,8 +8,14 @@
         <TrashIcon class="w-5 h-5" @click="emit('on-delete', dish)" />
       </template>
       <template #default>
-        <KeyValueRow label="Weight" :value="dish.weight" />
-        <KeyValueRow label="Recommendation" :value="dish.recommendation" />
+        <KeyValueRow
+          :label="ru.mealDetail.dishesSection.weight"
+          :value="dish.weight"
+        />
+        <KeyValueRow
+          :label="ru.mealDetail.dishesSection.recommendation"
+          :value="dish.recommendation"
+        />
         <div>
           <div class="text-zinc-400 text-sm mb-1">
             {{ ru.mealDetail.dishesSection.macronutrients }}

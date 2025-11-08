@@ -80,6 +80,8 @@ async function onPick(e: Event) {
         setOpenedModal(ModalNames.MealAnalyzingModal)
       }
     } catch (e) {
+      setOpenedModal(null)
+
       console.error(e)
     }
   } finally {

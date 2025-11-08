@@ -58,30 +58,30 @@ export const ACTIVITY_LEVEL_OPTIONS: GoalOption[] = [
 export const GOAL_OPTIONS: GoalOption[] = [
   {
     id: GoalType.Lose,
-    title: 'Lose weight',
-    description: 'Build a calorie deficit with mindful meals',
+    title: ru.onboarding.goalSlide.loseWeight.title,
+    description: ru.onboarding.goalSlide.loseWeight.description,
   },
   {
     id: GoalType.Gain,
-    title: 'Gain muscle',
-    description: 'Prioritise protein and structured workouts',
+    title: ru.onboarding.goalSlide.gainWeight.title,
+    description: ru.onboarding.goalSlide.gainWeight.description,
   },
   {
     id: GoalType.Maintain,
-    title: 'Stay balanced',
-    description: 'Maintain habits and keep energy steady',
+    title: ru.onboarding.goalSlide.maintainWeight.title,
+    description: ru.onboarding.goalSlide.maintainWeight.description,
   },
 ]
 
 export const GENDER_OPTIONS: GoalOption[] = [
   {
     id: GenderTypes.Woman,
-    title: 'Woman',
+    title: ru.onboarding.genderSlide.woman,
     imageUrl: 'src/shared/assets/images/onboading/gender-slide-woman.png',
   },
   {
     id: GenderTypes.Man,
-    title: 'Man',
+    title: ru.onboarding.genderSlide.man,
     imageUrl: 'src/shared/assets/images/onboading/gender-slide-man.png',
   },
 ]

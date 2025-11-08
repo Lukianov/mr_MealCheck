@@ -9,10 +9,10 @@
     </div>
     <div class="mb-8 text-center">
       <p class="mb-3 text-3xl font-bold text-white">
-        <span class="font-bold"> what is your weight? </span>
+        <span class="font-bold"> {{ ru.onboarding.weightSlide.title }} </span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        let's calculate the calorie norm
+        {{ ru.onboarding.weightSlide.description }}
       </p>
     </div>
     <UIPersonalInput
@@ -32,6 +32,7 @@
 import PersonalParamSelector from '@/features/onboarding/ui/components/PersonalParamSelector.vue'
 import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const { personalWeight } = useGoalSelection()
 </script>

@@ -9,10 +9,12 @@
     </div>
     <div class="mb-8 text-center">
       <p class="mb-3 text-3xl font-bold text-white">
-        <span class="font-bold"> what is your gender? </span>
+        <span class="font-bold">
+          {{ ru.onboarding.genderSlide.title }}
+        </span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        let's calculate the calorie norm
+        {{ ru.onboarding.genderSlide.description }}
       </p>
     </div>
     <div class="w-full rounded-2xl overflow-hidden">
@@ -41,6 +43,7 @@ import { GENDER_OPTIONS, GenderTypes } from '@/features/onboarding/const'
 import genderManIcon from '@/shared/assets/images/onboading/gender-slide-man.png'
 import genderWomanIcon from '@/shared/assets/images/onboading/gender-slide-woman.png'
 import genderUnknowIcon from '@/shared/assets/images/onboading/gender-slide-other.png'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const { selectedGender, selectGender } = useGoalSelection()
 

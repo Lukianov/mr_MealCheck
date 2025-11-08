@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import RightArrowIcon from '@/shared/assets/icons/right-arrow-icon.svg'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const props = defineProps<{
   modelValue: Date | string | number | null | undefined
@@ -65,6 +66,7 @@ function toValidDate(v: unknown): Date | null {
 
   return isNaN(+d) ? null : d
 }
+
 function isSameDay(a: Date, b: Date) {
   return (
     a.getFullYear() === b.getFullYear() &&
@@ -76,13 +78,13 @@ function formatBtnLabel(v: unknown) {
   const d = toValidDate(v)
 
   if (!d) {
-    return props.placeholder ?? 'Pick date'
+    return props.placeholder ?? ru.datepicker.pickDate
   }
 
   const t = new Date()
 
   if (isSameDay(t, d)) {
-    return 'Today'
+    return ru.datepicker.today
   }
 
   try {
@@ -91,7 +93,7 @@ function formatBtnLabel(v: unknown) {
       month: 'short',
     }).format(d)
   } catch {
-    return props.placeholder ?? 'Pick date'
+    return props.placeholder ?? ru.datepicker.pickDate
   }
 }
 const label = computed(() => formatBtnLabel(props.modelValue))

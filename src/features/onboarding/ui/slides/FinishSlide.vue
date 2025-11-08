@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="-mx-3">
     <div
@@ -13,11 +11,15 @@
     </div>
     <div class="mb-8 text-center">
       <p class="mb-3 text-4xl leading-10">
-        <span class="font-bold"> everything is ready! </span>
+        <span class="font-bold"> {{ ru.onboarding.finishSlide.title }} </span>
       </p>
-      <p class="text-xl leading-6">let's do this together</p>
+      <p class="text-xl leading-6">
+        {{ ru.onboarding.finishSlide.description }}
+      </p>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import { ru } from '@/shared/lib/i18n/ru'
+</script>

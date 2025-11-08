@@ -1,7 +1,7 @@
 export const ru = {
   onboarding: {
-    buttonTitle: 'Next',
-    final: 'Let`s go',
+    buttonTitle: 'Далее',
+    final: 'Поехали',
     birthDate: {
       title: 'Дата рождения',
       description: 'Дата нужна для точного расчёта базового метаболизма',
@@ -28,48 +28,95 @@ export const ru = {
         },
       },
     },
+    welcomeSlide: {
+      title: 'Позвольте нам понять ваши намерения',
+      description: 'Просто попробуйте ответить честно',
+    },
+    goalSlide: {
+      title: 'Какая у вас цель?',
+      description: 'Подходите к этому ответственно',
+      loseWeight: {
+        title: 'Похудеть',
+        description: 'Создайте калорийный дефицит за счёт осознанного питания',
+      },
+      gainWeight: {
+        title: 'Поддерживать вес',
+        description: 'Упор на белок и регулярные структурированные тренировки',
+      },
+      maintainWeight: {
+        title: 'Набрать массу',
+        description:
+          'Формируйте устойчивые привычки и держите высокий уровень энергии',
+      },
+    },
+    genderSlide: {
+      title: 'Ваш пол',
+      description: 'Рассчитаем норму каллорий',
+      woman: 'Женщина',
+      man: 'Мужчина',
+    },
+    weightSlide: {
+      title: 'Ваш вес',
+      description: 'Рассчитаем норму каллорий',
+    },
+    heightSlide: {
+      title: 'Ваш рост',
+      description: 'Рост нужен для точного расчёта базового метаболизма',
+    },
+    finishSlide: {
+      title: 'Все готово!',
+      description: 'Можем начинать',
+    },
   },
   summaryWidget: {
-    caloriesShort: 'KCAL',
-    protein: 'protein',
-    fat: 'fat',
-    carbs: 'carbs',
+    caloriesShort: 'Ккал',
+    protein: 'белки',
+    fat: 'жиры',
+    carbs: 'углеводы',
   },
   todayMealBlock: {
-    empty: 'Nothing was added yet',
-    mealBlockTitle: 'Meals logged today',
+    empty: 'Сегодня ничего не добавлено',
+    mealBlockTitle: 'Приёмы пищи за сегодня',
     mealRow: {
       status: {
-        pending: 'pending',
+        pending: 'обработка',
       },
     },
   },
   logMealWidget: {
-    buttonTitle: 'Log Meal',
+    buttonTitle: 'Добавить',
+  },
+  mealType: {
+    breakfast: 'Завтрак',
+    lunch: 'Обед',
+    dinner: 'Ужин',
+    snack: 'Перекус',
   },
   mealDetail: {
     mealSummaryCard: {
-      title: 'About',
-      summary: 'Summary',
-      recommendation: 'Recommendation',
-      recognizedDishes: 'Recognized dishes',
-      view: 'View',
-      macronutrients: 'Macronutrients',
+      title: 'Подробнее',
+      summary: 'Итог',
+      recommendation: 'Рекомендации',
+      recognizedDishes: 'Распознано',
+      view: 'Посмотреть',
+      macronutrients: 'Макронутриенты',
     },
     dishesSection: {
-      macronutrients: 'Macronutrients',
+      weight: 'Вес',
+      macronutrients: 'Макронутриенты',
+      recommendation: 'Рекомендации',
     },
-    deleteButton: 'Delete',
+    deleteButton: 'Удалить',
   },
   mealRow: {
-    unrecognizedDish: 'Need to retake photo',
+    unrecognizedDish: 'Нужно переснять фото',
   },
   retakePhotoModal: {
-    title: 'We couldn’t recognize the food in your photo',
+    title: 'Не удалось распознать еду на фото',
     description:
-      'Please try again with a clearer shot — make sure the dish is fully visible and well-lit',
-    acceptButton: 'Retake photo',
-    cancel: 'Cancel',
+      'Попробуйте ещё раз — убедитесь, что блюдо хорошо освещено и полностью попадает в кадр.',
+    acceptButton: 'Переснять',
+    cancel: 'Отмена',
   },
   dailyProgressWidget: {
     title: 'За сегодня',
@@ -108,5 +155,28 @@ export const ru = {
     description: 'Это действие невозможно отменить',
     delete: 'Удалить',
     cancel: 'Отменить',
+  },
+  datepicker: {
+    today: 'Сегодня',
+    pickDate: 'Выберите дату',
+  },
+  deleteMealModal: {
+    title: 'Удалить этот приём пищи из журнала?',
+    description: 'Это действие невозможно отменить',
+    delete: 'Удалить',
+    cancel: 'Отменить',
+  },
+  mealAnalyzingModal: {
+    title: 'Проводим анализ еды',
+    description:
+      'Скоро появится на главном экране — или просто закройте приложение, и мы пришлём уведомление, когда всё будет готово.',
+    confirm: 'Понятно',
+  },
+  resendMeal: {
+    title: 'Не удалось распознать еду',
+    description:
+      'Пожалуйста, попробуйте ещё раз — убедитесь, что блюдо хорошо видно, полностью попадает в кадр и достаточно освещено.',
+    photo: 'Переснять',
+    gallery: 'Из галереи',
   },
 }

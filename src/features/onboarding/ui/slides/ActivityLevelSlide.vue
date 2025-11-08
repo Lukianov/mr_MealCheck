@@ -25,8 +25,8 @@
         @select="selectActivityLevel"
       >
         <img
-          :src="activityLevel.imageUrl"
-          :alt="activityLevel.imageUrl"
+          :src="ICON_COMPONENTS_MAP[activityLevel.id]"
+          :alt="activityLevel.title"
           class="w-7 h-7"
         />
       </GoalOptionRow>
@@ -37,8 +37,25 @@
 <script setup lang="ts">
 import GoalOptionRow from '@/features/onboarding/ui/components/GoalOptionRow.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
-import { ACTIVITY_LEVEL_OPTIONS } from '@/features/onboarding/const'
+
+import {
+  ACTIVITY_LEVEL_OPTIONS,
+  ActivityLevel,
+} from '@/features/onboarding/const'
+
 import { ru } from '@/shared/lib/i18n/ru'
+
+import goalMaintainIcon from '@/shared/assets/images/onboading/onboarding-goal-maintain.png'
+import goalGainIcon from '@/shared/assets/images/onboading/onboarding-goal-gain.png'
+import activityLowIcon from '@/shared/assets/images/onboading/onboarding-armchair-image.png'
+import activityHighIcon from '@/shared/assets/images/onboading/onboarding-fire-image.png'
+
+const ICON_COMPONENTS_MAP: Record<ActivityLevel, string> = {
+  [ActivityLevel.Low]: activityLowIcon,
+  [ActivityLevel.Light]: goalMaintainIcon,
+  [ActivityLevel.Moderate]: goalGainIcon,
+  [ActivityLevel.High]: activityHighIcon,
+}
 
 const { selectActivityLevel, selectedActivityLevel } = useGoalSelection()
 </script>

@@ -9,10 +9,10 @@
     </div>
     <div class="mb-8 text-center">
       <p class="mb-2 text-3xl font-bold text-white">
-        <span class="font-bold"> what is your goal? </span>
+        <span class="font-bold"> {{ ru.onboarding.goalSlide.title }} </span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        approach this responsibly
+        {{ ru.onboarding.goalSlide.description }}
       </p>
     </div>
     <div class="w-full rounded-2xl overflow-hidden">
@@ -41,6 +41,7 @@ import { GOAL_OPTIONS, GoalType } from '@/features/onboarding/const'
 import goalGainIcon from '@/shared/assets/images/onboading/onboarding-goal-gain.png'
 import goalLoseIcon from '@/shared/assets/images/onboading/onboarding-goal-lose.png'
 import goalMaintainIcon from '@/shared/assets/images/onboading/onboarding-goal-maintain.png'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const ICON_COMPONENTS_MAP: Record<GoalType, string> = {
   [GoalType.Lose]: goalLoseIcon,

@@ -14,7 +14,7 @@
           alt="mealcheck logo"
         />
       </RouterLink>
-      <p><span>Meal</span>check</p>
+      <p><span class="font-bold">Meal</span>check</p>
     </div>
     <DatePickerButton
       v-model="selectedDateProxy"

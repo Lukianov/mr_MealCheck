@@ -92,11 +92,11 @@ import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
 import ResendMeal from '@/features/send-meal-again/ui/ResendMeal.vue'
 import { useMealDetails } from '@/entities/meal/api/useMealDetails'
-import type { MealType } from '@/entities/meal/types'
 import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
+import { TYPE_LABEL } from '@/shared/const'
 
 const route = useRoute()
 
@@ -154,13 +154,6 @@ onMounted(async () => {
 
 const hasMeal = computed(() => !isLoading.value && cacheMealDetails.value)
 
-const MEAL_TYPE_LABEL: Record<MealType, string> = {
-  breakfast: 'Breakfast',
-  lunch: 'Lunch',
-  dinner: 'Dinner',
-  snack: 'Snack',
-}
-
 const displayMeal = computed(() => {
   if (!cacheMealDetails.value) {
     return {
@@ -176,7 +169,7 @@ const displayMeal = computed(() => {
 
   return {
     id: cacheMealDetails.value.id,
-    title: MEAL_TYPE_LABEL[cacheMealDetails.value.type] ?? 'Meal',
+    title: TYPE_LABEL[cacheMealDetails.value.type] ?? 'Meal',
     subtitle,
     image: cacheMealDetails.value.photoUrl,
     summary: cacheMealDetails.value.summary ?? '',

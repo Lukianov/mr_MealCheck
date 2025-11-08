@@ -2,11 +2,10 @@
   <div>
     <div>
       <p class="mb-2 font-bold text-2xl">
-        We couldn’t recognize the food in your photo
+        {{ ru.resendMeal.title }}
       </p>
       <p class="mb-6 text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        Please try again with a clearer shot — make sure the dish is fully
-        visible and well-lit
+        {{ ru.resendMeal.description }}
       </p>
       <div class="flex items-center gap-3">
         <UIButton
@@ -14,9 +13,11 @@
           class="w-full"
           :style="{ background: 'rgba(0, 167, 237, 1)' }"
         >
-          Take photo
+          {{ ru.resendMeal.photo }}
         </UIButton>
-        <UIButton class="w-full" @click="openGallery"> Upload </UIButton>
+        <UIButton class="w-full" @click="openGallery">
+          {{ ru.resendMeal.gallery }}
+        </UIButton>
       </div>
     </div>
     <input
@@ -45,6 +46,7 @@ import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWork
 import { useMainPage } from '@/pages/main-page/model'
 import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
 import { RouteName, router } from '@/shared/lib/router'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const props = defineProps<{ mealId?: number | null }>()
 

@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ru } from '@/shared/lib/i18n/ru'
+</script>
 
 <template>
   <div class="-mx-3">
@@ -11,18 +13,13 @@
     </div>
     <div class="mb-8 text-center">
       <p
-        class="mb-3 text-4xl leading-10"
-        :style="{ color: 'rgba(162, 172, 176, 1)' }"
+        class="mb-3 text-4xl leading-10 font-bold text-white"
       >
-        meeting
-        <br />
-        <span class="font-bold text-white"> mr. Mealcheck </span>
+        {{ ru.onboarding.welcomeSlide.title }}
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        just try not to submit your report on time
+        {{ ru.onboarding.welcomeSlide.description }}
       </p>
     </div>
   </div>
 </template>
-
-<style scoped></style>

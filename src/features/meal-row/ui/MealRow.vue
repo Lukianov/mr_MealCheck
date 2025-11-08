@@ -24,9 +24,7 @@
                 <span
                   class="rounded-full w-1.5 h-1.5"
                   :class="[
-                    isUnrecognizedDishes
-                      ? 'bg-[#FF2550]'
-                      : 'bg-[#00A7ED]',
+                    isUnrecognizedDishes ? 'bg-[#FF2550]' : 'bg-[#00A7ED]',
                   ]"
                 ></span>
               </div>
@@ -37,7 +35,7 @@
             v-if="mealRowDescription"
             class="truncate"
             :class="[
-              isUnrecognizedDishes ? 'text-[#00a7ed]' : 'text-[#a2acb0]',
+              isUnrecognizedDishes ? 'text-[#FF2550]' : 'text-[#a2acb0]',
             ]"
           >
             {{ mealRowDescription }}

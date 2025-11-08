@@ -9,9 +9,9 @@
     </template>
     <template #default>
       <div>
-        <p class="mb-2 font-bold text-2xl">Remove this meal from your log?</p>
+        <p class="mb-2 font-bold text-2xl">{{ ru.deleteMealModal.title }}</p>
         <p class="mb-6 text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-          This action cannot be undone
+          {{ ru.deleteMealModal.description }}
         </p>
         <div class="flex items-center gap-3">
           <UIButton
@@ -20,14 +20,14 @@
             @click="handleDelete"
             :style="{ background: 'rgba(255, 37, 80, 1)' }"
           >
-            Delete
+            {{ ru.deleteMealModal.delete }}
           </UIButton>
           <UIButton
             class="w-full"
             :is-disabled="isLoading"
             @click="() => setOpenedModal(null)"
           >
-            Cancel
+            {{ ru.deleteMealModal.delete }}
           </UIButton>
         </div>
       </div>
@@ -43,6 +43,7 @@ import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
 import { RouteName, router } from '@/shared/lib/router'
 import { useRoute } from 'vue-router'
 import { useMainPage } from '@/pages/main-page/model'
+import { ru } from '@/shared/lib/i18n/ru'
 
 const { loadAll } = useMainPage()
 
@@ -63,7 +64,7 @@ const handleDelete = async () => {
 
   await loadAll()
 
-  void router.push({ name: RouteName.Main })
+  await router.push({ name: RouteName.Main })
 
   setOpenedModal(null)
 }

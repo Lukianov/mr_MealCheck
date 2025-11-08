@@ -46,8 +46,9 @@ import { computed } from 'vue'
 import { MealItem } from '@/features/meal-row/types'
 import MealRow from '@/features/meal-row/ui/MealRow.vue'
 import { ru } from '@/shared/lib/i18n/ru'
-import type { MealsResponse, MealType } from '@/entities/meal/types'
+import type { MealsResponse } from '@/entities/meal/types'
 import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
+import { TYPE_LABEL } from '@/shared/const'
 
 const props = withDefaults(
   defineProps<{
@@ -59,13 +60,6 @@ const props = withDefaults(
     loading: false,
   },
 )
-
-const TYPE_LABEL: Record<MealType, string> = {
-  breakfast: 'Breakfast',
-  lunch: 'Lunch',
-  dinner: 'Dinner',
-  snack: 'Snack',
-}
 
 const mealRows = computed<MealItem[]>(() => {
   if (!props.meals) {
