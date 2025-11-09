@@ -39,6 +39,7 @@ const beforeRequest: BeforeRequestHooks = [
 const createClient = (): KyInstance =>
   ky.create({
     prefixUrl: API_BASE_URL.replace(/\/$/, ''),
+    timeout: 45000,
     hooks: {
       beforeRequest,
     },

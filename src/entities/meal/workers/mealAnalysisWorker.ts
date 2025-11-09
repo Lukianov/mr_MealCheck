@@ -1,4 +1,3 @@
-/// <reference lib="webworker" />
 import { AnalysisStatusResponse } from '@/entities/meal/types'
 import { apiRequest, ApiResponseType, useApiClient } from '@/shared/api'
 
@@ -41,8 +40,8 @@ interface TaskState {
 const ctx: DedicatedWorkerGlobalScope =
   self as unknown as DedicatedWorkerGlobalScope
 
-const DEFAULT_INTERVAL = 5000
-const DEFAULT_MAX_ATTEMPTS = 120
+const DEFAULT_INTERVAL = 4000
+const DEFAULT_MAX_ATTEMPTS = 70
 
 const tasks = new Map<number, TaskState>()
 
@@ -107,7 +106,9 @@ async function poll(id: number) {
 
     if (task.attempts >= task.maxAttempts) {
       cleanup(id)
+
       postMessageToMain({ type: 'timeout', payload: { id } })
+
       return
     }
 
@@ -122,7 +123,9 @@ async function poll(id: number) {
 
     if (task.attempts >= task.maxAttempts) {
       cleanup(id)
+
       postMessageToMain({ type: 'timeout', payload: { id } })
+
       return
     }
 
@@ -165,12 +168,15 @@ ctx.addEventListener('message', (event: MessageEvent<IncomingMessage>) => {
   switch (type) {
     case 'enqueue':
       handleEnqueue(event.data)
+
       break
     case 'cancel':
       handleCancel(event.data.payload.id)
+
       break
     case 'clear':
       handleClear()
+
       break
     case 'setInitData':
       setTelegramInitData(event.data.payload.initData)

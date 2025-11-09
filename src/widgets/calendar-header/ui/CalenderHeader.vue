@@ -8,7 +8,11 @@
   >
     <div class="flex items-center gap-1">
       <component :is="userPicComponent" :to="{ path: '/onboarding-page' }">
-        <img class="w-7 h-7 rounded-full" :src="userPic" alt="user picture" />
+        <img
+          class="w-7 h-7 rounded-full bg-white/5"
+          :src="userPic"
+          alt="user picture"
+        />
       </component>
       <p><span class="font-bold">Meal</span>check</p>
     </div>
