@@ -1,3 +1,4 @@
+/// <reference lib="webworker" />
 import { AnalysisStatusResponse } from '@/entities/meal/types'
 import { apiRequest, ApiResponseType, useApiClient } from '@/shared/api'
 
