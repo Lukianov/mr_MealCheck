@@ -97,7 +97,6 @@ import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 import { useMainPage } from '@/pages/main-page/model'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
 import { TYPE_LABEL } from '@/shared/const'
-import WebApp from "@twa-dev/sdk";
 
 const route = useRoute()
 
@@ -202,25 +201,25 @@ const displayMeal = computed(() => {
 const macroChips = computed(() => [
   {
     key: 'kcal',
-    label: 'KCAL',
+    label: ru.metrics.kcal,
     value: displayMeal.value?.macros.kcal,
     postfix: '',
   },
   {
     key: 'protein',
-    label: 'PROTEIN',
+    label: ru.metrics.protein,
     value: displayMeal.value?.macros.protein,
     postfix: 'g',
   },
   {
     key: 'fat',
-    label: 'FAT',
+    label: ru.metrics.fat,
     value: displayMeal.value?.macros.fat,
     postfix: 'g',
   },
   {
     key: 'carb',
-    label: 'CARBS',
+    label: ru.metrics.carbs,
     value: displayMeal.value?.macros.carb,
     postfix: 'g',
   },
@@ -231,6 +230,4 @@ const dishList = computed(
 )
 
 const { setOpenedModal } = useOverlayManager()
-
-console.warn('WebApp.initData', WebApp.initData)
 </script>

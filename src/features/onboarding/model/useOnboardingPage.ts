@@ -4,8 +4,11 @@ import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import WebApp from '@twa-dev/sdk'
 import { IS_ONBOARDING_PASSED_KEY } from '@/app/providers/setupTelegramWebApp'
 import { ru } from '@/shared/lib/i18n/ru'
+import { useMainPage } from '@/pages/main-page/model'
 
 export const useOnboarding = () => {
+  const { loadAll } = useMainPage()
+
   const currentSlideIndex = ref(0)
 
   const {
@@ -51,6 +54,8 @@ export const useOnboarding = () => {
         void sendOnboardingCharacteristics()
 
         WebApp.CloudStorage.setItem(IS_ONBOARDING_PASSED_KEY, 'true')
+
+        void loadAll()
       } catch (e) {
         console.error(e)
       }
