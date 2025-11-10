@@ -9,10 +9,10 @@
     </div>
     <div class="mb-8 text-center">
       <p class="mb-3 text-2xl font-bold text-white">
-        <span class="font-bold"> {{ ru.onboarding.weightSlide.title }}</span>
+        <span class="font-bold"> {{ ru.onboarding.heightSlide.title }}</span>
       </p>
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
-        {{ ru.onboarding.weightSlide.description }}
+        {{ ru.onboarding.heightSlide.description }}
       </p>
     </div>
     <UIPersonalInput

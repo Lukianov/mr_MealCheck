@@ -15,7 +15,7 @@
           {{ ru.metrics.weight }}
         </p>
         <p class="text-[18px] leading-6 text-white">
-          {{ props?.weight }}{{ ru.metrics.kilo }}
+          {{ props?.weight }} {{ ru.metrics.kilo }}
         </p>
       </div>
     </div>
