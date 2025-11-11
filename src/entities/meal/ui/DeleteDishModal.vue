@@ -83,7 +83,7 @@ const handleDelete = async () => {
     await deleteDish(payload.value.meal.id, payload.value.dish.id)
 
     cacheMealDetails.value.dishes = cacheMealDetails.value.dishes.filter(
-      (dish) => dish.id === payload.value.dish.id,
+      (dish) => dish.id !== payload.value.dish.id,
     )
 
     setOpenedModal(null)

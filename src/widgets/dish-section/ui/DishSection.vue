@@ -20,15 +20,29 @@
           <div class="text-zinc-400 text-sm mb-1">
             {{ ru.mealDetail.dishesSection.macronutrients }}
           </div>
-          <div class="flex items-center gap-2">
-            <StatChip label="Kcal" :value="dish.macros?.calories" postfix="" />
+          <div
+            class="flex items-center gap-2 overflow-x-scroll -mr-4 no-scrollbar"
+          >
             <StatChip
-              label="Protein"
+              :label="ru.metrics.kcal"
+              :value="dish.macros?.calories"
+              postfix=""
+            />
+            <StatChip
+              :label="ru.metrics.protein"
               :value="dish.macros?.protein"
               postfix="g"
             />
-            <StatChip label="Fat" :value="dish.macros?.fat" postfix="g" />
-            <StatChip label="Carbs" :value="dish.macros?.carbs" postfix="g" />
+            <StatChip
+              :label="ru.metrics.fat"
+              :value="dish.macros?.fat"
+              postfix="g"
+            />
+            <StatChip
+              :label="ru.metrics.carbs"
+              :value="dish.macros?.carbs"
+              postfix="g"
+            />
           </div>
         </div>
       </template>
