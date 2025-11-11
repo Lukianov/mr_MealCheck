@@ -149,6 +149,8 @@ export const ru = {
       title: 'Изменение веса',
     },
     loading: 'Загрузка...',
+    emptyToday: 'Сегодня ничего не залогировано',
+    emptyRange: 'Ничего не логировалось',
   },
   deleteDishModal: {
     title: (title: string) => `Удалить "${title}" из приема пищи?`,

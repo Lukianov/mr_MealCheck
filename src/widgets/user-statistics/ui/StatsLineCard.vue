@@ -7,10 +7,19 @@
       <div class="relative">
         <canvas ref="canvasEl" height="260"></canvas>
         <div
-          v-if="loading"
+          v-if="loading || emptyState"
           class="absolute inset-0 grid place-items-center text-zinc-400 text-sm"
         >
-          {{ ru.userStatistics.loading }}
+          <template v-if="loading">
+            {{ ru.userStatistics.loading }}
+          </template>
+          <template v-else>
+            {{
+              emptyState === 'today'
+                ? ru.userStatistics.emptyToday
+                : ru.userStatistics.emptyRange
+            }}
+          </template>
         </div>
       </div>
     </div>
@@ -18,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { onBeforeUnmount, ref, watch } from 'vue'
 import SegmentedTabs from '@/shared/ui/UITabs/UITabs.vue'
 import {
   Chart,
@@ -31,7 +40,12 @@ import {
   Filler,
   Legend,
 } from 'chart.js'
-import { StatsRange } from '@/shared/types/stats'
+import {
+  StatsEmptyState,
+  StatsLoadResult,
+  StatsPoint,
+  StatsRange,
+} from '@/shared/types/stats'
 import { TABS_OPTIONS } from '@/widgets/user-statistics/const'
 import { ru } from '@/shared/lib/i18n/ru'
 
@@ -46,17 +60,14 @@ Chart.register(
   Legend,
 )
 
-type Point = { value: number; label: string }
-
 const props = defineProps<{
   title: string
-  initialRange?: StatsRange
-  loader: (range: StatsRange) => Promise<Point[]>
+  loader: (range: StatsRange) => Promise<StatsLoadResult>
   yMax?: number | null
   valueSuffix?: string
 }>()
 
-const range = ref<StatsRange>(props.initialRange ?? 'day')
+const range = defineModel<StatsRange>({ default: 'day' })
 
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 
@@ -64,38 +75,74 @@ let chart: Chart | null = null
 
 const loading = ref(false)
 
+const emptyState = ref<StatsEmptyState | null>(null)
+
 async function load() {
   loading.value = true
 
   try {
-    const pts = await props.loader(range.value)
+    const currentRange = range.value ?? 'day'
 
-    render(pts)
+    const { points, emptyState: nextEmptyState } = await props.loader(
+      currentRange,
+    )
+
+    if (!points.length) {
+      emptyState.value = nextEmptyState ?? null
+      destroyChart()
+      clearCanvas()
+      return
+    }
+
+    emptyState.value = null
+
+    render(points)
   } finally {
     loading.value = false
   }
 }
 
-function render(points: Point[]) {
+function clearCanvas() {
   if (!canvasEl.value) {
     return
   }
 
-  const ctx = canvasEl.value.getContext('2d')!
+  const ctx = canvasEl.value.getContext('2d')
+
+  if (!ctx) {
+    return
+  }
+
+  ctx.clearRect(0, 0, canvasEl.value.width, canvasEl.value.height)
+}
+
+function destroyChart() {
+  if (chart) {
+    chart.destroy()
+    chart = null
+  }
+}
+
+function render(points: StatsPoint[]) {
+  if (!canvasEl.value) {
+    return
+  }
+
+  const ctx = canvasEl.value.getContext('2d')
+
+  if (!ctx) {
+    return
+  }
 
   const gradient = ctx.createLinearGradient(0, 0, 0, canvasEl.value.height)
 
   gradient.addColorStop(0, 'rgba(0,167,237,0.35)')
-
   gradient.addColorStop(1, 'rgba(0,167,237,0.00)')
 
   const labels = points.map((p) => p.label)
-
   const data = points.map((p) => p.value)
 
-  if (chart) {
-    chart.destroy()
-  }
+  destroyChart()
 
   chart = new Chart(ctx, {
     type: 'line',
@@ -158,9 +205,13 @@ function render(points: Point[]) {
   })
 }
 
-watch(range, load, { immediate: true })
+watch(
+  range,
+  () => {
+    void load()
+  },
+  { immediate: true, flush: 'post' },
+)
 
-onMounted(load)
-
-onBeforeUnmount(() => chart?.destroy())
+onBeforeUnmount(() => destroyChart())
 </script>

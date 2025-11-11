@@ -29,12 +29,12 @@
         class="mb-6"
         :title="ru.userStatistics.chartUserCalories.title"
         :loader="loadCaloriesPoints"
-        initial-range="day"
+        v-model="caloriesRange"
       />
       <StatsLineCard
         :title="ru.userStatistics.chartUserWeight.title"
         :loader="loadWeightPoints"
-        initial-range="week"
+        v-model="weightRange"
         :y-max="180"
       />
     </div>
@@ -46,7 +46,12 @@ import { ru } from '@/shared/lib/i18n/ru'
 import StatsLineCard from '@/widgets/user-statistics/ui/StatsLineCard.vue'
 import { userStatistics } from '@/widgets/user-statistics/model'
 
-const { loadCaloriesPoints, loadWeightPoints } = userStatistics()
+const {
+  loadCaloriesPoints,
+  loadWeightPoints,
+  caloriesRange,
+  weightRange,
+} = userStatistics()
 </script>
 
 <style scoped></style>
