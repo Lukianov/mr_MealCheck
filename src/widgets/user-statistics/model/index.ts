@@ -113,18 +113,20 @@ function formatWeightPoints(
   if (range === 'week') {
     const bounds = getRange('week', now)
 
-    return formatWeightRangeSeries(
+    return formatWeightRangeByDays(
       normalized,
-      createDayBuckets(bounds.start, bounds.end),
+      bounds.start,
+      bounds.end,
       currentWeight,
     )
   }
 
   const bounds = getRange('month', now)
 
-  return formatWeightRangeSeries(
+  return formatWeightRangeByDays(
     normalized,
-    createWeekBuckets(bounds.start, bounds.end),
+    bounds.start,
+    bounds.end,
     currentWeight,
   )
 }
@@ -247,9 +249,7 @@ function formatWeightDaySeries(
 
   axisPoints.forEach((axisPoint) => {
     const axisHour = axisPoint.x ?? 0
-    axisPoint.value = Math.round(
-      resolveAxisValue(axisHour, measurementSeries),
-    )
+    axisPoint.value = Math.round(resolveAxisValue(axisHour, measurementSeries))
   })
 
   const merged = [...axisPoints, ...measurementFloatingPoints]
@@ -284,38 +284,52 @@ function formatAggregatedSeries(
   }
 }
 
-function formatWeightRangeSeries(
+function formatWeightRangeByDays(
   points: NormalizedPoint[],
-  buckets: DateBucket[],
+  start: Date,
+  end: Date,
   currentWeight: number | null,
 ): StatsLoadResult {
-  if (!buckets.length) {
+  const sorted = [...points].sort(
+    (a, b) => a.date.getTime() - b.date.getTime(),
+  )
+
+  const dayMaxValues = groupPointsByDay(sorted, start, end)
+
+  const dayValuesArray = [...dayMaxValues.values()]
+
+  const fallback =
+    typeof currentWeight === 'number'
+      ? Math.round(currentWeight)
+      : dayValuesArray.length
+        ? Math.round(dayValuesArray[dayValuesArray.length - 1] ?? 0)
+        : null
+
+  if (dayMaxValues.size === 0 && fallback == null) {
     return { points: [], emptyState: 'range' }
   }
 
-  const filtered = filterPointsByBuckets(points, buckets)
+  const axisPoints: StatsPoint[] = []
 
-  if (!filtered.length) {
-    return { points: [], emptyState: 'range' }
+  let cursor = startOfDay(start)
+  const limit = startOfDay(end)
+
+  while (cursor <= limit) {
+    const dayKey = cursor.getTime()
+    const value =
+      dayMaxValues.has(dayKey) && dayMaxValues.get(dayKey) != null
+        ? Math.round(dayMaxValues.get(dayKey)!)
+        : (fallback ?? 0)
+
+    axisPoints.push({
+      label: formatDayMonth(cursor),
+      value,
+    })
+
+    cursor = addDays(cursor, 1)
   }
 
-  const aggregated = aggregatePointsByBuckets(filtered, buckets)
-
-  const resultPoints = aggregated.map<StatsPoint>((bucketPoint) => {
-    if (bucketPoint.count === 0 && currentWeight != null) {
-      return {
-        label: bucketPoint.label,
-        value: Math.round(currentWeight),
-      }
-    }
-
-    return {
-      label: bucketPoint.label,
-      value: bucketPoint.value,
-    }
-  })
-
-  return { points: resultPoints }
+  return { points: axisPoints }
 }
 
 function normalizePoints<T extends { date: string }>(
@@ -514,4 +528,30 @@ function resolveAxisValue(
   }
 
   return series[series.length - 1]?.value ?? 0
+}
+
+function groupPointsByDay(
+  points: NormalizedPoint[],
+  start: Date,
+  end: Date,
+): Map<number, number> {
+  const result = new Map<number, number>()
+
+  for (const point of points) {
+    if (!isWithinInterval(point.date, start, end)) {
+      continue
+    }
+
+    const dayKey = startOfDay(point.date).getTime()
+    const prev = result.get(dayKey)
+    const value = point.value
+
+    if (prev == null) {
+      result.set(dayKey, value)
+    } else {
+      result.set(dayKey, Math.max(prev, value))
+    }
+  }
+
+  return result
 }

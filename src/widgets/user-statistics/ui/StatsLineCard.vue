@@ -64,6 +64,7 @@ const props = defineProps<{
   title: string
   loader: (range: StatsRange) => Promise<StatsLoadResult>
   yMax?: number | null
+  yMin?: number | null
   valueSuffix?: string
 }>()
 
@@ -213,8 +214,9 @@ function render(points: StatsPoint[]) {
               },
             },
         y: {
-          beginAtZero: true,
+          beginAtZero: false,
           suggestedMax: props.yMax ?? undefined,
+          suggestedMin: props.yMin ?? undefined,
           ticks: { color: '#A1A1AA' },
         },
       },
