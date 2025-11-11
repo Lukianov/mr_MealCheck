@@ -44,18 +44,17 @@ export const userStatistics = () => {
 
     const goalKcal = dailyStatsCache.value?.goal?.kcal ?? 0
 
-    const series = formatCaloriesPoints(
-      raw?.kcalStats ?? [],
-      range,
-      getRange,
-    )
+    const series = formatCaloriesPoints(raw?.kcalStats ?? [], range, getRange)
 
-    const goalLine = formatCaloriesGoalLine(range, goalKcal, getRange)
+    const goalLine =
+      series.points.length > 0
+        ? formatCaloriesGoalLine(range, goalKcal, getRange)
+        : null
 
     return {
       points: series.points,
       emptyState: series.emptyState,
-      goalPoints: goalLine.points,
+      goalPoints: goalLine?.points ?? [],
     }
   }
 
@@ -326,9 +325,7 @@ function formatWeightRangeByDays(
   end: Date,
   currentWeight: number | null,
 ): StatsLoadResult {
-  const sorted = [...points].sort(
-    (a, b) => a.date.getTime() - b.date.getTime(),
-  )
+  const sorted = [...points].sort((a, b) => a.date.getTime() - b.date.getTime())
 
   const dayMaxValues = groupPointsByDay(sorted, start, end)
 
@@ -427,28 +424,28 @@ function createDayBuckets(start: Date, end: Date): DateBucket[] {
   return buckets
 }
 
-function createWeekBuckets(start: Date, end: Date): DateBucket[] {
-  const buckets: DateBucket[] = []
-
-  let cursor = startOfDay(start)
-  const max = endOfDay(end)
-
-  while (cursor <= max) {
-    const bucketStart = cursor
-    const tentativeEnd = endOfDay(addDays(bucketStart, 6))
-    const bucketEnd = tentativeEnd > max ? max : tentativeEnd
-
-    buckets.push({
-      start: bucketStart,
-      end: bucketEnd,
-      label: `${formatDayMonth(bucketStart)}-${formatDayMonth(bucketEnd)}`,
-    })
-
-    cursor = addDays(bucketEnd, 1)
-  }
-
-  return buckets
-}
+// function createWeekBuckets(start: Date, end: Date): DateBucket[] {
+//   const buckets: DateBucket[] = []
+//
+//   let cursor = startOfDay(start)
+//   const max = endOfDay(end)
+//
+//   while (cursor <= max) {
+//     const bucketStart = cursor
+//     const tentativeEnd = endOfDay(addDays(bucketStart, 6))
+//     const bucketEnd = tentativeEnd > max ? max : tentativeEnd
+//
+//     buckets.push({
+//       start: bucketStart,
+//       end: bucketEnd,
+//       label: `${formatDayMonth(bucketStart)}-${formatDayMonth(bucketEnd)}`,
+//     })
+//
+//     cursor = addDays(bucketEnd, 1)
+//   }
+//
+//   return buckets
+// }
 
 function filterPointsByBuckets(
   points: NormalizedPoint[],
