@@ -92,7 +92,7 @@ function formatCaloriesPoints(
 
   return formatAggregatedSeries(
     normalized,
-    createWeekBuckets(bounds.start, bounds.end),
+    createDayBuckets(bounds.start, bounds.end),
     'range',
   )
 }
