@@ -132,13 +132,21 @@ function formatWeightPoints(
 function formatDaySeries(
   points: NormalizedPoint[],
   now: Date,
-  options?: { includeAxis?: boolean },
+  options?: {
+    includeAxis?: boolean
+    axisDefaultValue?: number
+    axisEmptyValue?: number
+  },
 ): StatsLoadResult {
   const sameDayPoints = points
     .filter((point) => isSameDay(point.date, now))
     .sort((a, b) => a.date.getTime() - b.date.getTime())
 
   if (!sameDayPoints.length) {
+    if (options?.includeAxis && options.axisEmptyValue != null) {
+      return { points: createAxisPoints() }
+    }
+
     return { points: [], emptyState: 'today' }
   }
 
@@ -151,7 +159,7 @@ function formatDaySeries(
     }
   }
 
-  const axisPoints = createAxisPoints()
+  const axisPoints = createAxisPoints(options.axisDefaultValue ?? 0)
   const axisIndexByHour = new Map<number, number>()
 
   axisPoints.forEach((point, index) => {
@@ -197,30 +205,58 @@ function formatWeightDaySeries(
   now: Date,
   currentWeight: number | null,
 ): StatsLoadResult {
-  const dayPoints = points
+  const sameDayPoints = points
     .filter((point) => isSameDay(point.date, now))
     .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .map<StatsPoint>((point) => ({
-      label: formatTime(point.date),
-      value: point.value,
-    }))
 
-  if (dayPoints.length) {
-    return { points: dayPoints }
-  }
+  const measurementFloatingPoints = sameDayPoints.map<StatsPoint>((point) => ({
+    label: '',
+    value: Math.round(point.value),
+    x: toHours(point.date),
+  }))
 
-  if (currentWeight != null) {
-    const rounded = Math.round(currentWeight)
-
-    return {
-      points: [
-        { label: '00:00', value: rounded },
-        { label: '23:59', value: rounded },
-      ],
+  if (!sameDayPoints.length) {
+    if (typeof currentWeight === 'number') {
+      const current = Math.round(currentWeight)
+      return { points: createAxisPoints(current) }
     }
+
+    return { points: [], emptyState: 'today' }
   }
 
-  return { points: [], emptyState: 'today' }
+  if (sameDayPoints.length === 1) {
+    const fallback =
+      typeof currentWeight === 'number'
+        ? Math.round(currentWeight)
+        : sameDayPoints[0].value
+
+    const axisPoints = createAxisPoints(Math.round(fallback))
+    const merged = [...axisPoints, ...measurementFloatingPoints]
+
+    merged.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+
+    return { points: merged }
+  }
+
+  const measurementSeries = sameDayPoints.map((point) => ({
+    hour: toHours(point.date),
+    value: Math.round(point.value),
+  }))
+
+  const axisPoints = createAxisPoints(Math.round(measurementSeries[0].value))
+
+  axisPoints.forEach((axisPoint) => {
+    const axisHour = axisPoint.x ?? 0
+    axisPoint.value = Math.round(
+      resolveAxisValue(axisHour, measurementSeries),
+    )
+  })
+
+  const merged = [...axisPoints, ...measurementFloatingPoints]
+
+  merged.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+
+  return { points: merged }
 }
 
 function formatAggregatedSeries(
@@ -428,12 +464,12 @@ function toHours(date: Date): number {
   return date.getHours() + date.getMinutes() / 60
 }
 
-function createAxisPoints(): StatsPoint[] {
+function createAxisPoints(defaultValue = 0): StatsPoint[] {
   const result: StatsPoint[] = []
 
   for (let hour = 0; hour <= 24; hour += AXIS_STEP_HOURS) {
     result.push({
-      value: 0,
+      value: defaultValue,
       label: formatHourByNumber(hour),
       x: hour,
     })
@@ -465,4 +501,17 @@ function formatHourByNumber(hour: number): string {
   const hh = String(displayHour).padStart(2, '0')
 
   return `${hh}:00`
+}
+
+function resolveAxisValue(
+  axisHour: number,
+  series: { hour: number; value: number }[],
+): number {
+  for (let i = 0; i < series.length; i++) {
+    if (axisHour <= series[i].hour) {
+      return series[i].value
+    }
+  }
+
+  return series[series.length - 1]?.value ?? 0
 }
