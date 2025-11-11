@@ -46,12 +46,8 @@ import { ru } from '@/shared/lib/i18n/ru'
 import StatsLineCard from '@/widgets/user-statistics/ui/StatsLineCard.vue'
 import { userStatistics } from '@/widgets/user-statistics/model'
 
-const {
-  loadCaloriesPoints,
-  loadWeightPoints,
-  caloriesRange,
-  weightRange,
-} = userStatistics()
+const { loadCaloriesPoints, loadWeightPoints, caloriesRange, weightRange } =
+  userStatistics()
 </script>
 
 <style scoped></style>

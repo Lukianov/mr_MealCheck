@@ -83,14 +83,16 @@ async function load() {
   try {
     const currentRange = range.value ?? 'day'
 
-    const { points, emptyState: nextEmptyState } = await props.loader(
-      currentRange,
-    )
+    const { points, emptyState: nextEmptyState } =
+      await props.loader(currentRange)
 
     if (!points.length) {
       emptyState.value = nextEmptyState ?? null
+
       destroyChart()
+
       clearCanvas()
+
       return
     }
 
@@ -139,8 +141,17 @@ function render(points: StatsPoint[]) {
   gradient.addColorStop(0, 'rgba(0,167,237,0.35)')
   gradient.addColorStop(1, 'rgba(0,167,237,0.00)')
 
-  const labels = points.map((p) => p.label)
-  const data = points.map((p) => p.value)
+  const hasNumericX = points.some((point) => typeof point.x === 'number')
+
+  const datasetValues = hasNumericX
+    ? points.map((point) => ({
+        x: point.x ?? 0,
+        y: point.value,
+        label: point.label,
+      }))
+    : points.map((point) => point.value)
+
+  const labels = hasNumericX ? undefined : points.map((point) => point.label)
 
   destroyChart()
 
@@ -150,7 +161,7 @@ function render(points: StatsPoint[]) {
       labels,
       datasets: [
         {
-          data,
+          data: datasetValues,
           tension: 0.35,
           borderWidth: 2,
           borderColor: 'rgba(0,167,237,1)',
@@ -171,33 +182,39 @@ function render(points: StatsPoint[]) {
             label: (i) => {
               const v = i.parsed.y ?? 0
               const suf = props.valueSuffix ?? ''
-              return `${v}${suf}`
+              const raw = i.raw as { label?: string; x?: number } | number
+              const labelText =
+                typeof raw === 'object' && raw?.label && raw.label.length
+                  ? raw.label
+                  : typeof raw === 'object' && typeof raw?.x === 'number'
+                    ? formatHourTick(raw.x)
+                    : (i.label ?? '')
+              return labelText ? `${labelText}: ${v}${suf}` : `${v}${suf}`
             },
           },
         },
       },
       scales: {
-        x: {
-          //TODO: прикрутить цвет грида
-          // grid: {
-          //   color: 'rgba(255,255,255,0.06)',
-          //   borderColor: 'rgba(255,255,255,0.08)',
-          //   borderDash: [4, 4],
-          //   tickColor: 'rgba(0,0,0,0)',
-          // },
-          ticks: {
-            color: '#A1A1AA',
-            maxRotation: 0,
-          },
-        },
+        x: hasNumericX
+          ? {
+              type: 'linear',
+              min: 0,
+              max: 24,
+              ticks: {
+                color: '#A1A1AA',
+                stepSize: 2,
+                callback: (value) => formatHourTick(Number(value)),
+              },
+            }
+          : {
+              ticks: {
+                color: '#A1A1AA',
+                maxRotation: 0,
+              },
+            },
         y: {
           beginAtZero: true,
           suggestedMax: props.yMax ?? undefined,
-          // grid: {
-          //   color: 'rgba(255,255,255,0.06)',
-          //   borderColor: 'rgba(255,255,255,0.08)',
-          //   borderDash: [4, 4],
-          // },
           ticks: { color: '#A1A1AA' },
         },
       },
@@ -214,4 +231,14 @@ watch(
 )
 
 onBeforeUnmount(() => destroyChart())
+
+function formatHourTick(value: number): string {
+  const clamped = Math.max(0, Math.min(value, 24))
+  const totalMinutes = Math.round(clamped * 60)
+  const hours = Math.min(24, Math.floor(totalMinutes / 60))
+  const minutes = hours === 24 ? 0 : totalMinutes % 60
+  const hh = String(hours).padStart(2, '0')
+  const mm = String(minutes).padStart(2, '0')
+  return `${hh}:${mm}`
+}
 </script>

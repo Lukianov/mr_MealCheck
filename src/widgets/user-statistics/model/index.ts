@@ -73,7 +73,7 @@ function formatCaloriesPoints(
   const normalized = normalizePoints(stats, (item) => item.kcal ?? 0)
 
   if (range === 'day') {
-    return formatDaySeries(normalized, now)
+    return formatDaySeries(normalized, now, { includeAxis: true })
   }
 
   if (range === 'week') {
@@ -127,13 +127,17 @@ function formatWeightPoints(
   )
 }
 
-function formatDaySeries(points: NormalizedPoint[], now: Date): StatsLoadResult {
+function formatDaySeries(
+  points: NormalizedPoint[],
+  now: Date,
+  options?: { includeAxis?: boolean },
+): StatsLoadResult {
   const dayPoints = points
     .filter((point) => isSameDay(point.date, now))
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
     .map<StatsPoint>((point) => ({
       label: formatTime(point.date),
       value: point.value,
+      ...(options?.includeAxis ? { x: toHours(point.date) } : {}),
     }))
 
   if (!dayPoints.length) {
@@ -374,4 +378,8 @@ function formatTime(date: Date): string {
     hour: '2-digit',
     minute: '2-digit',
   })
+}
+
+function toHours(date: Date): number {
+  return date.getHours() + date.getMinutes() / 60
 }

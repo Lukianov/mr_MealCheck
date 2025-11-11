@@ -5,6 +5,7 @@ export type StatsRange = 'day' | 'week' | 'month'
 export type StatsPoint = {
   value: number
   label: string
+  x?: number
 }
 
 export type StatsEmptyState = 'today' | 'range'
