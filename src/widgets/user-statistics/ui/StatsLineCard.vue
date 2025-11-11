@@ -202,7 +202,7 @@ function render(points: StatsPoint[]) {
               max: 24,
               ticks: {
                 color: '#A1A1AA',
-                stepSize: 2,
+                stepSize: 4,
                 callback: (value) => formatHourTick(Number(value)),
               },
             }
@@ -237,7 +237,8 @@ function formatHourTick(value: number): string {
   const totalMinutes = Math.round(clamped * 60)
   const hours = Math.min(24, Math.floor(totalMinutes / 60))
   const minutes = hours === 24 ? 0 : totalMinutes % 60
-  const hh = String(hours).padStart(2, '0')
+  const hh =
+    hours === 24 ? '00' : String(Math.max(0, Math.min(hours, 23))).padStart(2, '0')
   const mm = String(minutes).padStart(2, '0')
   return `${hh}:${mm}`
 }

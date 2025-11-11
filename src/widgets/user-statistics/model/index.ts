@@ -13,6 +13,8 @@ import type {
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000
 
+const AXIS_STEP_HOURS = 4
+
 type KcalStat = FetchUserCaloriesRequestResponse['kcalStats'][number]
 
 type NormalizedPoint = {
@@ -132,19 +134,62 @@ function formatDaySeries(
   now: Date,
   options?: { includeAxis?: boolean },
 ): StatsLoadResult {
-  const dayPoints = points
+  const sameDayPoints = points
     .filter((point) => isSameDay(point.date, now))
-    .map<StatsPoint>((point) => ({
-      label: formatTime(point.date),
-      value: point.value,
-      ...(options?.includeAxis ? { x: toHours(point.date) } : {}),
-    }))
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
 
-  if (!dayPoints.length) {
+  if (!sameDayPoints.length) {
     return { points: [], emptyState: 'today' }
   }
 
-  return { points: dayPoints }
+  if (!options?.includeAxis) {
+    return {
+      points: sameDayPoints.map<StatsPoint>((point) => ({
+        label: formatTime(point.date),
+        value: point.value,
+      })),
+    }
+  }
+
+  const axisPoints = createAxisPoints()
+  const axisIndexByHour = new Map<number, number>()
+
+  axisPoints.forEach((point, index) => {
+    axisIndexByHour.set(point.x ?? 0, index)
+  })
+
+  const floatingPoints: StatsPoint[] = []
+
+  for (const point of sameDayPoints) {
+    const xValue = toHours(point.date)
+    const snappedHour = snapToAxisHour(xValue)
+
+    if (
+      snappedHour != null &&
+      axisIndexByHour.has(snappedHour) &&
+      Math.abs(snappedHour - xValue) < 1e-6
+    ) {
+      const idx = axisIndexByHour.get(snappedHour)!
+      axisPoints[idx] = {
+        ...axisPoints[idx],
+        value: point.value,
+        label: formatTime(point.date),
+      }
+      continue
+    }
+
+    floatingPoints.push({
+      label: '',
+      value: point.value,
+      x: xValue,
+    })
+  }
+
+  const merged = [...axisPoints, ...floatingPoints]
+
+  merged.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+
+  return { points: merged }
 }
 
 function formatWeightDaySeries(
@@ -274,13 +319,12 @@ function createDayBuckets(start: Date, end: Date): DateBucket[] {
   const rangeStart = startOfDay(start)
   const rangeEnd = endOfDay(end)
 
-  const totalDays =
-    Math.max(
-      1,
-      Math.round(
-        (startOfDay(rangeEnd).getTime() - rangeStart.getTime()) / DAY_IN_MS,
-      ) + 1,
-    )
+  const totalDays = Math.max(
+    1,
+    Math.round(
+      (startOfDay(rangeEnd).getTime() - rangeStart.getTime()) / DAY_IN_MS,
+    ) + 1,
+  )
 
   const buckets: DateBucket[] = []
 
@@ -382,4 +426,43 @@ function formatTime(date: Date): string {
 
 function toHours(date: Date): number {
   return date.getHours() + date.getMinutes() / 60
+}
+
+function createAxisPoints(): StatsPoint[] {
+  const result: StatsPoint[] = []
+
+  for (let hour = 0; hour <= 24; hour += AXIS_STEP_HOURS) {
+    result.push({
+      value: 0,
+      label: formatHourByNumber(hour),
+      x: hour,
+    })
+  }
+
+  return result
+}
+
+function snapToAxisHour(value: number): number | null {
+  if (value < 0 || value > 24) {
+    return null
+  }
+
+  const snapped = Math.round(value / AXIS_STEP_HOURS) * AXIS_STEP_HOURS
+
+  if (snapped < 0 || snapped > 24) {
+    return null
+  }
+
+  return snapped
+}
+
+function formatHourByNumber(hour: number): string {
+  const normalizedHour = Math.min(Math.max(hour, 0), 24)
+
+  const displayHour =
+    normalizedHour === 24 ? 0 : Math.max(0, Math.min(normalizedHour, 23))
+
+  const hh = String(displayHour).padStart(2, '0')
+
+  return `${hh}:00`
 }
