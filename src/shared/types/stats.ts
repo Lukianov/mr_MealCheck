@@ -13,4 +13,5 @@ export type StatsEmptyState = 'today' | 'range'
 export interface StatsLoadResult {
   points: StatsPoint[]
   emptyState?: StatsEmptyState
+  goalPoints?: StatsPoint[]
 }

@@ -42,7 +42,21 @@ export const userStatistics = () => {
   async function loadCaloriesPoints(range: StatsRange) {
     const raw = await fetchUserCalories(range)
 
-    return formatCaloriesPoints(raw?.kcalStats ?? [], range, getRange)
+    const goalKcal = dailyStatsCache.value?.goal?.kcal ?? 0
+
+    const series = formatCaloriesPoints(
+      raw?.kcalStats ?? [],
+      range,
+      getRange,
+    )
+
+    const goalLine = formatCaloriesGoalLine(range, goalKcal, getRange)
+
+    return {
+      points: series.points,
+      emptyState: series.emptyState,
+      goalPoints: goalLine.points,
+    }
   }
 
   async function loadWeightPoints(range: StatsRange) {
@@ -78,23 +92,45 @@ function formatCaloriesPoints(
     return formatDaySeries(normalized, now, { includeAxis: true })
   }
 
-  if (range === 'week') {
-    const bounds = getRange('week', now)
-
-    return formatAggregatedSeries(
-      normalized,
-      createDayBuckets(bounds.start, bounds.end),
-      'range',
-    )
-  }
-
-  const bounds = getRange('month', now)
+  const bounds = getRange(range, now)
 
   return formatAggregatedSeries(
     normalized,
     createDayBuckets(bounds.start, bounds.end),
     'range',
   )
+}
+
+function formatCaloriesGoalLine(
+  range: StatsRange,
+  goalValue: number,
+  getRange: ReturnType<typeof useISODate>['getRange'],
+  now = new Date(),
+): StatsLoadResult {
+  const value = Math.round(goalValue)
+
+  if (range === 'day') {
+    return {
+      points: [
+        { label: formatHourByNumber(0), value, x: 0 },
+        { label: formatHourByNumber(24), value, x: 24 },
+      ],
+    }
+  }
+
+  const bounds = getRange(range, now)
+  const buckets = createDayBuckets(bounds.start, bounds.end)
+
+  if (!buckets.length) {
+    return { points: [], emptyState: 'range' }
+  }
+
+  return {
+    points: buckets.map<StatsPoint>((bucket) => ({
+      label: bucket.label,
+      value,
+    })),
+  }
 }
 
 function formatWeightPoints(

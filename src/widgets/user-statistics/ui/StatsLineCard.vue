@@ -84,10 +84,13 @@ async function load() {
   try {
     const currentRange = range.value ?? 'day'
 
-    const { points, emptyState: nextEmptyState } =
-      await props.loader(currentRange)
+    const {
+      points,
+      emptyState: nextEmptyState,
+      goalPoints = [],
+    } = await props.loader(currentRange)
 
-    if (!points.length) {
+    if (!points.length && !goalPoints.length) {
       emptyState.value = nextEmptyState ?? null
 
       destroyChart()
@@ -99,7 +102,7 @@ async function load() {
 
     emptyState.value = null
 
-    render(points)
+    render(points, goalPoints)
   } finally {
     loading.value = false
   }
@@ -126,7 +129,7 @@ function destroyChart() {
   }
 }
 
-function render(points: StatsPoint[]) {
+function render(points: StatsPoint[], goalPoints: StatsPoint[] = []) {
   if (!canvasEl.value) {
     return
   }
@@ -142,17 +145,27 @@ function render(points: StatsPoint[]) {
   gradient.addColorStop(0, 'rgba(0,167,237,0.35)')
   gradient.addColorStop(1, 'rgba(0,167,237,0.00)')
 
-  const hasNumericX = points.some((point) => typeof point.x === 'number')
+  const combinedPoints = [...points, ...goalPoints]
 
-  const datasetValues = hasNumericX
-    ? points.map((point) => ({
-        x: point.x ?? 0,
-        y: point.value,
-        label: point.label,
-      }))
-    : points.map((point) => point.value)
+  const hasNumericX = combinedPoints.some(
+    (point) => typeof point.x === 'number',
+  )
 
-  const labels = hasNumericX ? undefined : points.map((point) => point.label)
+  const toDatasetValues = (series: StatsPoint[]) =>
+    hasNumericX
+      ? series.map((point) => ({
+          x: point.x ?? 0,
+          y: point.value,
+          label: point.label,
+        }))
+      : series.map((point) => point.value)
+
+  const primaryData = toDatasetValues(points)
+  const goalData = goalPoints.length ? toDatasetValues(goalPoints) : null
+
+  const labels = hasNumericX
+    ? undefined
+    : (points.length ? points : goalPoints).map((point) => point.label)
 
   destroyChart()
 
@@ -162,7 +175,7 @@ function render(points: StatsPoint[]) {
       labels,
       datasets: [
         {
-          data: datasetValues,
+          data: primaryData,
           tension: 0.35,
           borderWidth: 2,
           borderColor: 'rgba(0,167,237,1)',
@@ -170,6 +183,19 @@ function render(points: StatsPoint[]) {
           fill: true,
           backgroundColor: gradient,
         },
+        ...(goalData
+          ? [
+              {
+                data: goalData,
+                tension: 0,
+                borderWidth: 2,
+                borderColor: 'rgba(255,255,255,0.45)',
+                borderDash: [6, 4],
+                pointRadius: 0,
+                fill: false,
+              },
+            ]
+          : []),
       ],
     },
     options: {
@@ -240,7 +266,9 @@ function formatHourTick(value: number): string {
   const hours = Math.min(24, Math.floor(totalMinutes / 60))
   const minutes = hours === 24 ? 0 : totalMinutes % 60
   const hh =
-    hours === 24 ? '00' : String(Math.max(0, Math.min(hours, 23))).padStart(2, '0')
+    hours === 24
+      ? '00'
+      : String(Math.max(0, Math.min(hours, 23))).padStart(2, '0')
   const mm = String(minutes).padStart(2, '0')
   return `${hh}:${mm}`
 }
