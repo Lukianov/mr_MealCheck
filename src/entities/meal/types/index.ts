@@ -47,6 +47,20 @@ export interface UploadAnalysisResponse {
   photoUrl: string
 }
 
+export interface AnalysisTextResponse {
+  id: number
+  photoUrl: string
+  type: MealType
+  isViewed: boolean
+  summary: string
+  recommendation: string
+  kcal: number
+  protein: number
+  fat: number
+  carb: number
+  dishes: Dish[]
+}
+
 export type AnalysisStatus = 'pending' | 'done'
 
 export interface AnalysisStatusResponse {

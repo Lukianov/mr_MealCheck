@@ -7,4 +7,5 @@ export enum ModalNames {
   RetakePhotoModal = 'RetakePhotoModal',
   WeightChangerModal = 'WeightChangerModal',
   TextLogModal = 'TextLogModal',
+  RewriteTextModal = 'RewriteTextModal',
 }

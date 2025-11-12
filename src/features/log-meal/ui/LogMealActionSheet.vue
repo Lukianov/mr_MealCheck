@@ -26,7 +26,7 @@
         @click="openGallery"
       >
         <span class="flex items-center gap-3">
-          <span class="flex w-5 h-5 items-center justify-center">
+          <span class="flex w-7 h-7 items-center justify-center">
             <GalleryIcon />
           </span>
           <span class="text-left min-w-36 text-base whitespace-nowrap">
@@ -40,7 +40,7 @@
         @click="emit('input-text')"
       >
         <span class="flex items-center gap-3">
-          <span class="flex w-5 h-5 items-center justify-center">
+          <span class="flex w-7 h-7 items-center justify-center">
             <TextInputIcon />
           </span>
           <span class="text-left min-w-36 text-base whitespace-nowrap">

@@ -38,10 +38,14 @@ import UITextArea from '@/shared/ui/UITextArea/UITextArea.vue'
 import { ref } from 'vue'
 import { useAnalyseTextMeal } from '@/features/analyse-text-meal/api/useAnalyseTextMeal'
 import { useMainPage } from '@/pages/main-page'
+import { ModalNames } from '@/shared/types/modalNames'
+import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
 
 const { loadAll } = useMainPage()
 
 const { setOpenedModal } = useOverlayManager()
+
+const { markViewed } = useMarkMealViewed()
 
 const mealDescription = ref('')
 
@@ -49,7 +53,15 @@ const { error, analyseTextMeal, isLoading } = useAnalyseTextMeal()
 
 const analyzeMealText = async () => {
   try {
-    await analyseTextMeal(mealDescription.value)
+    const res = await analyseTextMeal(mealDescription.value)
+
+    if (res.id && !res.dishes.length) {
+      await markViewed(res.id)
+
+      setOpenedModal(ModalNames.RewriteTextModal)
+
+      return
+    }
 
     void loadAll()
 

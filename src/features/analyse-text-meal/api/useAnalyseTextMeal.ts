@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { apiRequest, ApiResponseType } from '@/shared/api'
 import { useISODate } from '@/shared/lib/composables/useISODate'
-import { UploadAnalysisResponse } from '@/entities/meal/types'
+import { AnalysisTextResponse } from '@/entities/meal/types'
 
 export function useAnalyseTextMeal() {
   const { toLocalIsoWithOffset } = useISODate()
@@ -18,7 +18,7 @@ export function useAnalyseTextMeal() {
     try {
       const currentDate = toLocalIsoWithOffset(new Date())
 
-      return await apiRequest<UploadAnalysisResponse>(
+      return await apiRequest<AnalysisTextResponse>(
         ApiResponseType.AnalyseTextMeal,
         {
           method: 'POST',

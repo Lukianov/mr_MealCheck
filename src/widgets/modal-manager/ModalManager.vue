@@ -47,6 +47,10 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/log-meal/ui/TextLogModal.vue'),
       )
+    case ModalNames.RewriteTextModal:
+      return defineAsyncComponent(
+        () => import('@/entities/meal/ui/RewriteTextModal.vue'),
+    )
     default:
       return null
   }

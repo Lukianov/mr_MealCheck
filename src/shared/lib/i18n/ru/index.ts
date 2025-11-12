@@ -121,6 +121,13 @@ export const ru = {
     acceptButton: 'Переснять',
     cancel: 'Отмена',
   },
+  rewriteTextModal: {
+    title: 'Не удалось распознать еду по описанию',
+    description:
+      'Попробуйте описать блюдо проще: название + порция + ключевые ингредиенты.',
+    acceptButton: 'Описать',
+    cancel: 'Отмена',
+  },
   dailyProgressWidget: {
     from: 'За',
     title: 'сегодня',
