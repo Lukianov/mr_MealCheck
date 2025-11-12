@@ -46,7 +46,7 @@
 import { ru } from '@/shared/lib/i18n/ru'
 import StatsLineCard from '@/widgets/user-statistics/ui/StatsLineCard.vue'
 import { userStatistics } from '@/widgets/user-statistics/model'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 
 const { dailyStatsCache } = useMainPage()
 

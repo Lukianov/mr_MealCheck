@@ -94,7 +94,7 @@ import ResendMeal from '@/features/send-meal-again/ui/ResendMeal.vue'
 import { useMealDetails } from '@/entities/meal/api/useMealDetails'
 import type { Dish as UIDish } from '@/entities/meal/model/types'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 import UIDetailedMealSkeleton from '@/entities/meal/ui/UIDetailedMealSkeleton.vue'
 import { TYPE_LABEL } from '@/shared/const'
 

@@ -1,6 +1,6 @@
 import { onBeforeUnmount } from 'vue'
 
-export function useDebounce<T extends (...args: any[]) => void>(
+export function useDebounce<T extends (...args: never[]) => void>(
   fn: T,
   delay = 300,
 ) {

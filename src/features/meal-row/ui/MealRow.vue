@@ -9,10 +9,18 @@
       :style="{ 'background-color': 'rgba(29, 29, 29, 1)' }"
     >
       <img
-        class="rounded w-10 h-10 shrink-0"
+        v-if="props.image"
+        class="rounded-lg w-10 h-10 shrink-0"
         :src="props.image"
         :alt="props.image"
       />
+      <div
+        v-else
+        :style="{ 'background-color': 'rgba(255, 255, 255, 0.08)' }"
+        class="rounded-lg w-10 h-10 shrink-0 flex items-center justify-center"
+      >
+        <TextMealIcon class="w-6 h-6" />
+      </div>
       <div class="flex items-center justify-between grow gap-2 min-w-0">
         <div class="flex-1 min-w-0 basis-0">
           <div v-if="props.title" class="mb-0.5 flex gap-1 items-center">
@@ -78,6 +86,7 @@ import { RouteName } from '@/shared/lib/router'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import UISkeleton from '@/shared/ui/UISkeleton/UISkeleton.vue'
+import TextMealIcon from '@/shared/assets/icons/text-meal-icon.svg'
 
 interface Props {
   id: number

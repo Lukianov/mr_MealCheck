@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { useUserCaloriesStatistics } from '@/features/get-user-calories-stat/api/useUserCaloriesStatistics'
 import { useUserWeightStatistics } from '@/features/get-user-weight-stat/api/useUserWeightStatistics'
 import { useISODate } from '@/shared/lib/composables/useISODate'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 import type { FetchUserCaloriesRequestResponse } from '@/features/get-user-calories-stat/types'
 import type { WeightPoint } from '@/features/get-user-weight-stat/types'
 import type {

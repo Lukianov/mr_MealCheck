@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="logMealContainer">
     <UIButton
       @click="setShowLogOptionsPopup(!isShowLogOptionsPopup)"
       :is-disabled="isDisabled"
@@ -25,8 +25,6 @@
 import LogPlusIcon from '@/shared/assets/icons/log-plus-icon.svg'
 import { UIButton } from '@/shared/ui/UIButton'
 import { ru } from '@/shared/lib/i18n/ru'
-
-import WebApp from '@twa-dev/sdk'
 import { ref } from 'vue'
 import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
@@ -34,6 +32,8 @@ import { ModalNames } from '@/shared/types/modalNames'
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
 import { useLogMeal } from '@/entities/log-meal/model'
 import { LogMealActionSheet } from '@/features/log-meal'
+import { useClickOutside } from '@/shared/lib/composables/useClickOutside'
+import { useTestUserData } from '@/features/test-user-data/useTestUserData'
 
 const emit = defineEmits<{ (e: 'update-data'): void }>()
 
@@ -45,6 +45,12 @@ const { upload } = useUploadMealAnalysis()
 const { enqueue } = useMealAnalysisWorker()
 
 const isDisabled = ref(false)
+
+const logMealContainer = ref<HTMLElement | null>(null)
+
+useClickOutside(logMealContainer, () => setShowLogOptionsPopup(false), {
+  enabled: isShowLogOptionsPopup,
+})
 
 async function onPick(e: Event) {
   try {

@@ -18,6 +18,7 @@
         <UIButton
           class="w-full"
           :is-disabled="isLoading"
+          :is-loading="isLoading"
           :style="{ background: 'rgba(0, 167, 237, 1)' }"
           @click="analyzeMealText"
         >
@@ -36,7 +37,7 @@ import { ru } from '@/shared/lib/i18n/ru'
 import UITextArea from '@/shared/ui/UITextArea/UITextArea.vue'
 import { ref } from 'vue'
 import { useAnalyseTextMeal } from '@/features/analyse-text-meal/api/useAnalyseTextMeal'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 
 const { loadAll } = useMainPage()
 

@@ -40,7 +40,7 @@ import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
 import MealList from '@/entities/meal-list/MealList.vue'
 import LogMeal from '@/entities/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
-import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
+import { currentSelectedDate, useMainPage } from '@/pages/main-page'
 import WeightChanger from '@/entities/weight-changer/ui/WeightChanger.vue'
 
 const {
