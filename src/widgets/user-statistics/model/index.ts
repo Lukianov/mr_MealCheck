@@ -88,7 +88,10 @@ function formatCaloriesPoints(
   const normalized = normalizePoints(stats, (item) => item.kcal ?? 0)
 
   if (range === 'day') {
-    return formatDaySeries(normalized, now, { includeAxis: true })
+    return formatDaySeries(normalized, now, {
+      includeAxis: true,
+      accumulate: true,
+    })
   }
 
   const bounds = getRange(range, now)
@@ -173,6 +176,7 @@ function formatDaySeries(
     includeAxis?: boolean
     axisDefaultValue?: number
     axisEmptyValue?: number
+    accumulate?: boolean
   },
 ): StatsLoadResult {
   const sameDayPoints = points
@@ -196,6 +200,14 @@ function formatDaySeries(
     }
   }
 
+  if (options.accumulate) {
+    const cumulativePoints = accumulateDayValues(sameDayPoints)
+    return formatAccumulatedDaySeries(
+      cumulativePoints,
+      options.axisDefaultValue ?? 0,
+    )
+  }
+
   const axisPoints = createAxisPoints(options.axisDefaultValue ?? 0)
   const axisIndexByHour = new Map<number, number>()
 
@@ -206,6 +218,53 @@ function formatDaySeries(
   const floatingPoints: StatsPoint[] = []
 
   for (const point of sameDayPoints) {
+    const xValue = toHours(point.date)
+    const snappedHour = snapToAxisHour(xValue)
+
+    if (
+      snappedHour != null &&
+      axisIndexByHour.has(snappedHour) &&
+      Math.abs(snappedHour - xValue) < 1e-6
+    ) {
+      const idx = axisIndexByHour.get(snappedHour)!
+      axisPoints[idx] = {
+        ...axisPoints[idx],
+        value: point.value,
+        label: formatTime(point.date),
+      }
+      continue
+    }
+
+    floatingPoints.push({
+      label: '',
+      value: point.value,
+      x: xValue,
+    })
+  }
+
+  const merged = [...axisPoints, ...floatingPoints]
+
+  merged.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+
+  return { points: merged }
+}
+
+function formatAccumulatedDaySeries(
+  cumulativePoints: NormalizedPoint[],
+  axisDefaultValue: number,
+): StatsLoadResult {
+  const axisPoints = createAxisPoints(axisDefaultValue)
+  fillAxisWithCumulative(axisPoints, cumulativePoints)
+
+  const axisIndexByHour = new Map<number, number>()
+
+  axisPoints.forEach((point, index) => {
+    axisIndexByHour.set(point.x ?? 0, index)
+  })
+
+  const floatingPoints: StatsPoint[] = []
+
+  for (const point of cumulativePoints) {
     const xValue = toHours(point.date)
     const snappedHour = snapToAxisHour(xValue)
 
@@ -375,6 +434,18 @@ function normalizePoints<T extends { date: string }>(
   }))
 }
 
+function accumulateDayValues(points: NormalizedPoint[]): NormalizedPoint[] {
+  let total = 0
+
+  return points.map((point) => {
+    total += point.value
+    return {
+      date: point.date,
+      value: total,
+    }
+  })
+}
+
 function aggregatePointsByBuckets(
   points: NormalizedPoint[],
   buckets: DateBucket[],
@@ -523,6 +594,33 @@ function createAxisPoints(defaultValue = 0): StatsPoint[] {
   }
 
   return result
+}
+
+function fillAxisWithCumulative(
+  axisPoints: StatsPoint[],
+  cumulativePoints: NormalizedPoint[],
+): void {
+  let cursorValue = 0
+  let cumulativeIndex = 0
+
+  const series = cumulativePoints.map((point) => ({
+    hour: toHours(point.date),
+    value: point.value,
+  }))
+
+  for (const axisPoint of axisPoints) {
+    const axisHour = axisPoint.x ?? 0
+
+    while (
+      cumulativeIndex < series.length &&
+      series[cumulativeIndex].hour <= axisHour + 1e-6
+    ) {
+      cursorValue = series[cumulativeIndex].value
+      cumulativeIndex++
+    }
+
+    axisPoint.value = cursorValue
+  }
 }
 
 function snapToAxisHour(value: number): number | null {
