@@ -176,6 +176,7 @@ function render(points: StatsPoint[], goalPoints: StatsPoint[] = []) {
       datasets: [
         {
           data: primaryData,
+          cubicInterpolationMode: 'monotone',
           tension: 0.35,
           borderWidth: 2,
           borderColor: 'rgba(0,167,237,1)',

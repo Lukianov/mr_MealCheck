@@ -79,6 +79,18 @@ export const userStatistics = () => {
   }
 }
 
+function enforceNonDecreasingInPlace(points: StatsPoint[]): void {
+  let last = 0
+
+  for (let i = 0; i < points.length; i++) {
+    if (points[i].value < last) {
+      points[i].value = last
+    }
+
+    last = points[i].value
+  }
+}
+
 function formatCaloriesPoints(
   stats: ReadonlyArray<KcalStat>,
   range: StatsRange,
@@ -292,6 +304,8 @@ function formatAccumulatedDaySeries(
   const merged = [...axisPoints, ...floatingPoints]
 
   merged.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+
+  enforceNonDecreasingInPlace(merged)
 
   return { points: merged }
 }
