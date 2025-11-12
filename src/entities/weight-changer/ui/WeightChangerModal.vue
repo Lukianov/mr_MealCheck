@@ -33,7 +33,7 @@ import { UIButton } from '@/shared/ui/UIButton'
 import UIBaseModal from '@/shared/ui/UIBaseModal/UIBaseModal.vue'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { sendOnboardingRequest } from '@/features/onboarding/api/sendOnboardingRequest'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 import { ref } from 'vue'
 
 const { modalPayload, setOpenedModal } = useOverlayManager()

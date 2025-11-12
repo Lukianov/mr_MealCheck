@@ -4,7 +4,7 @@ import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import WebApp from '@twa-dev/sdk'
 import { IS_ONBOARDING_PASSED_KEY } from '@/app/providers/setupTelegramWebApp'
 import { ru } from '@/shared/lib/i18n/ru'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 
 export const useOnboarding = () => {
   const { loadAll } = useMainPage()

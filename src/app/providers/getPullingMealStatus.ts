@@ -1,5 +1,5 @@
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 
 export const getPullingMealStatus = () => {
   const { loadAll } = useMainPage()

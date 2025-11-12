@@ -47,7 +47,7 @@ import { useResendMeal } from '@/features/send-meal-again/model'
 import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
 import { ModalNames } from '@/shared/types/modalNames'
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 
 const { setOpenedModal } = useOverlayManager()
 

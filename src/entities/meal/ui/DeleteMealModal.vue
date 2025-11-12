@@ -42,7 +42,7 @@ import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { useDeleteMeal } from '@/entities/meal/api/useDeleteMeal'
 import { RouteName, router } from '@/shared/lib/router'
 import { useRoute } from 'vue-router'
-import { useMainPage } from '@/pages/main-page/model'
+import { useMainPage } from '@/pages/main-page'
 import { ru } from '@/shared/lib/i18n/ru'
 
 const { loadAll } = useMainPage()

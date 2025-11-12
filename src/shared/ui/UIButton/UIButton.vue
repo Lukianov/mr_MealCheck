@@ -6,17 +6,25 @@
     v-bind="$attrs"
   >
     <span class="ui-button__content">
-      <slot />
+      <UILoaderRays
+        v-if="isLoading"
+        class="text-white"
+        :size="21"
+        :thickness="4"
+      />
+      <slot v-else />
     </span>
   </button>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import UILoaderRays from '@/shared/ui/UILoaderRays/UILoaderRays.vue'
 
 const props = defineProps<{
   type?: 'button' | 'submit' | 'reset'
   isDisabled?: boolean
+  isLoading?: boolean
 }>()
 
 const buttonType = computed(() => props.type ?? 'button')

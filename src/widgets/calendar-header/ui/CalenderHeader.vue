@@ -7,13 +7,13 @@
     }"
   >
     <div class="flex items-center gap-1">
-      <component :is="userPicComponent" :to="{ path: '/onboarding-page' }">
+      <div @click="registerTap">
         <img
           class="w-7 h-7 rounded-full bg-white/5"
           :src="userPic"
           alt="user picture"
         />
-      </component>
+      </div>
       <p><span class="font-bold">Meal</span>check</p>
     </div>
     <DatePickerButton
@@ -28,11 +28,9 @@
 import { DatePickerButton } from '@/features/date-filter'
 import { computed } from 'vue'
 import { useApiClient } from '@/shared/api'
-import { useTestUserData } from '@/features/test-user-data/useTestUserData'
-import { RouterLink } from 'vue-router'
+import { useShowOnboarding } from '@/features/onboarding/model/useShowOnboarding'
 
 const { userData } = useApiClient()
-const { isTestUser } = useTestUserData()
 
 const props = withDefaults(
   defineProps<{
@@ -42,6 +40,8 @@ const props = withDefaults(
     selectedDate: null,
   },
 )
+
+const { registerTap } = useShowOnboarding()
 
 const emit = defineEmits<{
   (e: 'update:selectedDate', value: Date | null): void
@@ -55,6 +55,4 @@ const selectedDateProxy = computed({
 })
 
 const userPic = userData.value?.photo_url ?? ''
-
-const userPicComponent = computed(() => (isTestUser.value ? RouterLink : 'div'))
 </script>

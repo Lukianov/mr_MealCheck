@@ -1,5 +1,25 @@
 <template>
-  <div>
+  <div v-if="isTestUser" ref="logMealContainer">
+    <UIButton
+      @click="setShowLogOptionsPopup(!isShowLogOptionsPopup)"
+      :is-disabled="isDisabled"
+      class="px-4 py-3"
+    >
+      <div class="flex items-center justify-center shrink-0 gap-2.5">
+        <LogPlusIcon class="w-7" />
+        <p class="label font-medium select-none">
+          {{ ru.logMealWidget.buttonTitle }}
+        </p>
+      </div>
+    </UIButton>
+    <LogMealActionSheet
+      v-if="isShowLogOptionsPopup"
+      class="absolute bottom-full right-0 mb-6"
+      @select="onPick"
+      @inputText="setOpenedModal(ModalNames.TextLogModal)"
+    />
+  </div>
+  <div v-else>
     <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">
       <div class="flex items-center justify-center shrink-0 gap-2.5">
         <LogPlusIcon class="w-7" />
@@ -22,34 +42,35 @@
 import LogPlusIcon from '@/shared/assets/icons/log-plus-icon.svg'
 import { UIButton } from '@/shared/ui/UIButton'
 import { ru } from '@/shared/lib/i18n/ru'
-
-import WebApp from '@twa-dev/sdk'
 import { ref } from 'vue'
 import { useUploadMealAnalysis } from '@/entities/meal/api/useUploadMealAnalysis'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
 import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWorker'
+import { useLogMeal } from '@/entities/log-meal/model'
+import { LogMealActionSheet } from '@/features/log-meal'
+import { useClickOutside } from '@/shared/lib/composables/useClickOutside'
+import { useTestUserData } from '@/features/test-user-data/useTestUserData'
+import { useResendMeal } from '@/features/send-meal-again/model'
+
+const { isTestUser } = useTestUserData()
 
 const emit = defineEmits<{ (e: 'update-data'): void }>()
 
-const { setOpenedModal } = useOverlayManager()
+const { isShowLogOptionsPopup, setShowLogOptionsPopup } = useLogMeal()
 
-const galleryInput = ref<HTMLInputElement>()
+const { setOpenedModal } = useOverlayManager()
 
 const { upload } = useUploadMealAnalysis()
 const { enqueue } = useMealAnalysisWorker()
 
-function haptic() {
-  WebApp.HapticFeedback.impactOccurred('light')
-}
-
-function openGallery() {
-  haptic()
-
-  galleryInput.value?.click()
-}
-
 const isDisabled = ref(false)
+
+const logMealContainer = ref<HTMLElement | null>(null)
+
+useClickOutside(logMealContainer, () => setShowLogOptionsPopup(false), {
+  enabled: isShowLogOptionsPopup,
+})
 
 async function onPick(e: Event) {
   try {
@@ -88,4 +109,6 @@ async function onPick(e: Event) {
     isDisabled.value = false
   }
 }
+
+const { galleryInput, openGallery } = useResendMeal()
 </script>

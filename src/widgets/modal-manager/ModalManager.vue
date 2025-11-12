@@ -43,6 +43,10 @@ const currentModal = computed(() => {
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/DeleteDishModal.vue'),
       )
+    case ModalNames.TextLogModal:
+      return defineAsyncComponent(
+        () => import('@/entities/log-meal/ui/TextLogModal.vue'),
+      )
     default:
       return null
   }
