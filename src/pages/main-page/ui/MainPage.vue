@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import CalenderHeader from '@/widgets/calendar-header/ui/CalenderHeader.vue'
 import MealList from '@/entities/meal-list/MealList.vue'
-import LogMeal from '@/widgets/log-meal/ui/LogMeal.vue'
+import LogMeal from '@/entities/log-meal/ui/LogMeal.vue'
 import { DailyProgress } from '@/widgets/daily-progress'
 import { currentSelectedDate, useMainPage } from '@/pages/main-page/model'
 import WeightChanger from '@/entities/weight-changer/ui/WeightChanger.vue'

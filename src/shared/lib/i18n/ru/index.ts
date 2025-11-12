@@ -85,6 +85,9 @@ export const ru = {
   },
   logMealWidget: {
     buttonTitle: 'Добавить',
+    takePhoto: 'Сделать фото',
+    fromGallery: 'Из Галерии',
+    inputText: 'Ввести текстом',
   },
   mealType: {
     breakfast: 'Завтрак',
@@ -168,6 +171,14 @@ export const ru = {
     description: 'Это действие невозможно отменить',
     delete: 'Удалить',
     cancel: 'Отменить',
+  },
+  textLogModal: {
+    title: 'Ввод блюда по тексту',
+    description:
+      'Опишите, что вы съели. Мы проанализируем и предоставим отчет по блюду',
+    buttonTitle: 'Начать анализ',
+    placeholder:
+      'например, омлет из двух яиц с помидорами, кофе с молоком 200 мл',
   },
   mealAnalyzingModal: {
     title: 'Проводим анализ еды',
