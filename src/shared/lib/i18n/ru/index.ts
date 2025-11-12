@@ -75,8 +75,8 @@ export const ru = {
     carbs: 'углеводы',
   },
   todayMealBlock: {
-    empty: 'Сегодня ничего не добавлено',
-    mealBlockTitle: 'Приёмы пищи за сегодня',
+    empty: (date: string) => `${date} ничего не добавлено`,
+    mealBlockTitle: 'Приёмы пищи за',
     mealRow: {
       status: {
         pending: 'обработка',
@@ -119,7 +119,8 @@ export const ru = {
     cancel: 'Отмена',
   },
   dailyProgressWidget: {
-    title: 'За сегодня',
+    from: 'За',
+    title: 'сегодня',
     more: 'Подробнее',
   },
   weightChangerModal: {

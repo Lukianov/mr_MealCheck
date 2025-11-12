@@ -11,6 +11,7 @@
       <DailyProgress
         class="mb-6"
         :stats="dailyStatsCache"
+        :current-date="headerDate"
         :loading="statsLoading"
       />
       <WeightChanger
@@ -18,7 +19,11 @@
         :is-today="isToday"
         class="mb-6"
       />
-      <MealList :meals="mealsCache" :loading="mealsLoading" />
+      <MealList
+        :current-date="headerDate"
+        :meals="mealsCache"
+        :loading="mealsLoading"
+      />
     </div>
     <transition name="fade">
       <LogMeal
@@ -45,6 +50,7 @@ const {
   mealsLoading,
   loadAll,
   isToday,
+  headerDate,
 } = useMainPage()
 </script>
 

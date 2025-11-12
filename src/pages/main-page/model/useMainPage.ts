@@ -5,6 +5,8 @@ import type { DailyStatsResponse, MealsResponse } from '@/entities/meal/types'
 import { useOverlayManager } from '@/shared/lib/composables/useOverlayManager'
 import { ModalNames } from '@/shared/types/modalNames'
 import { useMarkMealViewed } from '@/entities/meal/api/useMarkMealViewed'
+import { ru } from '@/shared/lib/i18n/ru'
+import { useISODate } from '@/shared/lib/composables/useISODate'
 
 export const currentSelectedDate = ref<Date | null>(new Date())
 
@@ -89,6 +91,8 @@ function getUnrecognizedNewMealId(
   return undefined
 }
 
+const { formatToDayMonth } = useISODate()
+
 async function loadStats(date?: Date | null) {
   await fetchStats(date ?? undefined)
 }
@@ -111,6 +115,12 @@ const isToday = computed(() =>
 
 const dailyStats = computed(() => statsData.value ?? dailyStatsCache.value)
 
+const headerDate = computed(() =>
+  isToday.value
+    ? `${ru.dailyProgressWidget.title}`
+    : formatToDayMonth(currentSelectedDate.value),
+)
+
 export function useMainPage() {
   initOnce()
 
@@ -124,6 +134,7 @@ export function useMainPage() {
     loadMeals,
     loadAll,
     dailyStats,
+    headerDate,
     currentSelectedDate,
   }
 }

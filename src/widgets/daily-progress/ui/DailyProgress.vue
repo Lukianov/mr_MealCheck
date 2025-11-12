@@ -9,7 +9,7 @@
           class="text-base font-semibold mb-3"
           :style="{ color: 'rgba(162, 172, 176, 1)' }"
         >
-          {{ ru.dailyProgressWidget.title }}
+          {{ ru.dailyProgressWidget.from }} {{ props.currentDate }}
         </h3>
 
         <div class="mt-1 text-2xl font-semibold tabular-nums">
@@ -91,6 +91,7 @@ import { RouteName } from '@/shared/lib/router'
 
 type Props = {
   stats: DailyStatsResponse | null
+  currentDate: string
   loading?: boolean
 }
 
@@ -116,8 +117,6 @@ const percent = computed(() => {
 
   return Math.max(0, Math.round(ratio))
 })
-
-// ? `${safeStats.value.reached.kcal}/${safeStats.value.goal.kcal} kcal`
 
 const formatted = computed(() => ({
   protein: `${(safeStats.value?.reached.protein ?? 0).toFixed(1)}`,

@@ -72,10 +72,28 @@ export const useISODate = () => {
     return `${y}-${pad(mo)}-${pad(d)}`
   }
 
+  function formatToDayMonth(date?: Date | null): string | null {
+    if (!date) {
+      return null
+    }
+
+    const d = new Date(date)
+
+    if (isNaN(d.getTime())) {
+      return null
+    }
+
+    const day = String(d.getDate()).padStart(2, '0')
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+
+    return `${day}.${month}`
+  }
+
   return {
     toLocalIsoWithOffset,
     endOfDay,
     getRange,
     toIsoDate,
+    formatToDayMonth,
   }
 }
