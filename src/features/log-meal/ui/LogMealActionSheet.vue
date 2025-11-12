@@ -104,19 +104,4 @@ function openGallery() {
 
   galleryInput.value?.click()
 }
-
-function onPick(e: Event) {
-  const tgt = e.target as HTMLInputElement
-  const file = tgt.files?.[0]
-
-  tgt.value = '' // сброс
-
-  if (!file) {
-    return
-  }
-
-  emit('select', file)
-
-  open.value = false
-}
 </script>
