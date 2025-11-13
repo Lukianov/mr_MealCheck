@@ -81,7 +81,7 @@ export const setupTelegramWebApp = async () => {
 
   WebApp.ready()
 
-  await waitForInitData()
+  // await waitForInitData()
 
   setTelegramInitData(WebApp.initData)
 
