@@ -8,6 +8,7 @@ import type {
 } from './types'
 import { isDev } from '@/shared/env/env'
 import { parseTelegramInitData } from '@/shared/lib/helpers/parseInitDate'
+import { useSessionToken } from '@/shared/lib/composables/useSessionToken'
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'https://mealcheck.backend.kolupaev.tech/api'
@@ -20,12 +21,36 @@ const setTelegramInitData = (initData: string): string | null => {
   return telegramInitData.value
 }
 
+const { getInitData, setInitData } = useSessionToken()
+
+function checkSessionInitDataToken(tokenData: string | null) {
+  console.warn('tokenData', tokenData)
+
+  isSessionTokenChecked.value = true
+
+  if (!tokenData) {
+    console.warn('tokenData', getInitData())
+
+    return getInitData()
+  }
+
+  setInitData(tokenData)
+
+  return tokenData
+}
+
+const isSessionTokenChecked = ref(false)
+
 const telegramInitData = ref<string | null>(null)
 
 const clientRef = shallowRef<KyInstance | null>(null)
 
 const beforeRequest: BeforeRequestHooks = [
   (request) => {
+    if (!isSessionTokenChecked.value) {
+      telegramInitData.value = checkSessionInitDataToken(telegramInitData.value)
+    }
+
     const currentInitData = telegramInitData.value
 
     if (currentInitData && !telegramInitData.value) {
