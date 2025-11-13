@@ -2,12 +2,15 @@ import WebApp from '@twa-dev/sdk'
 import { useApiClient } from '@/shared/api'
 import { RouteName, router } from '@/shared/lib/router'
 import { isDev } from '@/shared/env/env'
+import { useSessionToken } from '@/shared/lib/composables/useSessionToken'
 
 export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 
 const DARK_THEME_BACKGROUND_COLOR_HEX = '#121212'
 
 const { setTelegramInitData } = useApiClient()
+
+const { setInitData } = useSessionToken()
 
 async function checkUserOnboardingProcess() {
   const canUseCloudStorage =
@@ -32,6 +35,21 @@ async function checkUserOnboardingProcess() {
   }
 }
 
+function clearStartParamInInitDataToken(rawTokenWithDetails: string) {
+  const cleanedQuery = rawTokenWithDetails
+    .replace(/^"|"$/g, '')
+    .replace(/^\?/, '')
+
+  const cleaned = cleanedQuery
+    .split('&')
+    .filter((pair) => !/^start_param=details-\d+$/.test(pair))
+    .join('&')
+
+  setInitData(cleaned)
+
+  setTelegramInitData(cleaned)
+}
+
 function redirectByExtractDetailsId(raw: string): number | null {
   const s = raw.replace(/^"|"$/g, '')
 
@@ -41,14 +59,7 @@ function redirectByExtractDetailsId(raw: string): number | null {
     return
   }
 
-  const cleanedQuery = raw.replace(/^"|"$/g, '').replace(/^\?/, '')
-
-  const cleaned = cleanedQuery
-    .split('&')
-    .filter((pair) => !/^start_param=details-\d+$/.test(pair))
-    .join('&')
-
-  setTelegramInitData(cleaned)
+  clearStartParamInInitDataToken(raw)
 
   void router.push({ name: RouteName.MealDetails, params: { id: m[1] } })
 }
