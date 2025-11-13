@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isTestUser" ref="logMealContainer">
+  <div ref="logMealContainer">
     <UIButton
       @click="setShowLogOptionsPopup(!isShowLogOptionsPopup)"
       :is-disabled="isDisabled"
@@ -19,23 +19,23 @@
       @inputText="setOpenedModal(ModalNames.TextLogModal)"
     />
   </div>
-  <div v-else>
-    <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">
-      <div class="flex items-center justify-center shrink-0 gap-2.5">
-        <LogPlusIcon class="w-7" />
-        <p class="label font-medium select-none">
-          {{ ru.logMealWidget.buttonTitle }}
-        </p>
-      </div>
-    </UIButton>
-    <input
-      ref="galleryInput"
-      type="file"
-      accept="image/*"
-      class="hidden"
-      @change="onPick"
-    />
-  </div>
+  <!--  <div v-else>-->
+  <!--    <UIButton @click="openGallery" :is-disabled="isDisabled" class="px-4 py-3">-->
+  <!--      <div class="flex items-center justify-center shrink-0 gap-2.5">-->
+  <!--        <LogPlusIcon class="w-7" />-->
+  <!--        <p class="label font-medium select-none">-->
+  <!--          {{ ru.logMealWidget.buttonTitle }}-->
+  <!--        </p>-->
+  <!--      </div>-->
+  <!--    </UIButton>-->
+  <!--    <input-->
+  <!--      ref="galleryInput"-->
+  <!--      type="file"-->
+  <!--      accept="image/*"-->
+  <!--      class="hidden"-->
+  <!--      @change="onPick"-->
+  <!--    />-->
+  <!--  </div>-->
 </template>
 
 <script setup lang="ts">
@@ -50,10 +50,11 @@ import { useMealAnalysisWorker } from '@/entities/meal/model/useMealAnalysisWork
 import { useLogMeal } from '@/entities/log-meal/model'
 import { LogMealActionSheet } from '@/features/log-meal'
 import { useClickOutside } from '@/shared/lib/composables/useClickOutside'
-import { useTestUserData } from '@/features/test-user-data/useTestUserData'
-import { useResendMeal } from '@/features/send-meal-again/model'
+// import { useTestUserData } from '@/features/test-user-data/useTestUserData'
+// import { useResendMeal } from '@/features/send-meal-again/model'
 
-const { isTestUser } = useTestUserData()
+// const { isTestUser } = useTestUserData()
+// const { galleryInput, openGallery } = useResendMeal()
 
 const emit = defineEmits<{ (e: 'update-data'): void }>()
 
@@ -109,6 +110,4 @@ async function onPick(e: Event) {
     isDisabled.value = false
   }
 }
-
-const { galleryInput, openGallery } = useResendMeal()
 </script>
