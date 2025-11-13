@@ -55,8 +55,6 @@ export const setupTelegramWebApp = async () => {
 
   WebApp.ready()
 
-  console.warn('setupTelegramWebApp', WebApp.initData)
-
   setTelegramInitData(WebApp.initData)
 
   redirectByExtractDetailsId(WebApp.initData)

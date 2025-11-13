@@ -2,7 +2,7 @@ const SESSION_INIT_DATA_TOKEN = 'SESSION_INIT_DATA_TOKEN'
 
 export function useSessionToken() {
   const setInitData = (token: string | null) => {
-    if (!token) {
+    if (!token || token === 'user') {
       sessionStorage.removeItem(SESSION_INIT_DATA_TOKEN)
 
       return

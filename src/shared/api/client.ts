@@ -24,11 +24,9 @@ const setTelegramInitData = (initData: string): string | null => {
 const { getInitData, setInitData } = useSessionToken()
 
 function checkSessionInitDataToken(tokenData: string | null) {
-  console.warn('tokenData', tokenData)
-
   isSessionTokenChecked.value = true
 
-  if (!tokenData) {
+  if (!tokenData || tokenData === 'user') {
     console.warn('tokenData', getInitData())
 
     return getInitData()
