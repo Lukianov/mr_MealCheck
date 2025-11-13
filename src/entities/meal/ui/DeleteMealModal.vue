@@ -27,7 +27,7 @@
             :is-disabled="isLoading"
             @click="() => setOpenedModal(null)"
           >
-            {{ ru.deleteMealModal.delete }}
+            {{ ru.deleteMealModal.cancel }}
           </UIButton>
         </div>
       </div>
