@@ -12,8 +12,10 @@ import { parseTelegramInitData } from '@/shared/lib/helpers/parseInitDate'
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? 'https://mealcheck.backend.kolupaev.tech/api'
 
+const LOCALHOST_TEST_TOKEN = 'testik_pestik-10943'
+
 const setTelegramInitData = (initData: string): string | null => {
-  telegramInitData.value = isDev ? 'testik_pestik-10943' : initData
+  telegramInitData.value = isDev ? LOCALHOST_TEST_TOKEN : initData
 
   return telegramInitData.value
 }
