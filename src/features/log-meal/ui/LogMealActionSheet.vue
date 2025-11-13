@@ -27,7 +27,7 @@
       >
         <span class="flex items-center gap-3">
           <span class="flex w-7 h-7 items-center justify-center">
-            <CameraIcon />
+            <CameraIcon class="w-full" />
             <!--            <GalleryIcon />-->
           </span>
           <span class="text-left min-w-36 text-base whitespace-nowrap">
@@ -42,7 +42,7 @@
       >
         <span class="flex items-center gap-3">
           <span class="flex w-7 h-7 items-center justify-center">
-            <TextInputIcon />
+            <TextInputIcon class="w-full" />
           </span>
           <span class="text-left min-w-36 text-base whitespace-nowrap">
             {{ ru.logMealWidget.inputText }}
