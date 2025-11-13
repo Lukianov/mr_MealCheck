@@ -46,21 +46,21 @@
     <div>
       <div class="mt-4 grid gap-3 grid-cols-3 mb-4">
         <StatChip
-          :label="ru.metrics.protein"
+          :label="ru.metrics.proteinG"
           :value="formatted.protein"
-          postfix="g"
+          postfix=""
           :is-loading="props.loading"
         />
         <StatChip
-          :label="ru.metrics.fat"
+          :label="ru.metrics.fatG"
           :value="formatted.fat"
-          postfix="g"
+          postfix=""
           :is-loading="props.loading"
         />
         <StatChip
-          :label="ru.metrics.carbs"
+          :label="ru.metrics.carbsG"
           :value="formatted.carbs"
-          postfix="g"
+          postfix=""
           :is-loading="props.loading"
         />
       </div>
@@ -119,8 +119,8 @@ const percent = computed(() => {
 })
 
 const formatted = computed(() => ({
-  protein: `${(safeStats.value?.reached.protein ?? 0).toFixed(1)}`,
-  fat: `${(safeStats.value?.reached.fat ?? 0).toFixed(1)}`,
-  carbs: `${(safeStats.value?.reached.carb ?? 0).toFixed(1)}`,
+  protein: `${Math.round(safeStats.value?.reached.protein ?? 0)}/${Math.round(safeStats.value?.goal.protein ?? 0)}`,
+  fat: `${Math.round(safeStats.value?.reached.fat ?? 0)}/${Math.round(safeStats.value?.goal.fat ?? 0)}`,
+  carbs: `${Math.round(safeStats.value?.reached.carb ?? 0)}/${Math.round(safeStats.value?.goal.carb ?? 0)}`,
 }))
 </script>

@@ -149,6 +149,9 @@ export const ru = {
     carbs: 'углеводы',
     weight: 'Вес',
     kilo: 'кг',
+    proteinG: 'белки',
+    fatG: 'жиры',
+    carbsG: 'угл.',
   },
   userStatistics: {
     title: 'Дневник изменений',
