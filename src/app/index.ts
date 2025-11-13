@@ -9,7 +9,7 @@ export const initApp = () => {
 
   app.mount('#app')
 
-  setupTelegramWebApp()
+  void setupTelegramWebApp()
 
   return app
 }
