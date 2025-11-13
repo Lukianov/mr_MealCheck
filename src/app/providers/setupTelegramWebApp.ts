@@ -7,6 +7,8 @@ export const IS_ONBOARDING_PASSED_KEY = 'IS_ONBOARDING_PASSED'
 
 const DARK_THEME_BACKGROUND_COLOR_HEX = '#121212'
 
+const { setTelegramInitData } = useApiClient()
+
 async function checkUserOnboardingProcess() {
   const canUseCloudStorage =
     WebApp.CloudStorage && typeof WebApp.CloudStorage.getItem === 'function'
@@ -39,12 +41,19 @@ function redirectByExtractDetailsId(raw: string): number | null {
     return
   }
 
+  const cleanedQuery = raw.replace(/^"|"$/g, '').replace(/^\?/, '')
+
+  const cleaned = cleanedQuery
+    .split('&')
+    .filter((pair) => !/^start_param=details-\d+$/.test(pair))
+    .join('&')
+
+  setTelegramInitData(cleaned)
+
   void router.push({ name: RouteName.MealDetails, params: { id: m[1] } })
 }
 
 export const setupTelegramWebApp = async () => {
-  const { setTelegramInitData } = useApiClient()
-
   WebApp.setHeaderColor(DARK_THEME_BACKGROUND_COLOR_HEX)
 
   WebApp.setBottomBarColor(DARK_THEME_BACKGROUND_COLOR_HEX)

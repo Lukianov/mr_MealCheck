@@ -16,8 +16,6 @@ export function useUserCaloriesStatistics() {
 
     error.value = null
 
-    console.warn('range', range, now)
-
     const { start, end } = getRange(range, now)
 
     try {

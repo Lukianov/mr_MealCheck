@@ -27,8 +27,6 @@ function checkSessionInitDataToken(tokenData: string | null) {
   isSessionTokenChecked.value = true
 
   if (!tokenData || tokenData === 'user') {
-    console.warn('tokenData', getInitData())
-
     return getInitData()
   }
 
