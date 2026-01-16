@@ -35,8 +35,8 @@
         :title="ru.userStatistics.chartUserWeight.title"
         :loader="loadWeightPoints"
         v-model="weightRange"
-        :y-max="dailyStatsCache.weight + 30"
-        :y-min="dailyStatsCache.weight - 30"
+        :y-max="dailyStatsCache.weight + USER_WEIGHT_BOUNDARY_STEP"
+        :y-min="dailyStatsCache.weight - USER_WEIGHT_BOUNDARY_STEP"
       />
     </div>
   </div>
@@ -45,7 +45,10 @@
 <script setup lang="ts">
 import { ru } from '@/shared/lib/i18n/ru'
 import StatsLineCard from '@/widgets/user-statistics/ui/StatsLineCard.vue'
-import { userStatistics } from '@/widgets/user-statistics/model'
+import {
+  USER_WEIGHT_BOUNDARY_STEP,
+  userStatistics,
+} from '@/widgets/user-statistics/model'
 import { useMainPage } from '@/pages/main-page'
 
 const { dailyStatsCache } = useMainPage()
