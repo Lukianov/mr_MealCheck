@@ -30,7 +30,7 @@ type DateBucket = {
 
 type AggregatedPoint = StatsPoint & { count: number }
 
-export const USER_WEIGHT_BOUNDARY_STEP = 10
+export const USER_WEIGHT_BOUNDARY_STEP = 5
 
 export const userStatistics = () => {
   const caloriesRange = ref<StatsRange>('day')
