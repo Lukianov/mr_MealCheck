@@ -15,7 +15,7 @@
           {{ summary }}
         </p>
       </div>
-
+      <DishHealthBar :value="avgHealthScore" />
       <div
         class="border-b pb-3"
         :style="{ 'border-color': 'rgba(255, 255, 255, 0.08)' }"
@@ -47,8 +47,13 @@
 <script setup lang="ts">
 import Card from '@/shared/ui/Card.vue'
 import { ru } from '@/shared/lib/i18n/ru'
+import DishHealthBar from '@/widgets/health-bar/ui/DishHealthBar.vue'
 
-defineProps<{ summary: string; recommendations: string }>()
+defineProps<{
+  summary: string
+  recommendations: string
+  avgHealthScore: number
+}>()
 
 const scrollToDishSection = () => {
   if (typeof document === 'undefined') {

@@ -37,6 +37,7 @@
             </div>
             <MealSummaryCard
               class="mb-6"
+              :avg-health-score="displayMeal.avgHealthScore"
               :summary="displayMeal.summary"
               :recommendations="displayMeal.recommendation"
             />
@@ -171,6 +172,7 @@ const displayMeal = computed(() => {
     id: cacheMealDetails.value.id,
     title: TYPE_LABEL[cacheMealDetails.value.type] ?? 'Meal',
     subtitle,
+    avgHealthScore: cacheMealDetails.value.avgHealthScore,
     image: cacheMealDetails.value.photoUrl,
     summary: cacheMealDetails.value.summary ?? '',
     recommendation: cacheMealDetails.value.recommendation ?? '',
@@ -183,6 +185,7 @@ const displayMeal = computed(() => {
     dishes: cacheMealDetails.value.dishes.map((dish) => ({
       id: dish.id,
       name: dish.name,
+      healthScore: dish.healthScore,
       weight:
         typeof dish.weight === 'number'
           ? `${Math.round(dish.weight)} g`

@@ -110,6 +110,7 @@ export const ru = {
       weight: 'Вес',
       macronutrients: 'Макронутриенты',
       recommendation: 'Рекомендации',
+      health: 'Полезность',
     },
     deleteButton: 'Удалить',
   },

@@ -13,6 +13,10 @@
           :value="dish.weight"
         />
         <KeyValueRow
+          :label="ru.mealDetail.dishesSection.health"
+          :value="`${dish.healthScore}/10`"
+        />
+        <KeyValueRow
           :label="ru.mealDetail.dishesSection.recommendation"
           :value="dish.recommendation"
         />

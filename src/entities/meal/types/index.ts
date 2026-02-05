@@ -13,6 +13,7 @@ export interface Dish {
   fat?: number
   carb?: number
   recommendation?: string
+  healthScore?: number
   id: number
 }
 
@@ -70,6 +71,7 @@ export interface AnalysisStatusResponse {
 
 export interface MealDetailsResponse {
   id: number
+  cacheMealDetails: number
   photoUrl: string
   type: MealType
   isViewed: boolean
