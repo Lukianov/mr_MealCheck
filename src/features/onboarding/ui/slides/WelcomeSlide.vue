@@ -3,13 +3,11 @@ import { ru } from '@/shared/lib/i18n/ru'
 </script>
 
 <template>
-  <div class="-mx-3">
-    <div
-      class="rounded-[40px] overflow-hidden aspect-square mb-8 max-w-[510px]"
-    >
+  <div class="-mx-3 mt-10">
+    <div class="rounded-[40px] overflow-hidden aspect-2/1 mb-8 max-w-[510px]">
       <img
-        class="w-full h-full object-contain"
-        src="@/shared/assets/images/onboading/welcome-step-onboarding.png"
+        class="w-full h-full object-cover"
+        src="@/shared/assets/images/onboading/welcome-step-onboarding.gif"
         alt="onboarding-first-step.gif"
       />
     </div>

@@ -17,6 +17,7 @@
     </div>
     <UIPersonalInput
       v-model="personalHeight"
+      ref="personalHeightInput"
       class="mb-6"
       placeholder="170 cm"
       size="6"
@@ -24,17 +25,22 @@
       pattern="[0-9]*"
       maxlength="3"
     />
-    <PersonalParamSelector />
   </div>
 </template>
 
 <script setup lang="ts">
-import PersonalParamSelector from '@/features/onboarding/ui/components/PersonalParamSelector.vue'
 import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { ru } from '@/shared/lib/i18n/ru'
+import { onMounted, ref } from 'vue'
 
 const { personalHeight } = useGoalSelection()
+
+const personalHeightInput = ref()
+
+onMounted(() => {
+  personalHeightInput.value?.inputEl?.focus()
+})
 </script>
 
 <style scoped></style>

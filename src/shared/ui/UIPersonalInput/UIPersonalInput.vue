@@ -2,6 +2,7 @@
   <div class="inline-flex rounded-3xl items-center py-3 px-5 ui-personal-input">
     <input
       v-if="props.mask"
+      ref="inputEl"
       class="ui-personal-input__input"
       v-maska="props.mask"
       :placeholder="props.placeholder"
@@ -16,6 +17,7 @@
     <input
       v-else
       class="ui-personal-input__input"
+      ref="inputEl"
       :placeholder="props.placeholder"
       :name="props.placeholder"
       :size="props.size"
@@ -31,7 +33,7 @@
 
 <script setup lang="ts">
 import { vMaska } from 'maska/vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 interface Props {
   placeholder: string
@@ -68,6 +70,12 @@ const onInput = (event: Event) => {
   modelValue.value =
     sanitizedValue.length === 0 ? null : Number.parseInt(sanitizedValue, 10)
 }
+
+const inputEl = ref(null)
+
+defineExpose({
+  inputEl,
+})
 </script>
 
 <style scoped>

@@ -1,11 +1,11 @@
 <template>
-  <div class="-mx-3">
+  <div class="-mx-3 mt-10">
     <div
-      class="rounded-[40px] overflow-hidden aspect-1 mb-13 max-w-[250px] max-h-[250px]"
+      class="rounded-[40px] overflow-hidden aspect-2/1 mb-13 max-w-[510px]"
     >
       <img
-        class="w-full h-full object-contain"
-        src="@/shared/assets/images/onboading/final-step-onboarding.png"
+        class="w-full h-full object-cover"
+        src="@/shared/assets/images/onboading/final-step-onboarding.gif"
         alt="onboarding-fourth-step.gif"
       />
     </div>

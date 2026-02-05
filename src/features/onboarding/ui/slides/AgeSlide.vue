@@ -33,12 +33,10 @@
       maxlength="10"
       @blur="validatePersonalAge"
     />
-    <PersonalParamSelector />
   </div>
 </template>
 
 <script setup lang="ts">
-import PersonalParamSelector from '@/features/onboarding/ui/components/PersonalParamSelector.vue'
 import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { ru } from '@/shared/lib/i18n/ru'

@@ -31,5 +31,5 @@ const SLIDES_MAP = {
   7: FinishSlide,
 }
 
-const currentSlide = computed(() => SLIDES_MAP[currentSlideIndex.value])
+const currentSlide = computed(() => SLIDES_MAP[5])
 </script>

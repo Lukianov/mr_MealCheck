@@ -16,6 +16,7 @@
       </p>
     </div>
     <UIPersonalInput
+      ref="personalWeightInput"
       v-model="personalWeight"
       size="6"
       placeholder="75 kg"
@@ -24,17 +25,22 @@
       maxlength="3"
       class="mb-6"
     />
-    <PersonalParamSelector />
   </div>
 </template>
 
 <script setup lang="ts">
-import PersonalParamSelector from '@/features/onboarding/ui/components/PersonalParamSelector.vue'
 import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { ru } from '@/shared/lib/i18n/ru'
+import { onMounted, ref } from 'vue'
 
 const { personalWeight } = useGoalSelection()
+
+const personalWeightInput = ref()
+
+onMounted(() => {
+  personalWeightInput.value?.inputEl?.focus()
+})
 </script>
 
 <style scoped></style>
