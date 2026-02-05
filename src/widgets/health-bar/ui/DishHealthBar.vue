@@ -25,11 +25,11 @@
     </div>
 
     <!-- labels -->
-    <div class="mt-3 grid text-white/60 font-semibold" :style="labelsGridStyle">
+    <div class="grid text-white/60 font-semibold" :style="labelsGridStyle">
       <div
         v-for="(label, i) in labels"
         :key="i"
-        class="text-center leading-tight"
+        class="text-center leading-tight whitespace-nowrap text-ellipsis overflow-hidden min-w-0"
         :class="i === activeIndex ? 'text-white' : ''"
       >
         {{ label }}
@@ -140,12 +140,6 @@ function findSegment(v) {
 }
 
 const activeIndex = computed(() => findSegment(clamped.value).idx)
-
-const activePillStyle = computed(() => {
-  const i = activeIndex.value
-  const left = props.padding + i * (segmentWidth.value + props.gap)
-  return { left: `${left}px`, width: `${segmentWidth.value}px` }
-})
 
 const dotX = computed(() => {
   const { idx, t } = findSegment(clamped.value)
