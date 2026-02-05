@@ -71,6 +71,7 @@ export interface AnalysisStatusResponse {
 
 export interface MealDetailsResponse {
   id: number
+  avgHealthScore: number
   cacheMealDetails: number
   photoUrl: string
   type: MealType
