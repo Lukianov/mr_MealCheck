@@ -27,7 +27,7 @@
       placeholder="**.**.****"
       mask="##.##.####"
       size="10"
-      type="text"
+      type="date"
       inputmode="numeric"
       pattern="[0-9]*"
       maxlength="10"
