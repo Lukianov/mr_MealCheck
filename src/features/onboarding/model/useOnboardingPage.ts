@@ -11,12 +11,7 @@ export const useOnboarding = () => {
 
   const currentSlideIndex = ref(0)
 
-  const {
-    personalWeight,
-    personalHeight,
-    isPersonalAgeValid,
-    validatePersonalAge,
-  } = useGoalSelection()
+  const { personalWeight, personalHeight } = useGoalSelection()
 
   const isDisabled = computed(() => {
     if (currentSlideIndex.value === 3 && !personalWeight.value) {
@@ -37,14 +32,6 @@ export const useOnboarding = () => {
   const { sendOnboardingCharacteristics } = useGoalSelection()
 
   function goToNextSlide() {
-    if (currentSlideIndex.value === 5) {
-      validatePersonalAge()
-
-      if (!isPersonalAgeValid.value) {
-        return
-      }
-    }
-
     if (currentSlideIndex.value === 6) {
       WebApp.MainButton.setText(ru.onboarding.final)
     }
