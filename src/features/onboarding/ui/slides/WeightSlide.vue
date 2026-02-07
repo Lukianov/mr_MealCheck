@@ -19,7 +19,7 @@
       ref="personalWeightInput"
       v-model="personalWeight"
       size="6"
-      placeholder="75 kg"
+      placeholder="kg"
       inputmode="numeric"
       pattern="[0-9]*"
       maxlength="3"

@@ -19,7 +19,7 @@
       v-model="personalHeight"
       ref="personalHeightInput"
       class="mb-6"
-      placeholder="170 cm"
+      placeholder="cm"
       size="6"
       inputmode="numeric"
       pattern="[0-9]*"
