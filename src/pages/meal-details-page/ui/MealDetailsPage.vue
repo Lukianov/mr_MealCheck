@@ -118,7 +118,7 @@ const mealId = computed(() => {
 })
 
 onBeforeUnmount(() => {
-  cacheMealDetails.value = null
+  // cacheMealDetails.value = null
 })
 
 async function loadMeal(id: number | null) {
@@ -129,9 +129,9 @@ async function loadMeal(id: number | null) {
   try {
     await fetchMeal(id)
   } catch (err) {
-    mealsCache.value.meals = mealsCache.value.meals.filter(
-      (meal) => meal.id !== id,
-    )
+    // mealsCache.value.meals = mealsCache.value.meals.filter(
+    //   (meal) => meal.id !== id,
+    // )
 
     await markViewed(cacheMealDetails.value.id)
 
