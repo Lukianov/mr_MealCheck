@@ -14,35 +14,61 @@
       <p class="text-base" :style="{ color: 'rgba(162, 172, 176, 1)' }">
         {{ ru.onboarding.birthDate.description }}
       </p>
-      <div
-        class="absolute left-0 w-full text-center"
-        :style="{ color: 'rgba(255, 37, 80, 1)' }"
-      >
-        {{ personalAgeError }}
-      </div>
     </div>
-    <UIPersonalInput
-      v-model="personalAge"
-      class="mb-6"
-      placeholder="**.**.****"
-      mask="##.##.####"
-      size="10"
-      type="date"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      maxlength="10"
-      @blur="validatePersonalAge"
-    />
+    <div class="w-full flex items-center justify-center">
+      <VueScrollPicker
+        class="scroll-picker"
+        :options="DAY_FORMS"
+        v-model="personDayBirth"
+      />
+      <VueScrollPicker
+        class="scroll-picker"
+        :options="MONTH_FORMS"
+        v-model="personMonthBirth"
+      />
+      <VueScrollPicker
+        class="scroll-picker"
+        :options="YEAR_FORMS"
+        v-model="personYearBirth"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import UIPersonalInput from '@/shared/ui/UIPersonalInput/UIPersonalInput.vue'
+import { VueScrollPicker } from 'vue-scroll-picker'
 import { useGoalSelection } from '@/features/onboarding/model/useGoalSelection'
 import { ru } from '@/shared/lib/i18n/ru'
+import 'vue-scroll-picker/style.css'
+import { YEAR_FORMS, MONTH_FORMS, DAY_FORMS } from '@/shared/const'
 
-const { personalAge, personalAgeError, validatePersonalAge } =
-  useGoalSelection()
+const { personDayBirth, personMonthBirth, personYearBirth } = useGoalSelection()
 </script>
 
-<style scoped></style>
+<style>
+.scroll-picker .vue-scroll-picker-layer-top {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    360deg,
+    rgba(26, 26, 26, 0.7) 10%,
+    rgba(18, 18, 18, 0.7)
+  );
+}
+
+.scroll-picker .vue-scroll-picker-layer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 0.7) 10%,
+    rgba(18, 18, 18, 0.7)
+  );
+}
+
+.scroll-picker.vue-scroll-picker {
+  height: 5em;
+}
+
+.scroll-picker .vue-scroll-picker-item[aria-selected='true'] {
+  color: rgba(0, 167, 237, 1);
+}
+</style>

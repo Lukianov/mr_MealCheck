@@ -31,6 +31,10 @@ const sanitizedWeight = computed(() =>
 )
 
 const {
+  personalBirthDate,
+  personDayBirth,
+  personMonthBirth,
+  personYearBirth,
   value: personalAge, // строка "ДД.ММ.ГГГГ" для v-model
   error: personalAgeError, // текст ошибки или null
   isValid: isPersonalAgeValid,
@@ -61,7 +65,7 @@ export const useGoalSelection = () => {
         height: sanitizedHeight.value,
         weight: sanitizedWeight.value,
         activityLevel: selectedActivityLevel.value,
-        birthDate: toIsoDate(personalAge.value),
+        birthDate: toIsoDate(personalBirthDate.value),
       })
     } catch (e) {
       console.error(e)
@@ -69,6 +73,9 @@ export const useGoalSelection = () => {
   }
 
   return {
+    personDayBirth,
+    personMonthBirth,
+    personYearBirth,
     personalAge,
     personalAgeError,
     isPersonalAgeValid,

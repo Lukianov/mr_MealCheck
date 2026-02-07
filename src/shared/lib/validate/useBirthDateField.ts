@@ -73,6 +73,12 @@ function validateString(v: string): Result {
 }
 
 export function useBirthDateField(initial: string | null = null) {
+  const personDayBirth = ref<number>(1)
+
+  const personMonthBirth = ref<number>(1)
+
+  const personYearBirth = ref<number>(1991)
+
   const value = ref<string>(initial ?? '')
   const touched = ref(false)
   const submitted = ref(false)
@@ -101,5 +107,21 @@ export function useBirthDateField(initial: string | null = null) {
     submitted.value = false
   }
 
-  return { value, isValid, error, touch, validate, reset }
+  const personalBirthDate = computed(
+    () =>
+      `${personDayBirth.value}.${personMonthBirth.value}.${personYearBirth.value}`,
+  )
+
+  return {
+    value,
+    isValid,
+    error,
+    touch,
+    validate,
+    reset,
+    personDayBirth,
+    personMonthBirth,
+    personYearBirth,
+    personalBirthDate,
+  }
 }
