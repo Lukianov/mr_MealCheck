@@ -15,6 +15,11 @@
         {{ ru.onboarding.birthDate.description }}
       </p>
     </div>
+    <div class="w-full flex items-center justify-between">
+      <p class="basis-1/3 text-center">{{ ru.onboarding.birthDate.day }}</p>
+      <p class="basis-1/3 text-center">{{ ru.onboarding.birthDate.month }}</p>
+      <p class="basis-1/3 text-center">{{ ru.onboarding.birthDate.year }}</p>
+    </div>
     <div class="w-full flex items-center justify-center">
       <VueScrollPicker
         class="scroll-picker"

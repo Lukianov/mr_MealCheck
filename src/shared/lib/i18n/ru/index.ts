@@ -5,6 +5,9 @@ export const ru = {
     birthDate: {
       title: 'Дата рождения',
       description: 'Дата нужна для точного расчёта базового метаболизма',
+      day: 'День',
+      month: 'Месяц',
+      year: 'Год',
     },
     activityLevel: {
       title: 'Уровень активности',
