@@ -5,12 +5,12 @@
     <div class="flex items-center gap-1">
       <div @click="registerTap">
         <img
-          class="w-7 h-7 rounded-full bg-white/5"
+          class="w-10 h-10 rounded-full bg-white/5 border border-solid border-[rgba(255,255,255,0.08)] box-content"
+          :style="{}"
           :src="userPic"
           alt="user picture"
         />
       </div>
-      <p><span class="font-bold">Meal</span>check</p>
     </div>
     <DatePickerButton
       v-model="selectedDateProxy"
