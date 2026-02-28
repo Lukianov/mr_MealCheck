@@ -111,6 +111,7 @@ export const ru = {
     },
     dishesSection: {
       weight: 'Вес',
+      edit: 'Изменить',
       macronutrients: 'Макронутриенты',
       recommendation: 'Рекомендации',
       health: 'Полезность',
@@ -177,6 +178,11 @@ export const ru = {
     description: 'Это действие невозможно отменить',
     delete: 'Удалить',
     cancel: 'Отменить',
+  },
+  editDishWeightModal: {
+    title: (title: string) => `Изменить вес блюда "${title}"`,
+    description: 'Выберите новый вес блюда',
+    save: 'Редактировать',
   },
   datepicker: {
     today: 'Сегодня',

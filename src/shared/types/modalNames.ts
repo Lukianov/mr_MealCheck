@@ -8,4 +8,5 @@ export enum ModalNames {
   WeightChangerModal = 'WeightChangerModal',
   TextLogModal = 'TextLogModal',
   RewriteTextModal = 'RewriteTextModal',
+  EditDishWeightModal = 'EditDishWeightModal',
 }

@@ -34,7 +34,16 @@ export const en = {
       macronutrients: 'Macronutrients',
     },
     dishesSection: {
+      weight: 'Weight',
+      edit: 'Edit',
+      health: 'Health',
+      recommendation: 'Recommendation',
       macronutrients: 'Macronutrients',
     },
+  },
+  editDishWeightModal: {
+    title: (title: string) => `Update "${title}" weight`,
+    description: 'Select a new dish weight',
+    save: 'Edit',
   },
 }

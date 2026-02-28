@@ -49,13 +49,8 @@
               id="dish-section"
               class="mb-6"
               :dishes="dishList"
-              @on-delete="
-                (event) =>
-                  setOpenedModal(ModalNames.DeleteDishModal, {
-                    dish: event,
-                    meal: displayMeal,
-                  })
-              "
+              @on-delete="openDeleteDishModal"
+              @on-edit-weight="openEditDishWeightModal"
             />
           </template>
           <ResendMeal :meal-id="mealId" v-else-if="!hasMeal && !isLoading" />
@@ -185,6 +180,8 @@ const displayMeal = computed(() => {
     dishes: cacheMealDetails.value.dishes.map((dish) => ({
       id: dish.id,
       name: dish.name,
+      weightValue:
+        typeof dish.weight === 'number' ? Math.round(dish.weight) : undefined,
       healthScore: dish.healthScore,
       weight:
         typeof dish.weight === 'number'
@@ -233,4 +230,20 @@ const dishList = computed(
 )
 
 const { setOpenedModal } = useOverlayManager()
+
+const openDeleteDishModal = (dish: UIDish) => {
+  setOpenedModal(ModalNames.DeleteDishModal, {
+    dish,
+    meal: displayMeal.value,
+  })
+}
+
+const openEditDishWeightModal = (dish: UIDish) => {
+  setOpenedModal(ModalNames.EditDishWeightModal, {
+    mealId: displayMeal.value.id,
+    dishId: dish.id,
+    dishName: dish.name,
+    currentWeight: dish.weightValue ?? 0,
+  })
+}
 </script>

@@ -50,7 +50,11 @@ const currentModal = computed(() => {
     case ModalNames.RewriteTextModal:
       return defineAsyncComponent(
         () => import('@/entities/meal/ui/RewriteTextModal.vue'),
-    )
+      )
+    case ModalNames.EditDishWeightModal:
+      return defineAsyncComponent(
+        () => import('@/entities/meal/ui/EditDishWeightModal.vue'),
+      )
     default:
       return null
   }

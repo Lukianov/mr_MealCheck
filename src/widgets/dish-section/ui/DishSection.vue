@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card v-for="dish in props.dishes" class="not-last:mb-6">
+    <Card v-for="dish in props.dishes" :key="dish.id" class="not-last:mb-6">
       <template #header>
         {{ dish.name }}
       </template>
@@ -11,7 +11,17 @@
         <KeyValueRow
           :label="ru.mealDetail.dishesSection.weight"
           :value="dish.weight"
-        />
+        >
+          <template #action>
+            <button
+              class="inline-flex items-center gap-1 text-xs text-[#A2ACB0]"
+              type="button"
+              @click="emit('on-edit-weight', dish)"
+            >
+              <EditIcon class="h-5 w-5" />
+            </button>
+          </template>
+        </KeyValueRow>
         <KeyValueRow
           :label="ru.mealDetail.dishesSection.health"
           :value="`${dish.healthScore}/10`"
@@ -61,8 +71,12 @@ import Card from '@/shared/ui/Card.vue'
 import KeyValueRow from '@/shared/ui/KeyValueRow.vue'
 import { ru } from '@/shared/lib/i18n/ru'
 import TrashIcon from '@/shared/assets/icons/trash-icon.svg'
+import EditIcon from '@/shared/assets/icons/edit-icon.svg'
 
 const props = defineProps<{ dishes: Dish[] }>()
 
-const emit = defineEmits<{ (e: 'on-delete', dish: Dish): void }>()
+const emit = defineEmits<{
+  (e: 'on-delete', dish: Dish): void
+  (e: 'on-edit-weight', dish: Dish): void
+}>()
 </script>
