@@ -3,6 +3,9 @@
     <UIButton
       @click="setShowLogOptionsPopup(!isShowLogOptionsPopup)"
       :is-disabled="isDisabled"
+      :style="{
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+      }"
       class="px-4 py-3"
     >
       <div class="flex items-center justify-center shrink-0 gap-2.5">
