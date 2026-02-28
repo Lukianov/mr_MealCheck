@@ -10,7 +10,7 @@
     >
       <img
         v-if="props.image"
-        class="rounded-lg w-10 h-10 shrink-0"
+        class="rounded-lg w-10 h-10 shrink-0 object-cover"
         :src="props.image"
         :alt="props.image"
       />
